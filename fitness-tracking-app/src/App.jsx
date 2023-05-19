@@ -1,4 +1,6 @@
 import { ChakraProvider } from "@chakra-ui/react";
+import Navbar from "./components/Navbar/Navbar";
+import { menuItems } from "./common/constants";
 
 
 function App() {
@@ -6,7 +8,7 @@ function App() {
   return (
     <ChakraProvider>
       <div>
-        <p>hello</p>   
+        <Navbar menu ={menuItems}/>
       </div>
     </ChakraProvider>
   )

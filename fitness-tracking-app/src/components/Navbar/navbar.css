@@ -1,0 +1,44 @@
+.nav {
+  position: relative;  /* So the underline is positioned relative to the nav */
+  height: 50px;
+}
+
+nav a {
+  margin: 0 10px;
+  text-decoration: none;
+}
+
+.underline {
+  position: absolute;
+  height: 3px;
+  background: #e0041c;
+  width: 0;
+  bottom: -10px;
+  transition: all 0.3s ease-in-out;
+  
+  
+}
+ 
+ .underline.dashboard {
+   width: 100px;
+   bottom: -10px;  /* Distance from the link */
+   left: 18px;  /* Adjust based on the position of your links */
+ }
+ 
+ .underline.goals {
+   width: 55px;
+   bottom: -10px;
+   left: 155px;  /* Adjust based on the position of your links */
+ }
+
+ .underline.stats {
+  width: 50px;
+  bottom: -10px;
+  left: 245px;  /* Adjust based on the position of your links */
+}
+
+.underline.friends {
+  width: 70px;
+  bottom: -10px;
+  left: 335px;  /* Adjust based on the position of your links */
+}
