@@ -1,2 +1,12 @@
+export const WALK_MET = 3.5;
+export const RUN_MET = 8;
+export const BIKING_MET = 14;
+export const GYM_MET = 11;
+export const EXERCISE_MET = 5;
+export const YOGA_MET = 4;
+export const USERNAME_MIN_LENGTH = 2;
+export const USERNAME_MAX_LENGTH = 20;
+export const MIN_PASSWORD_LENGTH = 6;
+export const MAX_PASSWORD_LENGTH = 32;
 export const menuItems = ['DASHBOARD','GOALS','STATS','FRIENDS']
 export const redColor = '#e0041c'
