@@ -19,12 +19,27 @@ import {
     Heading,
     Button
 } from '@chakra-ui/react';
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import avatar from '../../assets/avatar_ex.png'
-
+import { logoutUser } from '../../services/auth.services';
+import { AuthContext } from '../../common/context';
+import { useNavigate } from 'react-router-dom';
 const Profile = () => {
 
     const [image, setImage] = useState('');
+    const { setUser } = useContext(AuthContext);
+    const navigate = useNavigate();
+    
+        const handleLogOut = () => {
+        logoutUser()
+          .then(() => {
+            setUser({
+              user: null,
+              userData: null,
+            });
+          })
+          .finally(() => navigate("/"));
+      };
 
     return (
     <Flex 
@@ -311,6 +326,7 @@ const Profile = () => {
                 borderColor: 'gray.900', 
                 boxShadow: '2xl', 
                 border: '2px'}}
+            onClick={handleLogOut}
             >
                 Log out
             </Button>
