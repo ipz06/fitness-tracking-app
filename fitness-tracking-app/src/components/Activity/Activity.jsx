@@ -9,7 +9,7 @@ import GymImage from "./../../assets/gym.webp";
 import YogaImage from "./../../assets/yoga.png";
 import ExerciseImage from "./../../assets/exercises.png";
 
-function Activity ({type, duration, caloriesBurned, addedOn }) {
+function Activity ({type, duration, caloriesBurned, addedOn, onAddToLog }) {
   let image;
 	let iconSize = "70px";
 if (type === 'Running') {
@@ -41,7 +41,9 @@ if (type === 'Running') {
         <Button 
          backgroundColor="blackAlpha.300"
          variant="outline"
-         borderColor="black">
+         borderColor="black"
+         onClick={() => onAddToLog(type, duration, caloriesBurned, addedOn)}
+         >
         <FaCheck/>
         </Button>
         </Box>

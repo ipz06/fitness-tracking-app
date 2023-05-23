@@ -6,43 +6,74 @@ import { Box, Flex, Button, Text, VStack, Badge, Stack, Icon, HStack,  Modal,
   ModalFooter, 
   Select,
 } from "@chakra-ui/react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { GiRunningShoe, GiBurningEmbers} from "react-icons/gi";
 import Activity from "../../components/Activity/Activity";
 import { IoIosAddCircle } from "react-icons/io";
 import { IoScaleSharp } from "react-icons/io5"
 import "./DashBoard.css";
 import AddActivity from "../../components/AddActivity/AddActivity";
+import { getUserActivities } from "../../services/activity.service";
+import { AuthContext } from "../../common/context";
+import { useContext } from "react";
+import { saveLogToDatabase } from "../../services/log.service";
+// import { AppStateContext } from "../../common/context";
 
 const Dashboard = () => {
   const [isAddingActivity, setIsAddingActivity] = useState(false);
   const [startWeight, setStartWeight] = useState(70); // chete ot useState(user.weight)
   const [currentWeight, setCurrentWeight] = useState(65) // chete ot add weight 
-  const bikingActivities = [                                                   // chete data ot db/activities/handle
-    { id: 1, type: "Biking", duration: 30, caloriesBurned: 300, addedOn: "1.01.22" },
-    { id: 2, type: "Running", duration: 45, caloriesBurned: 400, addedOn: "1.01.22" },
-    { id: 3, type: "Walking", duration: 60, caloriesBurned: 500, addedOn: "1.01.22" },
-	{ id: 4, type: "Gym", duration: 120, caloriesBurned: 1500, addedOn: "1.01.22" },
-	{ id: 5, type: "Gym", duration: 30, caloriesBurned: 300, addedOn: "1.01.22" },
-	{ id: 6, type: "Yoga", duration: 30, caloriesBurned: 200, addedOn: "1.01.22" },
-  { id: 7, type: "Exercise", duration: 50, caloriesBurned: 200, addedOn: "1.01.22" },
-  { id: 8, type: "Yoga", duration: 50, caloriesBurned: 500, addedOn: "1.01.22" },
-  ];
+  const [activities, setActivities] = useState([]);
+  const { user, phone } = useContext(AuthContext);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  // const appState = useContext(AppStateContext);
+
+  useEffect(() => {
+    if (user) {
+    const handle = user.displayName;
+    getUserActivities(handle)
+      .then((activities) => {
+        setActivities(activities);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    }
+  }, []);
+
 let burnedCalories = 0;
-bikingActivities.map(act => {
-	return burnedCalories += act.caloriesBurned 
+activities.map(act => {
+	return burnedCalories += act.cal 
 })
-  
+
   const weightChange = startWeight - currentWeight; 
 
   const handleOpenModal = () => {
     setIsAddingActivity(true);
+    setIsModalOpen(true);
   };
 
   const handleCloseModal = () => {
     setIsAddingActivity(false);
+    setIsModalOpen(false);
   };
 
+  const handleAddToLog = (type, duration, caloriesBurned, addedOn) => {
+    const newLogEntry = {
+      type,
+      duration,
+      caloriesBurned,
+      addedOn: new Date().toLocaleDateString(),
+    };
+  
+    saveLogToDatabase(user.displayName, newLogEntry)
+      .then(() => {
+        console.log("Log data saved successfully");
+      })
+      .catch((error) => {
+        console.log("Error saving log data:", error);
+      });
+  };
 
   return (
     <Box p={4}>
@@ -58,7 +89,7 @@ bikingActivities.map(act => {
     variant="outline"
     borderColor="black"
     color="blue">
-              {bikingActivities.length}
+              {activities.length}
             </Badge>
             <Text fontWeight="bold" fontSize="2xl">&</Text>
             <GiBurningEmbers size={24}/>
@@ -84,13 +115,15 @@ bikingActivities.map(act => {
       px={4}
       maxWidth={1000}
     >
-        {bikingActivities.map((activity) => (
-        <Box key={activity.id}>
-		<Activity 
+        {activities.map((activity, index) => (
+        <Box key= {index}>
+		<Activity  
+    key={activity.id}
 		duration={activity.duration}
-		caloriesBurned={activity.caloriesBurned}
+		caloriesBurned={activity.cal}
 		type={activity.type}
-    addedOn={activity.addedOn}
+    addedOn={activity.createdOn}
+    onAddToLog={handleAddToLog}
 		/>
 	</Box>
         ))}
@@ -159,7 +192,7 @@ bikingActivities.map(act => {
         <ModalOverlay />
         <ModalContent  bottom="70px">
           <ModalBody>
-            <AddActivity onClose={handleCloseModal} />
+            <AddActivity onClose={handleCloseModal} setIsModalOpen={setIsModalOpen} />
           </ModalBody>
         </ModalContent>
       </Modal>

@@ -12,7 +12,13 @@ import {
   FormErrorMessage,
 } from "@chakra-ui/react";
 import { USERNAME_MIN_LENGTH, USERNAME_MAX_LENGTH, MIN_PASSWORD_LENGTH, MAX_PASSWORD_LENGTH } from "../../common/constants";
-import { useState } from "react";
+import { useState, useContext } from "react";
+import { AuthContext } from "../../common/context";
+import { useNavigate } from "react-router-dom";
+import { getUserByHandle } from "../../services/user.service";
+import { createUserHandle } from "../../services/user.service";
+import { registerUser } from "../../services/auth.services";
+import { updateProfile } from "firebase/auth";
 
 function SignUp() {
   const [email, setEmail] = useState("");
@@ -25,11 +31,11 @@ function SignUp() {
   const [passwordError, setPasswordError] = useState("");
   const [emailError, setEmailError] = useState("");
   const [phoneError, setPhoneError] = useState("");
+  const { setUser } = useContext(AuthContext);
+  const navigate = useNavigate()
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     let hasError = false;
-
-
     if (handle.length < USERNAME_MIN_LENGTH || handle.length > USERNAME_MAX_LENGTH) {
       setHandleError("Username must be between 2 and 20 characters");
       hasError = true;
@@ -63,8 +69,55 @@ function SignUp() {
     if (hasError) {
       return;
     }
-
-    console.log(email, firstName, lastName, handle, password, phone);
+  
+    const formValues = {
+      email: email,
+      password: password,
+      handle: handle,
+      firstName: firstName,
+      lastName: lastName,
+      phone: phone,
+      photoURL: "",
+      weight: "",
+      gender: "",
+      age: "",
+    };
+  
+    try {
+      const handleSnapshot = await getUserByHandle(formValues.handle);
+      if (handleSnapshot) {
+        throw new Error(`Handle @${formValues.handle} has already been taken!`);
+      }
+  
+      const credential = await registerUser(formValues.email, formValues.password);
+      const user = credential.user;
+  
+      await createUserHandle(
+        formValues.handle,
+        user.uid,
+        user.email,
+        formValues.firstName,
+        formValues.lastName,
+        formValues.phone,
+        formValues.photoURL,
+        formValues.weight,
+        formValues.gender,
+        formValues.age
+      );
+  
+      await updateProfile(user, {
+        displayName: formValues.handle,
+      });
+  
+      setUser({
+        user: credential.user,
+        role: 1,
+      });
+  
+      // navigate("/profile");
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   return (

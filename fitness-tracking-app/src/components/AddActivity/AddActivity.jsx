@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import {
   Flex,
   Box,
@@ -12,14 +12,15 @@ import {
   Button,
 } from "@chakra-ui/react";
 import { WALK_MET, RUN_MET, BIKING_MET, GYM_MET, YOGA_MET, EXERCISE_MET } from "../../common/constants";
+import { saveActivityToDatabase } from "../../services/activity.service";
+import { AuthContext } from "../../common/context";
 
-
-const AddActivity = () => {
+const AddActivity = ({ onClose, setIsModalOpen }) => {
   const [activity, setActivity] = useState("");
   const [duration, setDuration] = useState("");
   const [calories, setCalories] = useState(0);
 const weight = 75;
-
+const { user } = useContext(AuthContext);
 
   const handleActivityChange = (event) => {
     setActivity(event.target.value);
@@ -47,8 +48,20 @@ const weight = 75;
     setCalories(calculatedCalories);
   };
 
-  const handleAddActivity = () => {
-	console.log(activity, duration, calories);
+  const handleAddActivity = async () => {
+	try {
+      await saveActivityToDatabase(
+        user.displayName,
+        user.uid,
+        activity,
+        duration,
+        calories,
+      )
+      onClose();
+      setIsModalOpen(false);
+    } catch (e) {
+      console.log(e.message);
+    }
   }
 
   return (

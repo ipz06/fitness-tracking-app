@@ -12,18 +12,23 @@ import {
   FormErrorMessage,
 } from "@chakra-ui/react";
 import { MIN_PASSWORD_LENGTH, MAX_PASSWORD_LENGTH } from "../../common/constants";
-import { useState } from "react";
+import { useState, useContext } from "react";
+import { loginUser } from "../../services/auth.services";
+import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../../common/context";
 
 function LogIn() {
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
-
-  const handleSubmit = () => {
+  const [loginError, setLoginError] = useState(null);
+  // const navigate = useNavigate();
+  const { setUser } = useContext(AuthContext);
+  const handleSubmit = (e) => {
+    e.preventDefault();
     let hasError = false;
 
-    // Email validation
     const emailRegex = /^\S+@\S+\.\S+$/;
     if (!emailRegex.test(email)) {
       setEmailError("Invalid email format");
@@ -43,7 +48,21 @@ function LogIn() {
       return;
     }
 
-    console.log(email, password);
+    loginUser(email, password)
+    .then((credential) => {
+      setUser({
+        user: credential.user,
+      });
+    })
+    .then(() => {
+      // navigate("/");
+    })
+    .catch((e) => {
+      setLoginError(e.message);
+      console.log(e);
+    });
+
+
   };
 
   return (
@@ -76,7 +95,7 @@ function LogIn() {
               type="email"
               onChange={(e) => setEmail(e.target.value)}
             />
-            <FormErrorMessage>{emailError}</FormErrorMessage>
+            <FormErrorMessage>{emailError || loginError}</FormErrorMessage>
           </FormControl>
 
           <FormControl id="password" maxW="450px" isInvalid={!!passwordError}>
@@ -94,7 +113,7 @@ function LogIn() {
               type="password"
               onChange={(e) => setPassword(e.target.value)}
             />
-            <FormErrorMessage>{passwordError}</FormErrorMessage>
+            <FormErrorMessage>{passwordError || loginError}</FormErrorMessage>
           </FormControl>
 
           <Box paddingLeft="80px">
