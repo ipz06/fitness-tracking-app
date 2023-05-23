@@ -14,10 +14,17 @@ import {
     HStack,
     Grid,
     VStack,
-    Text
-} from '@chakra-ui/react'
+    Text,
+    GridItem,
+    Heading,
+    Button
+} from '@chakra-ui/react';
+import { useState } from 'react';
+import avatar from '../../assets/avatar_ex.png'
 
 const Profile = () => {
+
+    const [image, setImage] = useState('');
 
     return (
     <Flex 
@@ -26,39 +33,57 @@ const Profile = () => {
     flexDirection="column"
     marginLeft='400px'
     marginRight='400px'>
-      <Box fontWeight='bold' paddingBottom={10}>
+      <Heading size={'md'} fontWeight='bold' paddingBottom={20} paddingTop={10}>
         Profile Information
-      </Box>
-      {/* <Flex
-      display="grid" 
-      gridGap={5} 
-      gridAutoFlow="column"
-      alignItems={'center'}
-      paddingBottom={10}
-      >
-        <Avatar boxSize="100px"/>
+      </Heading>
+       <Grid templateColumns="repeat(2, 1fr)" templateRows={'repeat(2, 1fr)'} gap={4} >
+            {/* <HStack alignItems='start' > */}
+            <GridItem rowSpan={2} colSpan={1}> 
+                <Avatar 
+                boxSize="150px" 
+                marginLeft={-100}
+                src={avatar}
+                />
+                <Input
+              type="file"
+              height="100%"
+              width="100%"
+              position="absolute"
+              top="0"
+              left="0"
+              opacity="0"
+              aria-hidden="true"
+              accept="image/*"
+              onChange={(event) =>{
+                const file = event.target.files[0];
+                if (file) {
+                    setImage(file)
+                } else {
+                    setImage(null)
+                }
 
-      </Flex> */}
-       <Grid templateColumns="repeat(2, 1fr)" paddingBottom={10}>
-            <HStack alignItems='start' >
-              <Box >
-                <Avatar boxSize="120px"/>
-              </Box>
-              <VStack alignItems='start' paddingLeft={50}>
-                <Text fontWeight='bold'><h2>Member since</h2></Text> 
-                <Box ><h2>Friends</h2></Box>  
-                <Box ><h2>All Time Distance</h2></Box>  
-              </VStack>
-            </HStack>
+              } 
+            }
+            //   onDragEnter={startAnimation}
+            //   onDragLeave={stopAnimation}
+            />
+            </GridItem>
+            <VStack alignItems={'start'} paddingLeft={-10}>
+            <Text fontWeight={'bold'}>Member since</Text> 
+            <Text fontWeight={'bold'}>Friends</Text>  
+            <Text fontWeight={'bold'}>All Time Duration</Text>  
+            </VStack>
+            {/* </HStack> */}
           </Grid>
       <FormControl 
       isRequired 
       paddingBottom={10}>
-        <FormLabel fontWeight='bold' > First Name</FormLabel>
-        <Input placeholder='Enter First Name' 
-        border='1px' 
-        borderColor='gray.500'
-        borderRadius='4px'
+        <FormLabel fontWeight={'bold'} > First Name</FormLabel>
+        <Input 
+        placeholder='Enter First Name' 
+        border={'1px'} 
+        borderColor={'gray.500'}
+        borderRadius={'4px'}
         w={550}
         h={55}
         _hover={{
@@ -73,11 +98,11 @@ const Profile = () => {
       <FormControl 
       isRequired 
       paddingBottom={10}>
-        <FormLabel fontWeight='bold' >Last Name</FormLabel>
+        <FormLabel fontWeight={'bold'} >Last Name</FormLabel>
         <Input placeholder='Enter Last Name' 
-        border='1px' 
-        borderColor='gray.500'
-        borderRadius='4px'
+        border={'1px'} 
+        borderColor={'gray.500'}
+        borderRadius={'4px'}
         w={550}
         h={55}
         _hover={{
@@ -93,12 +118,12 @@ const Profile = () => {
       isRequired
       paddingBottom={10} 
         >
-        <FormLabel fontWeight='bold' >Birth Date</FormLabel>
-        <Input placeholder="Select Date and Time"
-        type="date" 
-        border='1px' 
-        borderColor='gray.500'
-        borderRadius='4px'
+        <FormLabel fontWeight={'bold'} >Birth Date</FormLabel>
+        <Input placeholder='Select Date and Time'
+        type={'date'} 
+        border={'1px'} 
+        borderColor={'gray.500'}
+        borderRadius={'4px'}
         w={550}
         h={55}
         _hover={{
@@ -110,10 +135,11 @@ const Profile = () => {
             border: '2px'}}
         />
       </FormControl>
-      <Grid templateColumns="repeat(2, 1fr)" paddingBottom={10}>
+      <Grid templateColumns='repeat(2, 1fr)' paddingBottom={10}>
         <HStack alignItems={'start'}>
         <FormControl 
-        w={250}
+        w={270}
+        marginLeft={10}
         >
         <FormLabel fontWeight={'bold'}>Weight (kg)</FormLabel>
         <NumberInput 
@@ -121,9 +147,9 @@ const Profile = () => {
         min={10.0} 
         step={0.1}
         h={55}
-        border='1px' 
-        borderColor='gray.500'
-        borderRadius='4px'
+        border={'1px'} 
+        borderColor={'gray.500'}
+        borderRadius={'4px'}
         _hover={{
             borderColor: 'gray.900', 
             border:'2px'}}
@@ -135,9 +161,9 @@ const Profile = () => {
         >
             <NumberInputField
             h={55}
-            border='0px' 
-            borderColor='gray.500'
-            borderRadius='4px'
+            border={'0px'} 
+            borderColor={'gray.500'}
+            borderRadius={'4px'}
             _hover={{borderColor: 'gray.900'}}
             _focus={{
                 borderColor: 'gray.900', 
@@ -145,22 +171,13 @@ const Profile = () => {
                 border: '2px'}}
             />
             <NumberInputStepper border={'none'}>
-            <NumberIncrementStepper 
-            // color={'gray.900'} 
-            // border={'none'} 
-            // bgColor={'gray.200'} 
-            // _hover={{bgColor: 'gray.400'}}
-            // _active={{
-            //     bgColor: 'gray.700',
-            //     color: 'white'
-            // }}
-            />
+            <NumberIncrementStepper />
             <NumberDecrementStepper />
             </NumberInputStepper>
         </NumberInput>
         </FormControl>
         <FormControl
-        w={250}
+        w={270}
         >
         <FormLabel fontWeight={'bold'}>Height (m)</FormLabel>
         <NumberInput 
@@ -168,9 +185,9 @@ const Profile = () => {
         min={1.00} 
         step={0.01}
         h={55}
-        border='1px' 
-        borderColor='gray.500'
-        borderRadius='4px'
+        border={'1px'} 
+        borderColor={'gray.500'}
+        borderRadius={'4px'}
         _hover={{
             borderColor: 'gray.900', 
             border:'2px'}}
@@ -181,9 +198,9 @@ const Profile = () => {
         }}>
             <NumberInputField 
              h={55}
-             border='0px' 
-             borderColor='gray.500'
-             borderRadius='4px'
+             border={'0px'} 
+             borderColor={'gray.500'}
+             borderRadius={'4px'}
              _hover={{ borderColor: 'gray.900' }}
              _focus={{
                 borderColor: 'gray.900', 
@@ -201,9 +218,9 @@ const Profile = () => {
         <FormLabel fontWeight={'bold'}>Gender</FormLabel>
             <Select 
             placeholder='Select gender'
-            border='1px' 
-            borderColor='gray.500'
-            borderRadius='4px'
+            border={'1px'} 
+            borderColor={'gray.500'}
+            borderRadius={'4px'}
             w={550}
             h={55}
             _hover={{
@@ -216,15 +233,16 @@ const Profile = () => {
             >
             <option>Female</option>
             <option>Male</option>
+            <option>Undefined</option>
             </Select>
         </FormControl>
-      <FormControl isRequired paddingBottom={10}>
+      <FormControl paddingBottom={10}>
         <FormLabel fontWeight={'bold'}>Country</FormLabel>
             <Select 
             placeholder='Select country'
-            border='1px' 
-            borderColor='gray.500'
-            borderRadius='4px'
+            border={'1px'} 
+            borderColor={'gray.500'}
+            borderRadius={'4px'}
             w={550}
             h={55}
             _hover={{
@@ -259,6 +277,45 @@ const Profile = () => {
             <option>Slovenia</option>
             </Select>
         </FormControl>
+        <HStack paddingBottom={10} marginLeft={-200}>
+            <Button 
+            size={'md'} 
+            w={'200px'}
+            border={'1px'} 
+            borderColor={'gray.500'}
+            borderRadius={'4px'}
+            color={'white'}
+            bgColor={'black'}
+            _hover={{
+                borderColor: 'gray.900', 
+                border:'2px'}}
+            _focus={{
+                borderColor: 'gray.900', 
+                boxShadow: '2xl', 
+                border: '2px'}} 
+            >
+                Save
+            </Button>
+            <Button 
+            size={'md'} 
+            w={'100px'}
+            border={'1px'} 
+            borderColor={'gray.500'}
+            borderRadius={'4px'}
+            color={'white'}
+            bgColor={'black'}
+            _hover={{
+                borderColor: 'gray.900', 
+                border:'2px'}}
+            _focus={{
+                borderColor: 'gray.900', 
+                boxShadow: '2xl', 
+                border: '2px'}}
+            >
+                Log out
+            </Button>
+        </HStack>
+        
     </Flex>
     )
 }
