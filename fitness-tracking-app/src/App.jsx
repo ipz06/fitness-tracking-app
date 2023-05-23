@@ -1,6 +1,6 @@
 import { ChakraProvider } from "@chakra-ui/react";
 import Navbar from "./components/Navbar/Navbar";
-import { menuItems } from "./common/constants";
+import { MENU_ITEMS } from "./common/constants";
 import Profile from "./pages/Profile/Profile";
 import { Route, Routes } from "react-router-dom";
 import Landing from "./pages/Landing/Landing";
@@ -11,6 +11,9 @@ import { useEffect, useState } from "react";
 import { getUserData } from "./services/user.service";
 import { AuthContext } from "./common/context";
 import DashBoard from "./pages/DashBoard/DashBoard";
+import Goals from "./pages/Goals/Goals";
+import AuthenticateRoute from "./hoc/AuthenticateRoute";
+import LogIn from "./pages/LogIn/LogIn";
 
 function App() {
   const [user] = useAuthState(auth);
@@ -55,7 +58,36 @@ function App() {
     <ChakraProvider>
       <AuthContext.Provider value={{...appState}}>
       <div>
-   
+      {user && <Navbar menu ={MENU_ITEMS}/>}
+        <Routes>
+          {!user && <Route path="/" element={<Landing />}/>}
+          {!user && <Route path="/login" element={<LogIn/>}/>}
+          {!user && <Route path="/signup" element={<SignUp />}/>}
+          <Route 
+            path="dashboard" 
+            element={
+              <AuthenticateRoute>
+                <DashBoard />
+              </AuthenticateRoute>
+            }                      
+           />
+          <Route 
+            path="goals" 
+            element={
+              <AuthenticateRoute>
+                <Goals />
+              </AuthenticateRoute>
+            }                      
+           />
+          <Route 
+            path="profile" 
+            element={
+              <AuthenticateRoute>
+                <Profile />
+              </AuthenticateRoute>
+            }                      
+           />                     
+        </Routes>
     
      
       </div>

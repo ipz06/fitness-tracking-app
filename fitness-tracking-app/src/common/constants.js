@@ -8,5 +8,5 @@ export const USERNAME_MIN_LENGTH = 2;
 export const USERNAME_MAX_LENGTH = 20;
 export const MIN_PASSWORD_LENGTH = 6;
 export const MAX_PASSWORD_LENGTH = 32;
-export const menuItems = ['DASHBOARD','GOALS','STATS','FRIENDS']
+export const MENU_ITEMS = ['DASHBOARD','GOALS','STATS','FRIENDS']
 export const redColor = '#e0041c'

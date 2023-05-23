@@ -39,6 +39,7 @@ const Dashboard = () => {
         console.log(error);
       });
     }
+    console.log(phone);
   }, []);
 
 let burnedCalories = 0;
