@@ -25,7 +25,7 @@ export const createUserHandle = async (
   photoURL,
   weight,
   gender,
-  age,
+ age,
 
 ) => {
   const userData = {
@@ -58,3 +58,40 @@ export const getUserData = (uid) => {
 // export const getUserData = (uid) => {
 // 	return get(query(ref(db, "users"), orderByChild("uid"), equalTo(uid)));
 //   };
+
+export const uploadAvatar = async (userId, file) => {
+  const storageRef = sRef(storage, `avatars/${userId}`);
+  await uploadBytes(storageRef, file);
+  const downloadUrl = await getDownloadURL(storageRef);
+ console.log('download url', downloadUrl)
+  return downloadUrl;
+};
+
+export const updateUserAvatar = async (displayName, photoURL) => {
+  const userRef = ref(db, `users/${displayName}`);
+  return update(userRef, { photoURL: photoURL });
+};
+
+export const updateUserProfile = async (handle, firstName, lastName, phone, weight, gender, photoURL, height, country, birthDate) => {
+  const updates = {
+    [`/users/${handle}/firstName`]: firstName,
+    [`/users/${handle}/lastName`]: lastName,
+    [`/users/${handle}/weight`]: weight,
+    [`/users/${handle}/phone`]: phone,
+    [`/users/${handle}/gender`]: gender,
+    [`/users/${handle}/photoURL`]: photoURL,
+    [`/users/${handle}/height`]: height,
+    [`/users/${handle}/country`]: country,
+    [`/users/${handle}/birthDate`]: birthDate,
+
+  };
+
+  return update(ref(db), updates);
+};
+
+// export const writeAdditionalUserData = async (handle, height, country) => {
+//   return await set(ref(db, `users/${handle}`), {
+//     height: height,
+//     country: country
+//   })
+// }
