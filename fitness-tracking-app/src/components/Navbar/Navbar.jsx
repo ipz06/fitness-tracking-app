@@ -14,14 +14,16 @@ import Logo from '../../assets/Logo.png'
 import Img from '../../assets/avatar_ex.png'
 import './navbar.css'
 import { redColor } from '../../common/constants.js';
+import { useLocation } from 'react-router-dom';
 
 
  
 
 
 const Navbar = ({menu}) => {
-
-   const [activeLink, setActiveLink] = useState('')
+   
+   let address = useLocation()
+   const [activeLink, setActiveLink] = useState((address.pathname).slice(1))
 
    return (
          <Flex
@@ -60,7 +62,8 @@ const Navbar = ({menu}) => {
             
             <Spacer/>
             <Box margin={'auto'}>
-               <NavLink to = {'/profile'}>
+               <NavLink to = {'/profile'}
+                        onClick = {()=>setActiveLink('profile')}>
                   <Avatar name = {'handle'}
                         src = {Img} showBorder={true}
                         borderColor={redColor}
