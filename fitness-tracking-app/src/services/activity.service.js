@@ -1,8 +1,4 @@
-import {
-	ref,
-	child,
-	update, get, query, orderByChild, equalTo,
-  } from "firebase/database";
+import {ref, child, update, get, query,  remove } from "firebase/database";
   import { db } from "../config/firebase-config";
   import { push } from "firebase/database";
   import "firebase/database";
@@ -25,7 +21,7 @@ export const saveActivityToDatabase = async (
 
   const newActivityKey = push(child(ref(db), "activity")).key;
   const updates = {};
-  updates["/activities/" + user + "/" +  newActivityKey] = activityData;
+  updates["/activities/" + user + "/" +  newActivityKey] = {...activityData, activityKey: newActivityKey};
   return update(ref(db), updates);
 };
 
@@ -40,6 +36,16 @@ export const getUserActivities = async (handle) => {
     return [];
   } catch (error) {
     console.log("Error retrieving user activities:", error);
+    throw error;
+  }
+};
+
+export const deleteActivityFromDatabase = async (user, activityId) => {
+  try {
+    const activityRef = ref(db, `activities/${user}/${activityId}`);
+    await remove(activityRef);
+  } catch (error) {
+    console.log("Error deleting activity:", error);
     throw error;
   }
 };
