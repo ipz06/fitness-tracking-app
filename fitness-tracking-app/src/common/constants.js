@@ -10,3 +10,4 @@ export const MIN_PASSWORD_LENGTH = 6;
 export const MAX_PASSWORD_LENGTH = 32;
 export const MENU_ITEMS = ['DASHBOARD','GOALS','STATS','FRIENDS']
 export const redColor = '#e0041c'
+export const WHITE_COLOR = 'white'
