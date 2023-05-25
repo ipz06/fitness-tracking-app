@@ -1,66 +1,56 @@
-import { Box, Button, Flex, Text } from '@chakra-ui/react';
+import {  Button, Flex, Text } from '@chakra-ui/react';
 import video from '../../assets/video.mp4'
 import logoWhite from '../../assets/logo-white.png'
 import { redColor } from '../../common/constants';
+import { WHITE_COLOR } from '../../common/constants';
 import { NavLink } from 'react-router-dom';
 
 const Landing = () => {
 
     return (
-        <Flex 
-        w='100%'
-        h='100vh'>
-            <Box 
-            w='100%'
+        <Flex
+            position='relative'
+            w='100vw'
             h='100vh'
-            filter='grayscale(100%)'
-            objectFit={'cover'}>
-                <video src={video} autoPlay loop muted/>
-            </Box>
-            <Text 
-                position={'absolute'}
-                w='100%'
-                h='100%'
-                top={0}
-                display={'flex'}
-                flexDirection={'column'}
-                justifyContent={'center'}
-                alignItems={'center'}
-                color={'white'}
-                marginTop={200}
-                >Welcome </Text>
-            <Box
-            position={'absolute'}
-            maxW={'sm'}
-            h='100%'
-            top={0}
-            display={'flex'}
-            flexDirection={'column'}
-            justifyContent={'center'}
-            alignItems={'center'}
-            paddingLeft={'50'}
-            marginLeft={400}
-            marginTop={100}
-            color={'white'}
+            alignItems='center'
+            justifyContent='center'
+        >
+            <Flex
+                flexDir='column'
+                alignItems='center'
+                zIndex={2}
             >
-            <img src={logoWhite} color='white' />
-            </Box>
-           {/* <NavLink to='profile'> */}
-            <Button
-             position={'absolute'}
-             w={'250px'}
-             h={'50px'}
-             top={0}
-             display={'flex'}
-             flexDirection={'column'}
-             justifyContent={'center'}
-             alignItems={'center'}
-             marginLeft={525}
-             marginTop={650}
-             color={redColor}
-            >GET FIT
-            </Button>
-            {/* </NavLink> */}
+                <img src={logoWhite} width='300px' />
+                <Text marginBottom='100px' color={WHITE_COLOR}>
+                    Welcome
+                </Text>
+                <NavLink to='signup'>
+                <Button
+                    marginBottom='50px' 
+                    w={'250px'}
+                    h={'50px'}
+                    color={redColor}
+                >
+                    GET FIT
+                </Button>
+             </NavLink>
+             <NavLink to='login'>
+                <Text 
+                    marginBottom='50px' 
+                    color={WHITE_COLOR}
+                    _hover={{
+                        color: '#e0041c'
+                    }}>
+                    Already have an account? Login
+                </Text>
+             </NavLink>
+                
+             {/* <Flex w='100%' h='60px'>
+                <Flex flex="1" backgroundColor='coral' />
+                <Flex flex="1" backgroundColor='yellow' />
+             </Flex> */}
+            </Flex>
+            <Flex as='video' src={video} autoPlay muted loop position='fixed' top='0' left='0' w='100%' h='100%' objectFit='cover' filter='grayscale(100%)' />
         </Flex>
     )
 }
