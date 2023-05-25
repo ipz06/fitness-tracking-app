@@ -14,6 +14,9 @@ import DashBoard from "./pages/DashBoard/DashBoard";
 import Goals from "./pages/Goals/Goals";
 import AuthenticateRoute from "./hoc/AuthenticateRoute";
 import LogIn from "./pages/LogIn/LogIn";
+import { ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
+import AddNutrition from "./components/AddNutrition/AddNutrition";
 
 function App() {
   const [user] = useAuthState(auth);
@@ -35,7 +38,7 @@ function App() {
         const userData = snapshot.val();
         const firstKey = Object.keys(userData)[0];
         const { role, handle, photoURL, email, phone, age, gender, weight } = userData[firstKey];
-        console.log(role, handle, photoURL, email, phone);
+        
         setAppState({
           ...appState,
           role: role,
@@ -85,11 +88,21 @@ function App() {
               <AuthenticateRoute>
                 <Profile />
               </AuthenticateRoute>
-            }                      
-           />                     
+            }  
+           />     
+           <Route 
+            path="addnutrition" 
+            element={
+              <AuthenticateRoute>
+                <AddNutrition />
+              </AuthenticateRoute>
+            }  
+           />  
+
+
         </Routes>
     
-     
+        <ToastContainer position="top-center" />
       </div>
       </AuthContext.Provider>
     </ChakraProvider>
