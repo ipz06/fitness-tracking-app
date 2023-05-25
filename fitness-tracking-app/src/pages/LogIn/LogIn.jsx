@@ -16,6 +16,7 @@ import { useState, useContext } from "react";
 import { loginUser } from "../../services/auth.services";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../common/context";
+import { NavLink } from "react-router-dom";
 
 function LogIn() {
   const [password, setPassword] = useState("");
@@ -23,7 +24,7 @@ function LogIn() {
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [loginError, setLoginError] = useState(null);
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
   const { setUser } = useContext(AuthContext);
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -54,13 +55,13 @@ function LogIn() {
         user: credential.user,
       });
     })
-    .then(() => {
-      // navigate("/");
-    })
     .catch((e) => {
       setLoginError(e.message);
       console.log(e);
-    });
+    })
+    .finally(() => {
+      navigate("/dashboard");
+    })
 
 
   };
@@ -77,7 +78,7 @@ function LogIn() {
             fontSize={"sm"}
             color={useColorModeValue("gray.600", "gray.400")}
           >
-            Don't have an account? Sign Up
+            Don't have an account? <b><u><NavLink to="/signup">Sign Up</NavLink></u></b>
           </Text>
 
           <FormControl id="email" maxW="450px" isInvalid={!!emailError}>

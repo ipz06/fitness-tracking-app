@@ -19,6 +19,9 @@ import { getUserByHandle } from "../../services/user.service";
 import { createUserHandle } from "../../services/user.service";
 import { registerUser } from "../../services/auth.services";
 import { updateProfile } from "firebase/auth";
+import { NavLink } from "react-router-dom";
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function SignUp() {
   const [email, setEmail] = useState("");
@@ -86,7 +89,9 @@ function SignUp() {
     try {
       const handleSnapshot = await getUserByHandle(formValues.handle);
       if (handleSnapshot) {
-        throw new Error(`Handle @${formValues.handle} has already been taken!`);
+        toast.warning(`Handle @${formValues.handle} has already been taken!`)
+        return;
+        // throw new Error(`Handle @${formValues.handle} has already been taken!`);
       }
   
       const credential = await registerUser(formValues.email, formValues.password);
@@ -108,31 +113,32 @@ function SignUp() {
       await updateProfile(user, {
         displayName: formValues.handle,
       });
-  
       setUser({
         user: credential.user,
         role: 1,
       });
-  
-      // navigate("/profile");
+      
     } catch (e) {
-      console.log(e);
+      console.log(e)
+    } finally {
+      navigate("/profile");
     }
+    
   };
 
   return (
     <Flex minHeight="100vh" width="full" align="center" justifyContent="center" paddingBottom={40}>
       <Box w={"lg"}>
         <Stack spacing={4}>
-          <Heading fontSize={"5xl"} paddingLeft={7}>
+          <Heading fontSize="5xl" paddingLeft={7}>
             Welcome To 7Fit{" "}
           </Heading>
           <Text
             paddingLeft={100}
-            fontSize={"sm"}
+            fontSize="sm"
             color={useColorModeValue("gray.600", "gray.400")}
           >
-            Already have an account? Log in
+            Already have an account? <b><u><NavLink to="/login">Log in</NavLink></u></b>
           </Text>
 
           <FormControl id="firstName" maxW="450px">
