@@ -16,14 +16,16 @@ import {
 
 const Goal = ({title,description,startDate}) => {
 return (
-   <Card h={'100px'} 
-        direction={{ base: 'column', sm: 'row' }}
-         margin={'auto'}
-         w={'4xl'}
-         marginTop={'20px'}>
+   <Card h={{base:'300',md:'140',lg:'140'}} 
+         direction={{ base: 'column', sm: 'row' }}
+         w={{base:'sm',md:'3xl',lg:'4xl'}}
+         marginTop={'2px'}
+         marginBottom={'5px'}
+         marginX={'auto'}
+      >
       <Stack
             marginLeft={'30px'}
-            textAlign={'left'}>
+            textAlign={{base:'center',md:'left'}}>
          <Text fontSize={'lg'}
                fontWeight={'bold'}>
             {title}
@@ -41,8 +43,8 @@ return (
       </Stack>
       <Spacer/>
       <Box
-      margin={'auto'}
-      marginRight={'50px'}>
+         margin={'auto'}
+         marginRight={'50px'}>
          <Button>
             Set Goal
          </Button>

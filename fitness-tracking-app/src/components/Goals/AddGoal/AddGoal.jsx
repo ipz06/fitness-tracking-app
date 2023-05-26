@@ -52,7 +52,7 @@ const AddGoal = ({open, setOpen}) => {
                            onChange={(e)=>setGoal(e.target.value)}>
                         <option value = 'stay-toned'> Stay Toned </option>
                         <option value = 'stay-active'> Stay Active </option>
-                        <option value = 'loose-weight'> Loose Weight</option>
+                        <option value = 'loose-weight'> Change Weight</option>
                         </Select>
                   </FormControl>
                   {renderInput(goal,open,setOpen)}

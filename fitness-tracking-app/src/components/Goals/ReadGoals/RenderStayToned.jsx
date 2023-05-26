@@ -52,16 +52,19 @@ const RenderStayToned = ({title,workouts,interval,value, handle, goalID, startDa
          </div>
       )
    }
-
+ 
    return (
-      <Card h={'130px'} 
-           direction={{ base: 'column', sm: 'row' }}
-           w={'430px'}
-           marginTop={'2px'}
-           minW="400px" >
+      <Card h={{base:'300',md:'140',lg:'140'}} 
+            direction={{ base: 'column', sm: 'row' }}
+            w={{base:'sm',md:'3xl',lg:'4xl'}}
+            marginTop={'2px'}
+            marginBottom={'5px'}
+            marginX={'auto'}
+          >
          <Stack
                marginLeft={'30px'}
-               textAlign={'left'}>
+               textAlign={'left'}
+               marginY={'auto'}>
             <Text fontSize={'lg'}
                   fontWeight={'bold'}>
                Stay Toned
@@ -76,18 +79,27 @@ const RenderStayToned = ({title,workouts,interval,value, handle, goalID, startDa
                fontWeight={'light'}>
                {workouts} workouts {week}
             </Text>
+         </Stack>
+         <Spacer/>
+         <Stack marginLeft={'15px'} marginY='auto'>
+            <Text>
+               {calculateWorkouts(logData,startDate,interval,workouts)} 
+            </Text>
             <Text
                fontSize={'sm'}
                fontWeight={'light'}>
-               {calculateWorkouts(logData,startDate,interval,workouts)} workout left till {calculateTargetDate(startDate,interval)}
+                workout left till 
+            </Text>
+            <Text>
+               {calculateTargetDate(startDate,interval)}
             </Text>
          </Stack>
          <Spacer/>
-         <Box
-         margin={'auto'}
-         marginRight={'50px'}>
-            <PieChartWithNeedle value={((workouts-calculateWorkouts(logData,startDate,interval,workouts))/workouts)*100}/>
-         </Box>
+         <Stack
+            marginY={'auto'}
+            marginRight={'50px'}>
+            <PieChartWithNeedle marginX={'auto'} value={((workouts-calculateWorkouts(logData,startDate,interval,workouts))/workouts)*100}/>
+         </Stack>
          <IconButton icon={<AiOutlineDelete/>} size={'sm'} marginTop={'2'} marginEnd={'2'} onClick={handleClick}/>
       </Card>
    )

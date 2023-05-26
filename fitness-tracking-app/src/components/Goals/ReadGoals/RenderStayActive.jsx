@@ -53,14 +53,17 @@ const RenderStayActive = ({title, minutes, startDate, interval,value, handle, go
    }
 
    return (
-      <Card h={'130px'} 
-           direction={{ base: 'column', sm: 'row' }}
-           w={'430px'}
-           marginTop={'2px'}
-           minW="400px" >
+      <Card h={{base:'300',md:'140',lg:'140'}} 
+            direction={{ base: 'column', sm: 'row' }}
+            w={{base:'sm',md:'3xl',lg:'4xl'}}
+            marginTop={'2px'}
+            marginBottom={'5px'}
+            marginX={'auto'}
+         >
          <Stack
                marginLeft={'30px'}
-               textAlign={'left'}>
+               textAlign={'left'}
+               marginY={'auto'}>
             <Text fontSize={'lg'}
                   fontWeight={'bold'}>
                Stay Active
@@ -75,18 +78,27 @@ const RenderStayActive = ({title, minutes, startDate, interval,value, handle, go
                fontWeight={'light'}>
                {minutes} minutes {week}
             </Text>
+         </Stack>
+         <Spacer/>
+         <Stack marginLeft={'15px'} marginY='auto'>
+            <Text>
+               {calculateMinutes(logData,startDate,interval,minutes)} 
+            </Text>
             <Text
                fontSize={'sm'}
                fontWeight={'light'}>
-               {calculateMinutes(logData,startDate,interval,minutes)} minutes left till {calculateTargetDate(startDate,interval)}
+               minutes left till 
+            </Text>
+            <Text>
+            {calculateTargetDate(startDate,interval)}
             </Text>
          </Stack>
          <Spacer/>
-         <Box
-         margin={'auto'}
-         marginRight={'50px'}>
+         <Stack
+               marginY={'auto'}
+               marginRight={'50px'}>
             <PieChartWithNeedle value={((minutes-calculateMinutes(logData,startDate,interval,minutes))/minutes)*100}/>
-         </Box>
+         </Stack>
          <IconButton icon={<AiOutlineDelete/>} size={'sm'} marginTop={'2'} marginEnd={'2'} onClick={handleClick}/>
       </Card>
    )

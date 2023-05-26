@@ -9,25 +9,46 @@ import { FormControl,
          NumberInputStepper, 
          IconButton } from "@chakra-ui/react"
 import {CgAdd}  from "react-icons/all";
-import { useState } from "react"
-import { useContext } from "react";
+import { useState, useContext, useEffect } from "react"
 import { AuthContext } from "../../../common/context";
 import { addUserGoal } from "../../../services/goal.service";
+import { getLastWeight } from "../../../services/goal.service";
+import { useNavigate } from "react-router-dom";
+import { addUserWeightGoal } from "../../../services/goal.service";
 
 
 const LooseWeight = ({open,setOpen}) => {
 
-const { handle } = useContext(AuthContext)
+const navigate = useNavigate()
+const { handle, weight } = useContext(AuthContext)
+const [currentWeight, setCurrentWeight] = useState('')
 
 
 const [date, setTargetDate] = useState('')
-const [weight, setWeight] = useState(1)
+const [targetWeight, setTargetWeight] = useState(1)
+
+useEffect(()=>{
+   getLastWeight(handle)
+      .then((snapshot)=>{
+         if(snapshot.exists()){
+            const data = snapshot.val()
+            const key = Object.keys(snapshot.val())
+            setCurrentWeight(data[key]['currentWeight'])
+         } else if (weight !== '') {
+            setCurrentWeight(weight)
+         } else {
+            navigate('/profile')
+            alert('set weight')
+         }
+      })
+},[])
+
 
 const HandleSubmitGoal = (open,setOpen)=>{
    const now = Date.now()
    const targetDate = new Date(date).getTime()
    setOpen(!open)
-   addUserGoal(handle,'loose-weight', now, 0, targetDate, weight)
+   addUserWeightGoal(handle,'loose-weight', now, 0, targetDate,targetWeight,currentWeight)
 }
 
 return (
@@ -49,7 +70,7 @@ return (
         />
    </FormControl>
    <FormLabel textAlign={'center'} fontSize={'sm'} fontWeight={'light'} p={'2'}>Target Weight</FormLabel>
-   <NumberInput size='xs' maxW={16} defaultValue={45} min={40} onChange={(valueAsString, valueAsNumber)=>setWeight(valueAsNumber)} margin={'auto'}>
+   <NumberInput size='xs' maxW={16} defaultValue={45} min={40} onChange={(valueAsString, valueAsNumber)=>setTargetWeight(valueAsNumber)} margin={'auto'}>
       <NumberInputField />
       <NumberInputStepper>
          <NumberIncrementStepper />
@@ -57,7 +78,7 @@ return (
       </NumberInputStepper>
    </NumberInput>
          
-   <IconButton icon={<CgAdd/>} size={'md'} margin={'5'}  onClick = {()=>HandleSubmitGoal(open,setOpen,weight,date)}/>   
+   <IconButton icon={<CgAdd/>} size={'md'} margin={'5'}  onClick = {()=>HandleSubmitGoal(open,setOpen,targetWeight,date)}/>   
 </>
 )
 }

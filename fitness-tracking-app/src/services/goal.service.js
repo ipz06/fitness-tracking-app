@@ -113,3 +113,4 @@ export const getLastWeight = (user) => {
   const lastWeightQuery = query(ref(db,`log-weight/${user}`),limitToLast(1))
   return get(lastWeightQuery)
 }
+

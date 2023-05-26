@@ -33,7 +33,7 @@ const Goals = ()=>{
          )}
          {open&& <AddGoal open={open} setOpen={setOpen}/>}
          <DividerHeader heading={'active goals'}/> 
-         <Flex justify="center" align="center">
+         {/* <Flex justify="center" align="center">
             <HStack
                justify="flex-start"
                mt={4}
@@ -42,11 +42,10 @@ const Goals = ()=>{
                pb={4}
                paddingLeft={'2'}
                maxWidth={'55rem'}
-            >
-               {/* <CurrentGoal title={'Stay toned'} description={'120 minutes a week'} endDate={'30/05/2023'} value={60}/> */}
+            > */}
                <AllGoals/>
-            </HStack>
-         </Flex>
+            {/* </HStack>
+         </Flex> */}
         
          <DividerHeader heading={'suggested goals'}/> 
          <Goal title={'Four hours a week workout'} description={'Any activity'} startDate={date}/>
