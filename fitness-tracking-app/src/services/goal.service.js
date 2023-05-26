@@ -1,7 +1,7 @@
 import {
          ref,
          child,
-         update, get, query, orderByChild, equalTo, push, onValue, remove
+         update, get, query, orderByChild, equalTo, push, onValue, remove, limitToLast
          } from "firebase/database";
 import { db } from "../config/firebase-config";
 import "firebase/database";
@@ -25,6 +25,28 @@ export const addUserGoal = (user,type,startDate,interval=0,targetDate=0,target)=
        .catch((e)=>{
          console.log(e.message)
        })
+}
+
+export const addUserWeightGoal = (user,type,startDate,interval=0,targetDate=0,target,startWeight)=>{
+  const goalData ={
+        author: user,
+        type: type,
+        startDate: startDate,
+        interval: interval*7*24*3600*1000,
+        targetDate: targetDate,
+        target: target,
+        startWeight: startWeight
+      };
+  const newGoalKey = push(child(ref(db), "Goal")).key;
+  const updates = {};
+  updates["/goals/" + user + "/" +  newGoalKey]=goalData
+  update(ref(db), updates)
+      .then(()=>{
+        console.log('Goal updated')
+      })
+      .catch((e)=>{
+        console.log(e.message)
+      })
 }
 
 export const readUserGoal = (user,setGoals) => {
@@ -85,4 +107,9 @@ export const calculateTargetDate = (startDate, interval) => {
 export const getUserLog = (user)=>{
   const logRef = ref(db,`log-activity/${user}`)
   return get(logRef)
+}
+
+export const getLastWeight = (user) => {
+  const lastWeightQuery = query(ref(db,`log-weight/${user}`),limitToLast(1))
+  return get(lastWeightQuery)
 }
