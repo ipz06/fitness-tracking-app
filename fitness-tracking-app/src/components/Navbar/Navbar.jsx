@@ -24,6 +24,7 @@ const Navbar = ({menu}) => {
    
    let address = useLocation()
    const [activeLink, setActiveLink] = useState((address.pathname).slice(1))
+   const {photo} = useContext(AuthContext)
 
    return (
          <Flex
@@ -39,7 +40,7 @@ const Navbar = ({menu}) => {
                margin={'auto'}
                marginLeft={'5'}/>
             <Spacer/>
-            <Flex className='nav'>
+            <Flex className='nav' display={{base:'none',md:'flex'}}>
             {menu.map((el, i)=>{
                return(
                   <HStack key={i}
@@ -65,7 +66,7 @@ const Navbar = ({menu}) => {
                <NavLink to = {'/profile'}
                         onClick = {()=>setActiveLink('profile')}>
                   <Avatar name = {'handle'}
-                        src = {Img} showBorder={true}
+                        src = {photo} showBorder={true}
                         borderColor={redColor}
                         marginRight={'5'}/>
                </NavLink>

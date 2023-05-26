@@ -38,7 +38,13 @@ nav a {
 }
 
 .underline.friends {
-  width: 70px;
+  width: 68px;
   bottom: -10px;
   left: 335px;  /* Adjust based on the position of your links */
+}
+
+.underline.meals {
+  width: 52px;
+  bottom: -10px;
+  left: 440px;  /* Adjust based on the position of your links */
 }
