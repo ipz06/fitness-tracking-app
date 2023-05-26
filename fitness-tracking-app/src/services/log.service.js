@@ -65,3 +65,5 @@ export const saveWaterToDatabase = async (
   updates[`/log-water/${user}/${now}`] = WaterData;
   return update(ref(db), updates);
 };
+
+
