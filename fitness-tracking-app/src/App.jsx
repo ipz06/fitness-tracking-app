@@ -105,7 +105,7 @@ function App() {
             }  
            />     
            <Route 
-            path="nutrition" 
+            path="meals" 
             element={
               <AuthenticateRoute>
                 <Nutrition/>
