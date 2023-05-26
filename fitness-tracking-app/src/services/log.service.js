@@ -67,3 +67,23 @@ export const saveWaterToDatabase = async (
 };
 
 
+export const saveMealLog = async (
+  user,
+  calories,
+  weight,
+  title
+) => {
+  const nutritionData = {
+    calories: calories,
+    addOn: new Date().toLocaleString(),
+    weight: weight,
+    title: title,
+  };
+
+  const now = Date.now();
+  const updates = {};
+  updates[`/log-nutrition/${user}/${now}`] = nutritionData;
+  return update(ref(db), updates);
+};
+
+

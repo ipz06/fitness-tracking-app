@@ -29,7 +29,7 @@ const Nutrition = () => {
  <br></br>
       
       <Box flex="2">
-        <SimpleGrid columns={[1, 2, 3, 4]} >
+        <SimpleGrid columns={[1, 2, 3]} >
           { nutritions && nutritions.map((nutr, index) => (
           <MealView
           key={index}
@@ -48,3 +48,21 @@ const Nutrition = () => {
 };
 
 export default Nutrition;
+
+
+
+{/* <Box flex="2" >
+<SimpleGrid maxW="lg" columns={[1, 2, 3]} spacing="5%">
+  {nutritions &&
+    nutritions.map((nutr, index) => (
+      <MealView
+        key={index}
+        addOn={nutr.addOn}
+        title={nutr.title}
+        weight={nutr.weight}
+        calories={nutr.calories}
+        ingredients={nutr.ingredients}
+      />
+    ))}
+</SimpleGrid>
+</Box> */}
