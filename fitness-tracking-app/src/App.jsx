@@ -16,7 +16,10 @@ import AuthenticateRoute from "./hoc/AuthenticateRoute";
 import LogIn from "./pages/LogIn/LogIn";
 import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
-import AddNutrition from "./components/AddNutrition/AddNutrition";
+import Nutrition from "./pages/Nutrition/Nutrition";
+import CustomToastWaterReminder from "./components/CustumeToast/CustumeToastWaterReminder";
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   const [user] = useAuthState(auth);
@@ -56,6 +59,17 @@ function App() {
       });
   }, [user]);
 
+  // VERY IMPORTANT RMINDER
+  // useEffect(() => {
+  //   const reminderIntervalId = setInterval(() => {
+  //     toast(<CustomToastWaterReminder />);
+  //   }, 0.5 * 60 * 1000); //30sec
+
+  //   return () => {
+  //     clearInterval(reminderIntervalId);
+  //   };
+  // }, []);
+
 
   return (
     <ChakraProvider>
@@ -91,10 +105,10 @@ function App() {
             }  
            />     
            <Route 
-            path="addnutrition" 
+            path="nutrition" 
             element={
               <AuthenticateRoute>
-                <AddNutrition />
+                <Nutrition/>
               </AuthenticateRoute>
             }  
            />  
