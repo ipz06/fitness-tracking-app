@@ -15,6 +15,7 @@ import Img from '../../assets/avatar_ex.png'
 import './navbar.css'
 import { redColor } from '../../common/constants.js';
 import { useLocation } from 'react-router-dom';
+import Badges from '../Goals/Badges/Badges.jsx';
 
 
  
@@ -24,7 +25,7 @@ const Navbar = ({menu}) => {
    
    let address = useLocation()
    const [activeLink, setActiveLink] = useState((address.pathname).slice(1))
-   const {photo} = useContext(AuthContext)
+   const {photo, handle} = useContext(AuthContext)
 
    return (
          <Flex
@@ -59,13 +60,11 @@ const Navbar = ({menu}) => {
             })}
             <div className={`underline ${activeLink.toLowerCase()}`}></div>
             </Flex>
-           
-            
             <Spacer/>
             <Box margin={'auto'}>
                <NavLink to = {'/profile'}
                         onClick = {()=>setActiveLink('profile')}>
-                  <Avatar name = {'handle'}
+                  <Avatar name = {handle}
                         src = {photo} showBorder={true}
                         borderColor={redColor}
                         marginRight={'5'}/>
