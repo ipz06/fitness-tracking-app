@@ -95,3 +95,19 @@ export const updateUserProfile = async (handle, firstName, lastName, phone, weig
 //     country: country
 //   })
 // }
+
+export const getAllCreatedUsers = async () => {
+  try {
+    const allUsers = query(ref(db, `users`));
+    const snapshot = await get(allUsers);
+
+    if (snapshot.exists()) {
+      return snapshot.val();
+    } else {
+      return null;
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+

@@ -36,7 +36,7 @@ const handleDeleteActivity = async () => {
 
 
   return (
-    <Box p={4} shadow="md" borderWidth="1px" borderRadius="md" minW="250px" maxW="250px">
+    <Box p={4} shadow="lg" borderWidth="1px" borderRadius="md" minW="250px" maxW="250px">
       <VStack align="center">
       <Flex align="center">
         <Box fontSize="2xl" mr={2} className="container">
@@ -49,6 +49,7 @@ const handleDeleteActivity = async () => {
         <VStack spacing={2}>
         <Button 
          backgroundColor="blackAlpha.300"
+         borderRadius="sm"
          variant="outline"
          borderColor="black"
          onClick={() => onAddToLog(type, duration, caloriesBurned, addedOn)}
@@ -61,6 +62,7 @@ const handleDeleteActivity = async () => {
             color="blackAlpha.900"
             variant="outline"
             borderColor="blackAlpha.900"
+            borderRadius="sm"
             onClick={handleDeleteActivity} 
           >
             <FaTrash/>

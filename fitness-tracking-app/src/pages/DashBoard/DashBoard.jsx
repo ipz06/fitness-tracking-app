@@ -1,4 +1,4 @@
-import { Box, Flex, Button, Text, VStack, Input, Badge, Stack, Image, Icon, HStack,  Modal, ModalOverlay, ModalContent, ModalBody} from "@chakra-ui/react";
+import { Box, Flex, Button, Text, VStack, Heading, Input, Badge, Stack, Image, Icon, HStack,  Modal, ModalOverlay, ModalContent, ModalBody} from "@chakra-ui/react";
 import { useState, useEffect } from "react";
 import { GiRunningShoe, GiBurningEmbers} from "react-icons/gi";
 import Activity from "../../components/Activity/Activity";
@@ -21,7 +21,10 @@ import ThreeLitreBottle from "./../../assets/3litreBottle.png"
 import FourLitreBottle from "./../../assets/4litreBottle.png"
 import FiveLitreBottle from "./../../assets/5litreBottle.png"
 import { saveWaterToDatabase } from "../../services/log.service";
-
+import CustomToastGoodAmountWater from "../../components/CustumeToast/CustumeToastGoodAmountWater";
+import CustomToastBadAmountWater from "../../components/CustumeToast/CustumeToastBadAmountWater";
+import CustomToastToMuchWater from "../../components/CustumeToast/CustumeToastToMuchWater";
+import CustumeToastActivityFinished from "../../components/CustumeToast/CustumeToastActivityFinished";
 
 const Dashboard = () => {
   const [isAddingActivity, setIsAddingActivity] = useState(false);
@@ -40,7 +43,6 @@ const Dashboard = () => {
   
       const userActivitiesRef = ref(db, `activities/${handle}`);
       const userActivityLogsRef = ref(db, `log-activity/${handle}`);
-      console.log(waterConsumption);
       const onActivitiesChange = (snapshot) => {
         if (snapshot.exists()) {
           const activities = Object.values(snapshot.val());
@@ -102,10 +104,17 @@ activityLogs.map(act => {
     }
   }
 
-  const handleAddWater = async () => {
+  const handleAddWater = async (event) => {
+    event.preventDefault();
     try {
     await saveWaterToDatabase(user.displayName, waterConsumption)
-    toast.success('Water consumption updated successfully');
+    if (waterConsumption <= 2) {
+      toast(<CustomToastBadAmountWater/>);
+    } else if (waterConsumption > 2 && waterConsumption <= 4) {
+      toast(<CustomToastGoodAmountWater/>);
+    } else {
+      toast(<CustomToastToMuchWater/>);
+    }
     } catch (error) {
       console.log(error);
     }
@@ -132,7 +141,7 @@ activityLogs.map(act => {
   
     saveLogToDatabase(user.displayName, newLogEntry)
       .then(() => {
-        toast.success('You added activity to your goals')
+        toast(<CustumeToastActivityFinished type={type} duration={duration}/>)
       })
       .catch((error) => {
         console.log("Error saving log data:", error);
@@ -140,12 +149,11 @@ activityLogs.map(act => {
   };
 
   return (
-    <Box p={4}>
+    <Box p={4} pt="2%">
       <Flex justify="center" align="center" direction="column" mb={4}>
-        <Flex align="center">
-          <GiRunningShoe size={24} />
+        <Flex shadow="lg" align="center">
           <Stack direction="row" align="center" spacing={2} ml={2}>
-            <Text fontWeight="bold" fontSize="xl">
+            <Text fontWeight="bold" fontSize="2xl" fontFamily="Montserrat">
               Total Activities Finished:
             </Text>
             <Badge colorScheme="teal" fontSize="xl"
@@ -155,8 +163,7 @@ activityLogs.map(act => {
               {activityLogs.length}
             </Badge>
             <Text fontWeight="bold" fontSize="xl">&</Text>
-            <GiBurningEmbers size={24}/>
-            <Text fontWeight="bold" fontSize="xl">
+            <Text fontWeight="bold" fontSize="2xl" fontFamily="Montserrat">
               Burned Calories:
             </Text>
             <Badge colorScheme="teal" fontSize="xl"   variant="outline"
@@ -166,39 +173,10 @@ activityLogs.map(act => {
             </Badge>
           </Stack>
         </Flex>
-        <br></br>
-        <div className="content">
-  <h2>Don't forget to drink water, check daily consumption</h2>
-  <h2>Don't forget to drink water, check daily consumption</h2>
-</div>
-<br></br><br></br>
-<div style={{display: 'flex', justifyContent: 'space-between', gap: '15px'}}>
-  <div> 
-  <button onClick={() => setWaterConsumption(1)}><Image src={OneLitreBottle} boxSize="70px" className="image"/></button>
-    <p>1 litre</p>
-  </div>
-  <div>
-  <button onClick={() => setWaterConsumption(2)}><Image src={TwoLitreBottle} boxSize="70px" className="image"/></button>  
-    <p>2 litre</p>
-  </div>
-  <div>
-  <button onClick={() => setWaterConsumption(3)}><Image src={ThreeLitreBottle} boxSize="70px" className="image"/></button>  
-    <p>3 litre</p>
-  </div>
-  <div>
-  <button onClick={() => setWaterConsumption(4)}> <Image src={FourLitreBottle} boxSize="70px" className="image"/></button>  
-    <p>4 litre</p>
-  </div>
-  <div>
-  <button onClick={() => setWaterConsumption(5)}><Image src={FiveLitreBottle} boxSize="70px" className="image"/></button>  
-    <p>5 litre</p>
-  </div>
-  <Badge paddingLeft="7px"  colorScheme="teal" fontSize="2xl"  maxH="10" minW="30px" variant="outline" borderColor="black" color="blue">{waterConsumption}</Badge>
-  <Button color="black" onClick={handleAddWater} leftIcon={<Icon as={IoIosAddCircle} boxSize={6} />} backgroundColor="blackAlpha.300" variant="outline"
-    borderColor="black">Add daily water </Button>
-  </div>
       </Flex>
-      <Flex justify="center" align="center">
+      <Box> 
+      <Heading align="center" pt="2%" fontSize="2xl" fontFamily="Montserrat">You have {activities.length} activities to choose from</Heading>
+      <Flex justify="center" align="center" >
       <HStack
       justify="flex-start"
       mt={4}
@@ -223,24 +201,27 @@ activityLogs.map(act => {
         ))}
       </HStack>
       </Flex>
-      <br></br>
-	<Flex justify="center" mt={4}>
+      </Box>
+	<Flex justify="center" mt={4} pt="2%">
         <Button
           size="lg"
           color="black"
-		maxW="1000px"
-		minW="1000px"
+          maxW="65%"
+          minW="65%"
           onClick={handleOpenModal}
 		leftIcon={<Icon as={IoIosAddCircle} boxSize={6} />}
     backgroundColor="blackAlpha.300"
     variant="outline"
     borderColor="black"
+    borderRadius="sm"
         > 
           ADD ACTIVITY
         </Button>
       </Flex>
       
-	<Stack direction="row" justify="center" mt={4} spacing={8}>
+  
+        
+	<Stack direction="row" justify="center" mt={4} spacing={8} pt="2%">
         <Box textAlign="center">
           <Text fontWeight="bold" fontSize="2xl">
             Start Weight
@@ -261,9 +242,9 @@ activityLogs.map(act => {
           <Text fontWeight="bold" fontSize="2xl">
             Weight Change
           </Text>
-          <Text fontWeight="bold" fontSize="3xl" color="teal.500">
+      { currentWeight &&  <Text fontWeight="bold" fontSize="3xl" color={currentWeight <= startWeight ? "green.500" : "red.500"}>
             {weightChange} kg
-          </Text>
+          </Text> } 
         </Box>
       </Stack>
       <Flex justify="center" mt={4}>
@@ -282,29 +263,62 @@ activityLogs.map(act => {
           }}
         />
       </Flex>
-	<Flex justify="center" mt={4}>
+   <Box>
+	<Flex pt="2%" justify="center" mt={4}>
         <Button
           size="lg"
           color="black"
-		maxW="1000px"
-		minW="1000px"
+		maxW="65%"
+		minW="65%"
           onClick={handleAddWeght}
 		leftIcon={<Icon as={IoScaleSharp} boxSize={6} />}
     backgroundColor="blackAlpha.300"
     variant="outline"
     borderColor="black"
+    borderRadius="sm"
         > 
-          ADD WEIGHT CHANGE TO GOALS AND CHARTS
+          ADD WEIGHT CHANGE
         </Button>
       </Flex>
+      </Box>
       <Modal isOpen={isAddingActivity} onClose={handleCloseModal} size="4xl">
         <ModalOverlay />
-        <ModalContent  bottom="70px">
+        <ModalContent  bottom="7%">
           <ModalBody>
             <AddActivity onClose={handleCloseModal} setIsModalOpen={setIsModalOpen} />
           </ModalBody>
         </ModalContent>
       </Modal>
+         
+      <Flex className="Bottles" pt="3%" justify="center" align="center" direction="column" mb={4}>
+        <Heading color="blackAlpha.900" fontFamily="Montserrat" fontSize="3xl"> Share your daily water consumption</Heading>
+      <Box paddingTop="1%" shadow="md" style={{display: 'flex', justifyContent: 'space-between', gap: '2%'}}> 
+  <Box> 
+  <button onClick={() => setWaterConsumption(1)}><Image src={OneLitreBottle} boxSize="70px" className="image"/></button>
+    <Text>1 litre</Text>
+  </Box>
+  <Box>
+  <button onClick={() => setWaterConsumption(2)}><Image src={TwoLitreBottle} boxSize="70px" className="image"/></button>  
+    <Text>2 litre</Text>
+  </Box>
+  <Box>
+  <button onClick={() => setWaterConsumption(3)}><Image src={ThreeLitreBottle} boxSize="70px" className="image"/></button>  
+    <Text>3 litre</Text>
+  </Box>
+  <Box>
+  <button onClick={() => setWaterConsumption(4)}> <Image src={FourLitreBottle} boxSize="70px" className="image"/></button>  
+    <Text>4 litre</Text>
+  </Box>
+  <Box>
+  <button onClick={() => setWaterConsumption(5)}><Image src={FiveLitreBottle} boxSize="70px" className="image"/></button>  
+    <Text>5 litre</Text>
+  </Box>
+  <Badge paddingLeft="7px"  colorScheme="teal" fontSize="2xl"  maxH="10" minW="30px" variant="outline" borderColor="black" color="blue">{waterConsumption}</Badge>
+  <Button color="black" onClick={handleAddWater} borderRadius="sm" leftIcon={<Icon as={IoIosAddCircle} boxSize={6} />} backgroundColor="blackAlpha.300" variant="outline"
+    borderColor="black">Add</Button>
+  </Box>
+ 
+  </Flex>
     </Box>
 	
   );
