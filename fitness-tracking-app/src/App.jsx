@@ -20,6 +20,7 @@ import Nutrition from "./pages/Nutrition/Nutrition";
 import CustomToastWaterReminder from "./components/CustumeToast/CustumeToastWaterReminder";
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import UserSearch from "./components/UserSearch/UserSearch";
 
 function App() {
   const [user] = useAuthState(auth);
@@ -109,6 +110,15 @@ function App() {
             element={
               <AuthenticateRoute>
                 <Nutrition/>
+              </AuthenticateRoute>
+            }  
+           />  
+
+            <Route 
+            path="friends" 
+            element={
+              <AuthenticateRoute>
+                <UserSearch/>
               </AuthenticateRoute>
             }  
            />  
