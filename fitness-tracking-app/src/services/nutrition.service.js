@@ -3,6 +3,7 @@ import {
   child,
   update,
   get,
+  remove,
   query,
   orderByChild,
   equalTo,
@@ -19,7 +20,7 @@ export const saveNutritionToDatabase = async (
   calories,
   totalWeight
 ) => {
-  const NutritionData = {
+  const nutritionData = {
     title: recipeTitle,
     addOn: new Date().toLocaleString(),
     ingredients: ingredients,
@@ -27,9 +28,9 @@ export const saveNutritionToDatabase = async (
     weight: totalWeight,
   };
 
-  const newActivityKey = push(child(ref(db), "activity")).key;
+  const newNutritionKey = push(child(ref(db), "activity")).key;
   const updates = {};
-  updates[`/nutritions/${user}/${newActivityKey}`] = NutritionData;
+  updates[`/nutritions/${user}/${newNutritionKey}`] = {...nutritionData, nutritionKey: newNutritionKey};
   return update(ref(db), updates);
 };
 
@@ -72,5 +73,16 @@ export const onUserNutritionsChange = (user, setNutritions) => {
     );
 
     return unsubscribeNutritions;
+  }
+};
+
+
+export const deleteNutrituionFromDatabase = async (user, activityId) => {
+  try {
+    const activityRef = ref(db, `nutritions/${user}/${activityId}`);
+    await remove(activityRef);
+  } catch (error) {
+    console.log("Error deleting activity:", error);
+    throw error;
   }
 };

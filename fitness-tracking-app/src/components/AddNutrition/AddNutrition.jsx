@@ -1,17 +1,21 @@
 import { useState, useEffect } from "react";
-import { Box, Input, Button, VStack, Text, Heading, Divider, Badge, SimpleGrid, Container, HStack, Center } from "@chakra-ui/react";
+import { Box, Input, Button, VStack, Text, Heading, Divider, Badge, SimpleGrid, Container, HStack, Center, Icon } from "@chakra-ui/react";
 import { analyzeNutrition } from "../../services/api.service";
 import { saveNutritionToDatabase } from "../../services/nutrition.service";
 import { useContext } from "react";
 import { AuthContext } from "../../common/context";
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { IoIosAddCircle } from "react-icons/io";
+import { RiSave3Fill } from 'react-icons/ri';
 
 const AddNutrition = () => {
   const [recipeTitle, setRecipeTitle] = useState("");
   const [ingredients, setIngredients] = useState([""]);
   const [nutritionData, setNutritionData] = useState(null);
   const { user } = useContext(AuthContext);
+  const [apiError, setApiError] = useState(null);
+
 
   const handleIngredientChange = (index, event) => {
     const newIngredients = [...ingredients];
@@ -24,8 +28,13 @@ const AddNutrition = () => {
   };
 
   const analyzeRecipe = async () => {
+    try {
+    setApiError(null);
     const data = await analyzeNutrition(recipeTitle, ingredients);
     setNutritionData(data);
+    } catch (error) {
+      setApiError(error);
+    }
   };
 
   const handleSaveNutrition = async () => {
@@ -45,6 +54,7 @@ const AddNutrition = () => {
     <Container maxW="container.xl" >
     <VStack spacing={2}>
       <Input
+      maxW="80%"
         value={recipeTitle}
         onChange={(e) => setRecipeTitle(e.target.value)}
         placeholder="Recipe Title"
@@ -59,6 +69,7 @@ const AddNutrition = () => {
 
       {ingredients.map((ingredient, index) => (
         <Input
+        maxW="80%"
           key={index}
           value={ingredient}
           onChange={(e) => handleIngredientChange(index, e)}
@@ -67,18 +78,23 @@ const AddNutrition = () => {
           _hover={{ borderColor: "black", borderWidth: 2 }}
           _focus={{
             borderColor: "black",
-            boxShadow: "0 0 0 3px rgba(0,0,0,0.1)",
+            // boxShadow: "0 0 0 3px rgba(0,0,0,0.1)",
           }}
         borderRadius="sm"
         />
       ))}
-      <HStack>
-      <Button onClick={addIngredientField} backgroundColor="blackAlpha.300" borderRadius="sm"  variant="outline" borderColor="black">Add another ingredient</Button>
-
-      <Button onClick={analyzeRecipe} backgroundColor="blackAlpha.300" borderRadius="sm"  variant="outline" borderColor="black">Analyze recipe</Button>
-
-      <Button onClick={handleSaveNutrition} backgroundColor="blackAlpha.300" borderRadius="sm"  variant="outline" borderColor="black">Save your nutrition</Button>
+      <HStack maxW="80%">
+      <Button onClick={addIngredientField} color="black" backgroundColor="blackAlpha.300" borderRadius="sm"  variant="outline" borderColor="black" leftIcon={<Icon as={IoIosAddCircle} boxSize={6} />}>Ingredient</Button>
+      <Button onClick={analyzeRecipe} color="black" backgroundColor="blackAlpha.300" borderRadius="sm"  variant="outline" borderColor="black">Analyze meal</Button>
+      <Button onClick={handleSaveNutrition} color="black" backgroundColor="blackAlpha.300" borderRadius="sm"  variant="outline" borderColor="black" leftIcon={<Icon as={RiSave3Fill} boxSize={6} />}>Meal</Button>
       </HStack>
+      {apiError && (
+    <Box mt={4}>
+        <Text fontSize="lg" color="red">
+            Please Enter Valid Data!
+        </Text>
+    </Box>
+)}
       {nutritionData && (
        <Box p={4} mt={4} shadow="md" borderWidth="1px" borderRadius="md">
        <Heading as="h2" size="lg" mb={4}>
@@ -139,6 +155,7 @@ const AddNutrition = () => {
               ))}
             </SimpleGrid>
           </Box>
+          <Button onClick={() => setNutritionData(null)} color="black" backgroundColor="red.500" borderRadius="sm"  minW="20%" variant="outline" borderColor="black">Close</Button>
        </Box>
       )}
     </VStack>
