@@ -13,6 +13,8 @@ import { deleteUserGoal } from '../../../services/goal.service';
 import { getUserLog } from '../../../services/goal.service';
 import { calculateMinutes } from '../../../services/goal.service';
 import { calculateTargetDate } from '../../../services/goal.service';
+import { toast } from 'react-toastify';
+import { addBadge } from '../../../services/goal.service';
 
 const RenderStayActive = ({title, minutes, startDate, interval,value, handle, goalID}) => {
    const [logData, setLogData] = useState('a')
@@ -30,6 +32,12 @@ const RenderStayActive = ({title, minutes, startDate, interval,value, handle, go
          .finally(()=>setLoading(false))
    },[])
 
+   useEffect(()=>{
+      if(calculateMinutes(logData,startDate,interval,minutes) <= 0) {
+         addBadge(handle, goalID,'StayActive')
+      }
+      
+   },[logData])
 
    const [week, setWeek] = useState(interval)
    if (week == 604800000){

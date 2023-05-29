@@ -11,19 +11,23 @@ import {
 import {CgAdd, CgRemove}  from "react-icons/all";
 import DividerHeader from '../../components/Goals/Divider';
 import Goal from '../../components/Goals/Goal';
-import { useState } from 'react';
+import { useState,  useContext } from 'react';
 import AddGoal from '../../components/Goals/AddGoal/AddGoal';
 import AllGoals from '../../components/Goals/ReadGoals/AllGoals';
+import Badges from '../../components/Goals/Badges/Badges';
+import { AuthContext } from '../../common/context';
 
 
 const Goals = ()=>{
    const date = new Date().toLocaleDateString("en-GB")
    const [open, setOpen] = useState(false)
+   const {handle} = useContext(AuthContext)
    return (
       <Box 
             
             textAlign={'center'}
             margin={'auto'}>
+         <Badges handle={handle} />
          <h2>GOALS</h2>
          {!open ? (
             <IconButton icon={<CgAdd/>} size={'md'} marginTop={'5'} marginBottom={'5'} onClick={()=>setOpen(!open)}/>

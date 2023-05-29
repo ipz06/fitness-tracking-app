@@ -1,22 +1,15 @@
 import {
-   Box, 
-   Spacer,
    Card,
-   VStack,
-   Button,
-   Text,
    FormControl,
    Select,
-   SimpleGrid,
-   CardHeader, 
    CardBody,
-   Heading
 } from '@chakra-ui/react';
 import DividerHeader from '../Divider';
 import { useState } from 'react';
 import StayToned from './StayToned';
 import StayActive from './StayActive';
 import LooseWeight from './LooseWeight';
+import TrackCalories from './TrackCalories';
 
 
 const AddGoal = ({open, setOpen}) => {
@@ -36,9 +29,12 @@ const AddGoal = ({open, setOpen}) => {
          return (
             <LooseWeight open={open} setOpen={setOpen} />
          )
-       }
+       } else if (goal=== 'daily-calories') {
+         return (
+            <TrackCalories open={open} setOpen={setOpen} />
+         )
       }
-
+   }
       return (
          <>
          <DividerHeader heading = {'add goals'} />
@@ -50,39 +46,16 @@ const AddGoal = ({open, setOpen}) => {
                            size={'sm'}
                            placeholder='Select Goal'
                            onChange={(e)=>setGoal(e.target.value)}>
-                        <option value = 'stay-toned'> Stay Toned </option>
-                        <option value = 'stay-active'> Stay Active </option>
-                        <option value = 'loose-weight'> Change Weight</option>
+                              <option value = 'stay-toned'> Stay Toned </option>
+                              <option value = 'stay-active'> Stay Active </option>
+                              <option value = 'loose-weight'> Change Weight</option>
+                              <option value = 'daily-calories'> Daily Calories</option>
                         </Select>
                   </FormControl>
                   {renderInput(goal,open,setOpen)}
                </CardBody>
             </Card>
          </>
-         // <Box>
-         //    <DividerHeader heading = {'add goals'} />
-         //    <Card h={'200px'} 
-         //       direction={'column'}
-         //          w={'500px'}
-         //          margin={'auto'}
-         //          minW="300px" >
-               
-               
-                  // <FormControl marginTop={'5'} width={'8rem'} marginX={'auto'}>
-                  //       <Select
-                  //          size={'sm'}
-                  //          placeholder='Select Goal'
-                  //          onChange={(e)=>setGoal(e.target.value)}>
-                  //       <option value = 'stay-toned'> Stay Toned </option>
-                  //       <option value = 'stay-active'> Stay Active </option>
-                  //       <option value = 'loose-weight'> Loose Weight</option>
-                  //       </Select>
-                  // </FormControl>
-               
-         //          {renderInput(goal)}
-         //       <Spacer/>
-         //    </Card>
-         // </Box>
 )
 }
 

@@ -1,5 +1,4 @@
-import {
-   Box, 
+import { 
    Spacer,
    Card,
    Stack,
@@ -7,22 +6,20 @@ import {
    Text,
 } from '@chakra-ui/react';
 import PieChartWithNeedle from '../PieChartWithNeedle';
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import {AiOutlineDelete}  from "react-icons/all";
 import { deleteUserGoal } from '../../../services/goal.service';
-import { calculateWorkouts, calculateTargetDate } from '../../../services/goal.service';
-import { getUserLog } from '../../../services/goal.service';
-import { toast } from 'react-toastify';
-import { addBadge } from '../../../services/goal.service';
+import { getUserNutritionLog } from '../../../services/goal.service';
+import { calculateCalories } from '../../../services/goal.service';
 
 
-const RenderStayToned = ({title,workouts,interval,value, handle, goalID, startDate}) => {
+const RenderTrackCalories = ({title, calories, startDate, interval,value, handle, goalID}) => {
    const [logData, setLogData] = useState('a')
    const [loading,setLoading] = useState(false)
 
    useEffect(()=>{
       setLoading(true)
-      getUserLog(handle)
+      getUserNutritionLog(handle)
          .then((snapshot)=>{
                if(snapshot.exists()) {
                   setLogData(snapshot.val())
@@ -32,28 +29,10 @@ const RenderStayToned = ({title,workouts,interval,value, handle, goalID, startDa
          .finally(()=>setLoading(false))
    },[])
 
-   useEffect(()=>{
-      if(calculateWorkouts(logData,startDate,interval,workouts) <= 0) {
-         addBadge(handle, goalID,'StayToned')
-      }
-      
-   },[logData])
-
-
-   const [week, setWeek] = useState(interval)
-   if (week == 604800000){
-      setWeek('a week')
-   } else if (week== 1209600000) {
-      setWeek('every two weeks')
-   } else if (week=== 2419200000) {
-      setWeek('a month')
-   }
-
    const handleClick = () =>{
       deleteUserGoal(handle, goalID)
-      console.log(goalID)
    }
-
+   
    if(loading){
       return (
          <div>
@@ -61,7 +40,7 @@ const RenderStayToned = ({title,workouts,interval,value, handle, goalID, startDa
          </div>
       )
    }
-  
+
    return (
       <Card h={{base:'300',md:'140',lg:'140'}} 
             direction={{ base: 'column', sm: 'row' }}
@@ -69,49 +48,46 @@ const RenderStayToned = ({title,workouts,interval,value, handle, goalID, startDa
             marginTop={'2px'}
             marginBottom={'5px'}
             marginX={'auto'}
-          >
+         >
          <Stack
                marginLeft={'30px'}
                textAlign={'left'}
                marginY={'auto'}>
             <Text fontSize={'lg'}
                   fontWeight={'bold'}>
-               Stay Toned
+               Track Calories
             </Text>
             <Text
                fontSize={'sm'}
                fontWeight={'light'}>
-               Any activity
+               Track your daily calories intake
             </Text>
             <Text
                fontSize={'sm'}
                fontWeight={'light'}>
-               {workouts} workouts {week}
+               {calories} calories a day
             </Text>
          </Stack>
          <Spacer/>
          <Stack marginLeft={'15px'} marginY='auto'>
             <Text>
-               {calculateWorkouts(logData,startDate,interval,workouts)} 
+               {calculateCalories(logData,startDate,interval,calories)} 
             </Text>
             <Text
                fontSize={'sm'}
                fontWeight={'light'}>
-                workout left till 
-            </Text>
-            <Text>
-               {calculateTargetDate(startDate,interval)}
+               calories  left for today
             </Text>
          </Stack>
          <Spacer/>
          <Stack
-            marginY={'auto'}
-            marginRight={'50px'}>
-            <PieChartWithNeedle marginX={'auto'} value={((workouts-calculateWorkouts(logData,startDate,interval,workouts))/workouts)*100}/>
+               marginY={'auto'}
+               marginRight={'50px'}>
+            <PieChartWithNeedle value={((calories-calculateCalories(logData,startDate,interval,calories))/calories)*100}/>
          </Stack>
          <IconButton icon={<AiOutlineDelete/>} size={'sm'} marginTop={'2'} marginEnd={'2'} onClick={handleClick}/>
       </Card>
    )
 }
 
-export default RenderStayToned;
+export default RenderTrackCalories;

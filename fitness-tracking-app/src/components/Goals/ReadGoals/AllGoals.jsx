@@ -7,6 +7,7 @@ import "firebase/database";
 import RenderStayToned from "./RenderStayToned";
 import RenderStayActive from "./RenderStayActive";
 import RenderLooseWeight from "./RenderLooseWeight";
+import RenderTrackCalories from "./RenderTrackCalories";
 
 
 
@@ -66,6 +67,12 @@ const AllGoals = () => {
                return(
                   <div key={id}>
                      <RenderLooseWeight title={goals[id]['type']} targetWeight={goals[id]['target']} targetDate={goals[id]['targetDate']} value={40} handle={user.displayName} goalID={id} startWeight={goals[id]['startWeight']}/>
+                  </div>
+               )
+            } else if(goals[id]['type']==='track-calories') {
+               return (
+                  <div key={id}>
+                     <RenderTrackCalories title={goals[id]['type']} calories={goals[id]['target']} interval={goals[id]['interval']} value={40} handle={user.displayName} goalID={id} startDate={goals[id]['startDate']}  />
                   </div>
                )
             }

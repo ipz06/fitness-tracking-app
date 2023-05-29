@@ -9,12 +9,10 @@ const WeightBarChart = ({value})=>{
    }]
 
    return (
-      <BarChart width={80} height={85} data={data}>
-         {/* <CartesianGrid strokeDasharray="3 3" /> */}
-         {/* <XAxis dataKey="name" fontSize={'5'} /> */}
-         <YAxis fontSize={'5'} type="number" domain={[-10,+10]} tickSize={'2'}  />
+      <BarChart width={85} height={90} data={data}>
+         <YAxis fontSize={'8'} type="number" domain={[-5,+5]} tickSize={'5'} tickCount={3} />
          <Bar dataKey='weightToChange' fill={redColor} />
-         <ReferenceLine y={0} stroke="#000" />
+         <ReferenceLine y={0} stroke="#82ca9d" strokeWidth={'3'} />
       </BarChart>  
    )
 
