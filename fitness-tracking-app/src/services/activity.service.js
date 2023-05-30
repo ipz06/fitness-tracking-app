@@ -49,3 +49,11 @@ export const deleteActivityFromDatabase = async (user, activityId) => {
     throw error;
   }
 };
+
+
+
+export const updateActivityInDatabase = async (user, activityKey, updatedData) => {
+  const postRef = ref(db, `activities/${user}/${activityKey}`);
+  console.log(user, activityKey, updatedData);
+  await update(postRef, {...updatedData, createdOn: new Date().toLocaleDateString(),});
+}

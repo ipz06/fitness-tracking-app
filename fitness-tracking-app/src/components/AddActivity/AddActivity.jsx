@@ -19,8 +19,8 @@ const AddActivity = ({ onClose, setIsModalOpen }) => {
   const [activity, setActivity] = useState("");
   const [duration, setDuration] = useState("");
   const [calories, setCalories] = useState(0);
-const weight = 75;
-const { user } = useContext(AuthContext);
+
+const { user, weight } = useContext(AuthContext);
 
   const handleActivityChange = (event) => {
     setActivity(event.target.value);
