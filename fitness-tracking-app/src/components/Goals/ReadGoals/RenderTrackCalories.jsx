@@ -4,18 +4,26 @@ import {
    Stack,
    IconButton,
    Text,
+   HStack,
+   Input
 } from '@chakra-ui/react';
 import PieChartWithNeedle from '../PieChartWithNeedle';
 import { useEffect, useState } from 'react';
-import {AiOutlineDelete}  from "react-icons/all";
+import {AiOutlineDelete, AiOutlineEdit, AiOutlineCheckCircle, AiOutlineShareAlt}  from "react-icons/all";
 import { deleteUserGoal } from '../../../services/goal.service';
 import { getUserNutritionLog } from '../../../services/goal.service';
 import { calculateCalories } from '../../../services/goal.service';
+import { toast } from 'react-toastify';
+import { updateUserGoalTarget } from '../../../services/goal.service';
+
 
 
 const RenderTrackCalories = ({title, calories, startDate, interval,value, handle, goalID}) => {
    const [logData, setLogData] = useState('a')
    const [loading,setLoading] = useState(false)
+
+   const [edit, setEdit] = useState(false)
+   const [target, setTarget] = useState('')
 
    useEffect(()=>{
       setLoading(true)
@@ -32,6 +40,28 @@ const RenderTrackCalories = ({title, calories, startDate, interval,value, handle
    const handleClick = () =>{
       deleteUserGoal(handle, goalID)
    }
+   const handleSetTarget = () => {
+      setEdit(!edit)
+      if(target<=0){
+         toast('Please enter valid weight',{
+            autoClose:500
+           })
+         return
+      }
+      updateUserGoalTarget(handle,goalID,target)
+      toast(`Target updated to ${target} minutes`,{
+         autoClose:500
+        })
+
+   }
+   const handleEdit = () =>{
+      setEdit(!edit)
+   }
+   const handleShare = ()=>{
+      toast(`Target shared with friends`,{
+         autoClose:500
+        })
+   }
    
    if(loading){
       return (
@@ -42,50 +72,69 @@ const RenderTrackCalories = ({title, calories, startDate, interval,value, handle
    }
 
    return (
-      <Card h={{base:'300',md:'140',lg:'140'}} 
+      <Card h={{base:'fit-content',md:'140',lg:'140'}} 
             direction={{ base: 'column', sm: 'row' }}
             w={{base:'sm',md:'3xl',lg:'4xl'}}
             marginTop={'2px'}
             marginBottom={'5px'}
             marginX={'auto'}
          >
-         <Stack
-               marginLeft={'30px'}
-               textAlign={'left'}
-               marginY={'auto'}>
+         <Stack margin='auto' w={200} align={'center'} marginEnd={{base:'auto',sm:'10'}}>
             <Text fontSize={'lg'}
-                  fontWeight={'bold'}>
+                  fontWeight={'bold'}
+                  fontFamily={'sans-serif'}
+                  fontStyle={'normal'}>
                Track Calories
             </Text>
             <Text
                fontSize={'sm'}
-               fontWeight={'light'}>
-               Track your daily calories intake
+               fontWeight={'light'}
+               fontFamily={'sans-serif'}
+               fontStyle={'normal'}>
+               Daily calories intake
             </Text>
             <Text
                fontSize={'sm'}
-               fontWeight={'light'}>
-               {calories} calories a day
+               fontWeight={'light'}
+               fontFamily={'sans-serif'}
+               fontStyle={'normal'}>
+               {edit?(
+                  <HStack>
+                     <Input size={'sm'} type={'number'} w={14} onChange={(e)=>setTarget(e.target.value)}/>
+                     <IconButton icon={<AiOutlineCheckCircle/>} size={'sm'} w={8} marginTop={'2'} marginEnd={'2'} onClick={handleSetTarget}/>
+                      <> calories a day</>
+                  </HStack>
+               ):(<>
+                  {calories} calories a day
+                  </>
+               )}
             </Text>
          </Stack>
          <Spacer/>
-         <Stack marginLeft={'15px'} marginY='auto'>
-            <Text>
+         <Stack  margin='auto' w={200} align={'center'} marginEnd={{base:'auto',sm:'14'}}>
+            <Text fontFamily={'sans-serif'}
+                  fontStyle={'normal'}>
                {calculateCalories(logData,startDate,interval,calories)} 
             </Text>
             <Text
                fontSize={'sm'}
-               fontWeight={'light'}>
+               fontWeight={'light'}
+               fontFamily={'sans-serif'}
+               fontStyle={'normal'}>
                calories  left for today
             </Text>
          </Stack>
          <Spacer/>
          <Stack
-               marginY={'auto'}
-               marginRight={'50px'}>
+               margin={'auto'}
+               marginRight={{base:'auto',sm:'50px'}}>
             <PieChartWithNeedle value={((calories-calculateCalories(logData,startDate,interval,calories))/calories)*100}/>
          </Stack>
-         <IconButton icon={<AiOutlineDelete/>} size={'sm'} marginTop={'2'} marginEnd={'2'} onClick={handleClick}/>
+         <Stack direction={{ base: 'row', sm: 'column' }} margin={2} marginX={{base:'auto',sm:2}} >
+            <IconButton icon={<AiOutlineDelete/>} size={'sm'} w={8}  onClick={handleClick}/>
+            <IconButton icon={<AiOutlineEdit/>} size={'sm'} w={8}  onClick={handleEdit}/>
+            <IconButton icon={<AiOutlineShareAlt/>} size={'sm'} w={8}  onClick={handleShare}/>
+         </Stack>
       </Card>
    )
 }

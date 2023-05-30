@@ -1,7 +1,7 @@
 import {
          ref,
          child,
-         update, get, query, orderByChild, equalTo, push, onValue, remove, limitToLast, runTransaction
+         update, get, query, orderByChild, equalTo, push, onValue, remove, limitToLast, runTransaction, set
          } from "firebase/database";
 import { db } from "../config/firebase-config";
 import "firebase/database";
@@ -199,4 +199,13 @@ export const calculateCalories = (data, startDate, interval, target)=>{
     result = target-calories
   }
   return result
+}
+
+export const  updateUserGoalTarget = (handle, goalID, target) => {
+
+  const targetPath = ref(db,`goals/${handle}/${goalID}/target`)
+  set(targetPath,target)
+    .then(()=>console.log('Target updated'))
+    .catch((e)=>console.log(e))
+
 }

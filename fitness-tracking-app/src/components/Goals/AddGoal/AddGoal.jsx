@@ -39,7 +39,7 @@ const AddGoal = ({open, setOpen}) => {
          <>
          <DividerHeader heading = {'add goals'} />
          
-            <Card size={'xsm'} w={'30rem'} marginX={'auto'}>
+            <Card size={'xsm'} w={{base:'sm',md:'md'}} marginX={'auto'}>
                <CardBody p={'1rem'}>
                   <FormControl  width={'8rem'} marginX={'auto'} marginBottom={'1rem'}>
                         <Select

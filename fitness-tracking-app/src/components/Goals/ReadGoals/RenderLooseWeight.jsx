@@ -5,14 +5,17 @@ import {
    Stack,
    IconButton,
    Text,
+   Input,
+   HStack
 } from '@chakra-ui/react';
-import PieChartWithNeedle from '../PieChartWithNeedle';
-import WeightBarChart from '../WeightBarChart';
 import { useState, useEffect, useContext } from 'react';
-import {AiOutlineDelete}  from "react-icons/all";
+import {AiOutlineDelete, AiOutlineEdit, AiOutlineCheckCircle, AiOutlineShareAlt }  from "react-icons/all";
 import { deleteUserGoal } from '../../../services/goal.service';
 import { AuthContext } from '../../../common/context';
 import { getLastWeight } from '../../../services/goal.service';
+import { toast } from 'react-toastify';
+import { updateUserGoalTarget } from '../../../services/goal.service';
+import WeightPieChart from '../WeightPieChart';
 
 const RenderLooseWeight = ({title,targetWeight,targetDate,value, handle, goalID, startWeight}) => {
    
@@ -23,6 +26,9 @@ const RenderLooseWeight = ({title,targetWeight,targetDate,value, handle, goalID,
       let dateISO = new Date(targetDate)
       setDate(dateISO.toLocaleDateString())
    },[])
+
+   const [edit, setEdit] = useState(false)
+   const [target, setTarget] = useState('')
 
    useEffect(()=>{
       getLastWeight(handle)
@@ -44,57 +50,98 @@ const RenderLooseWeight = ({title,targetWeight,targetDate,value, handle, goalID,
       console.log(goalID)
    }
 
+   const handleSetTarget = () => {
+      setEdit(!edit)
+      if(target<=0){
+         toast('Please enter valid weight',{
+            autoClose:500
+           })
+         return
+      }
+      updateUserGoalTarget(handle,goalID,target)
+      toast(`Target weight updated to ${target}`,{
+         autoClose:500
+        })
+
+   }
+   const handleEdit = () =>{
+      setEdit(!edit)
+   }
+
+   const handleShare = ()=>{
+      toast(`Target shared with friends`,{
+         autoClose:500
+        })
+   }
+
    return (
-      <Card h={{base:'300',md:'140',lg:'140'}} 
+      <Card h={{base:'fit-content',md:'140',lg:'140'}} 
             direction={{ base: 'column', sm: 'row' }}
             w={{base:'sm',md:'3xl',lg:'4xl'}}
             marginTop={'2px'}
             marginBottom={'5px'}
             marginX={'auto'}
          >
-         <Stack
-               marginLeft={'30px'}
-               textAlign={'left'}
-               marginY={'auto'}>
+         <Stack margin='auto' w={200} align={'center'} marginEnd={{base:'auto',sm:'10'}}>
             <Text fontSize={'lg'}
-                  fontWeight={'bold'}>
+                  fontWeight={'bold'}
+                  fontFamily={'sans-serif'}
+                  fontStyle={'normal'}>
                Change Weight
             </Text>
             <Text
                fontSize={'sm'}
-               fontWeight={'light'}>
+               fontWeight={'light'}
+               fontFamily={'sans-serif'}
+               fontStyle={'normal'}>
                Start weight {startWeight} kg 
             </Text>
             <Text
                fontSize={'sm'}
-               fontWeight={'light'}>
-               Be {targetWeight} kg by {date}
+               fontWeight={'light'}
+               fontFamily={'sans-serif'}
+               fontStyle={'normal'}>
+               
+               Be {edit?(<HStack>
+                           <Input size={'sm'} type={'number'} w={12} onChange={(e)=>setTarget(e.target.value)}/>
+                           <IconButton icon={<AiOutlineCheckCircle/>} size={'sm'} w={8} marginTop={'2'} marginEnd={'2'} onClick={handleSetTarget}/>
+                         </HStack>):(targetWeight)} kg by {date}
+                         
             </Text>
          </Stack>
          <Spacer/>
-         <Stack marginLeft={'15px'} marginY='auto'>
-            <Text>
-             {currentWeight} kg
+         <Stack margin='auto' w={200} align={'center'} marginEnd={{base:'auto',sm:'14'}}>
+            <Text 
+               fontFamily={'sans-serif'}
+               fontStyle={'normal'}>
+               {currentWeight} kg
             </Text>
             <Text 
-            fontSize={'sm'}
-            fontWeight={'light'}>
-              Current weight 
+               fontSize={'sm'}
+               fontWeight={'light'}
+               fontFamily={'sans-serif'}
+               fontStyle={'normal'}>
+               Current weight 
             </Text>
             <Text
                fontSize={'sm'}
-               fontWeight={'light'}>
+               fontWeight={'light'}
+               fontFamily={'sans-serif'}
+               fontStyle={'normal'}>
                {Math.abs(currentWeight - targetWeight)} kg to {currentWeight-targetWeight>0?'loose':'gain'}
             </Text>
          </Stack>
          <Spacer/>
          <Box
          margin={'auto'}
-         marginRight={'50px'}>
-            {/* <PieChartWithNeedle value={50}/> */}
-            <WeightBarChart value={currentWeight - targetWeight}/>
+         marginRight={{base:'auto',sm:'50px'}}>
+            <WeightPieChart value={50+(currentWeight - targetWeight)/15*100}/>
          </Box>
-         <IconButton icon={<AiOutlineDelete/>} size={'sm'} marginTop={'2'} marginEnd={'2'} onClick={handleClick}/>
+         <Stack direction={{ base: 'row', sm: 'column' }} margin={2} marginX={{base:'auto',sm:2}} >
+            <IconButton icon={<AiOutlineDelete/>} size={'sm'} w={8}  onClick={handleClick}/>
+            <IconButton icon={<AiOutlineEdit/>} size={'sm'} w={8}  onClick={handleEdit}/>
+            <IconButton icon={<AiOutlineShareAlt/>} size={'sm'} w={8}  onClick={handleShare}/>
+         </Stack>
       </Card>
    )
 }
