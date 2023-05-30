@@ -14,9 +14,10 @@ import {
    Heading
 } from '@chakra-ui/react';
 
-const Goal = ({title,description,startDate}) => {
+
+const Goal = ({title,description,startDate,handleClick}) => {
 return (
-   <Card h={{base:'300',md:'140',lg:'140'}} 
+   <Card h={{base:'fit-content',md:'140',lg:'140'}} 
          direction={{ base: 'column', sm: 'row' }}
          w={{base:'sm',md:'3xl',lg:'4xl'}}
          marginTop={'2px'}
@@ -25,7 +26,8 @@ return (
       >
       <Stack
             marginLeft={'30px'}
-            textAlign={{base:'center',md:'left'}}>
+            textAlign={{base:'center',md:'left'}}
+            marginY={'auto'}>
          <Text fontSize={'lg'}
                fontWeight={'bold'}>
             {title}
@@ -43,9 +45,10 @@ return (
       </Stack>
       <Spacer/>
       <Box
-         margin={'auto'}
-         marginRight={'50px'}>
-         <Button>
+         marginY={'auto'}
+         marginEnd={{base:'unset',sm:'5'}}
+         >
+         <Button size={'sm'} p={'3'} onClick={handleClick}>
             Set Goal
          </Button>
       </Box>
