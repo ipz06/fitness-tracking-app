@@ -11,11 +11,11 @@ import { NavLink } from 'react-router-dom';
 import { useState, useContext } from 'react';
 import { AuthContext } from '../../common/context.js'
 import Logo from '../../assets/Logo.png'
-import Img from '../../assets/avatar_ex.png'
 import './navbar.css'
 import { redColor } from '../../common/constants.js';
 import { useLocation } from 'react-router-dom';
-import Badges from '../Goals/Badges/Badges.jsx';
+import MobileMenu from './MobileMenu.jsx';
+import { MOBILE_MENU_ITEMS } from "../../common/constants";
 
 
  
@@ -61,7 +61,7 @@ const Navbar = ({menu}) => {
             <div className={`underline ${activeLink.toLowerCase()}`}></div>
             </Flex>
             <Spacer/>
-            <Box margin={'auto'}>
+            <Box margin={'auto'} display={{ base: "none", md: "flex" }} >
                <NavLink to = {'/profile'}
                         onClick = {()=>setActiveLink('profile')}>
                   <Avatar name = {handle}
@@ -70,6 +70,7 @@ const Navbar = ({menu}) => {
                         marginRight={'5'}/>
                </NavLink>
             </Box>
+            <MobileMenu menu={MOBILE_MENU_ITEMS} handle={handle} photo={photo}/>
          </Flex>
    )
 }
