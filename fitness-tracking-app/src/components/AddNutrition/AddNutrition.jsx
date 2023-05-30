@@ -6,8 +6,6 @@ import { useContext } from "react";
 import { AuthContext } from "../../common/context";
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { IoIosAddCircle } from "react-icons/io";
-import { RiSave3Fill } from 'react-icons/ri';
 
 const AddNutrition = () => {
   const [recipeTitle, setRecipeTitle] = useState("");
@@ -46,9 +44,6 @@ const AddNutrition = () => {
     }
   }
 
-
-
-
   return (
     <Center>
     <Container maxW="container.xl" >
@@ -84,9 +79,9 @@ const AddNutrition = () => {
         />
       ))}
       <HStack maxW="80%">
-      <Button onClick={addIngredientField} color="black" backgroundColor="blackAlpha.300" borderRadius="sm"  variant="outline" borderColor="black" leftIcon={<Icon as={IoIosAddCircle} boxSize={6} />}>Ingredient</Button>
-      <Button onClick={analyzeRecipe} color="black" backgroundColor="blackAlpha.300" borderRadius="sm"  variant="outline" borderColor="black">Analyze meal</Button>
-      <Button onClick={handleSaveNutrition} color="black" backgroundColor="blackAlpha.300" borderRadius="sm"  variant="outline" borderColor="black" leftIcon={<Icon as={RiSave3Fill} boxSize={6} />}>Meal</Button>
+      <Button onClick={addIngredientField} color="black" backgroundColor="blackAlpha.300" borderRadius="sm"  variant="outline" borderColor="black"  px={7}>Add Ingredient</Button>
+      <Button onClick={analyzeRecipe} color="black" backgroundColor="blackAlpha.300" borderRadius="sm"  variant="outline" borderColor="black">Analyze</Button>
+      <Button onClick={handleSaveNutrition} color="black" backgroundColor="blackAlpha.300" borderRadius="sm"  variant="outline" borderColor="black">Save</Button>
       </HStack>
       {apiError && (
     <Box mt={4}>

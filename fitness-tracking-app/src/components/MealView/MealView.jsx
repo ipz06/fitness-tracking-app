@@ -41,12 +41,12 @@ const MealView = ({ author, nutritionKey, addOn, title, weight, calories, ingred
         maxW="160%"
         minW="160%"
       >
-        <Text fontSize="md" color="black">Added on: {addOn}</Text>
+        <Text fontSize="md" color="black" fontStyle="normal">Added on: {addOn}</Text>
         <Box>
-          <Text fontSize="lg" fontWeight="bold">{title}</Text>
+          <Text fontSize="lg" fontWeight="bold" fontStyle="normal">{title}</Text>
           <Badge colorScheme="teal" p={1} mr={2}>Weight: {weight}g</Badge>
           <Badge colorScheme="teal" p={1}>Calories: {calories}</Badge>
-          <Text fontSize="md" fontWeight="bold" mt={3}>Ingredients:</Text>
+          <Text fontSize="md" fontWeight="bold" mt={3} fontStyle="normal">Ingredients:</Text>
           <HStack>
           <UnorderedList>
             {ingredients &&

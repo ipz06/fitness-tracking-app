@@ -25,6 +25,7 @@ import CustomToastGoodAmountWater from "../../components/CustumeToast/CustumeToa
 import CustomToastBadAmountWater from "../../components/CustumeToast/CustumeToastBadAmountWater";
 import CustomToastToMuchWater from "../../components/CustumeToast/CustumeToastToMuchWater";
 import CustumeToastActivityFinished from "../../components/CustumeToast/CustumeToastActivityFinished";
+import DividerHeader from "../../components/Goals/Divider";
 
 const Dashboard = () => {
   const [isAddingActivity, setIsAddingActivity] = useState(false);
@@ -98,7 +99,9 @@ activityLogs.map(act => {
   const handleAddWeght = async () => {
     try {
     await saveWeightToDatabase(user.displayName, weightChange, currentWeight, startWeight)
-    toast.success('Weight updated successfully');
+    toast.success('Weight updated successfully to your goals', {
+      duration: 500,
+    });
     } catch (error) {
       console.log(error);
     }
@@ -153,7 +156,7 @@ activityLogs.map(act => {
       <Flex justify="center" align="center" direction="column" mb={4}>
         <Flex shadow="lg" align="center">
           <Stack direction="row" align="center" spacing={2} ml={2}>
-            <Text fontWeight="bold" fontSize="2xl" fontFamily="Montserrat">
+            <Text fontWeight="bold" fontSize="2xl" fontStyle="normal" fontFamily="Montserrat">
               Total Activities Finished:
             </Text>
             <Badge colorScheme="teal" fontSize="xl"
@@ -162,8 +165,8 @@ activityLogs.map(act => {
     color="blue">
               {activityLogs.length}
             </Badge>
-            <Text fontWeight="bold" fontSize="xl">&</Text>
-            <Text fontWeight="bold" fontSize="2xl" fontFamily="Montserrat">
+            <Text fontStyle="normal" fontWeight="bold" fontSize="xl">&</Text>
+            <Text fontWeight="bold" fontSize="2xl" fontFamily="Montserrat" fontStyle="normal">
               Burned Calories:
             </Text>
             <Badge colorScheme="teal" fontSize="xl"   variant="outline"
@@ -174,6 +177,9 @@ activityLogs.map(act => {
           </Stack>
         </Flex>
       </Flex>
+      <Box pt="1%">
+  <DividerHeader heading={'Activity'}></DividerHeader>
+  </Box> 
       <Box> 
       <Heading align="center" pt="2%" fontSize="2xl" fontFamily="Montserrat">You have {activities.length} activities to choose from</Heading>
       <Flex justify="center" align="center" >
@@ -215,34 +221,34 @@ activityLogs.map(act => {
     borderColor="black"
     borderRadius="sm"
         > 
-          ADD ACTIVITY
+          SET ACTIVITY
         </Button>
       </Flex>
-      
-  
-        
+      <Box pt="2%">
+  <DividerHeader heading={'Weight'}></DividerHeader>
+  </Box>    
 	<Stack direction="row" justify="center" mt={4} spacing={8} pt="2%">
         <Box textAlign="center">
-          <Text fontWeight="bold" fontSize="2xl">
+          <Text fontWeight="bold" fontSize="2xl" fontStyle="normal">
             Start Weight
           </Text>
-          <Text fontWeight="bold" fontSize="3xl" color="teal.500" >
+          <Text fontWeight="bold" fontSize="3xl" color="teal.500" fontStyle="normal">
             {startWeight} kg
           </Text>
         </Box>
         <Box textAlign="center">
-          <Text fontWeight="bold" fontSize="2xl">
+          <Text fontWeight="bold" fontSize="2xl" fontStyle="normal">
             Current Weight
           </Text>
-          <Text fontWeight="bold" fontSize="3xl" color="teal.500">
+          <Text fontWeight="bold" fontSize="3xl" color="teal.500" fontStyle="normal">
             {currentWeight} kg
           </Text>
         </Box>
         <Box textAlign="center">
-          <Text fontWeight="bold" fontSize="2xl">
+          <Text fontWeight="bold" fontSize="2xl" fontStyle="normal">
             Weight Change
           </Text>
-      { currentWeight &&  <Text fontWeight="bold" fontSize="3xl" color={currentWeight <= startWeight ? "green.500" : "red.500"}>
+      { currentWeight &&  <Text fontWeight="bold" fontSize="3xl" fontStyle="normal" color={currentWeight <= startWeight ? "green.500" : "red.500"}>
             {weightChange} kg
           </Text> } 
         </Box>
@@ -289,7 +295,9 @@ activityLogs.map(act => {
           </ModalBody>
         </ModalContent>
       </Modal>
-         
+      <Box pt="2%">
+  <DividerHeader heading={'Water'}></DividerHeader>
+  </Box> 
       <Flex className="Bottles" pt="3%" justify="center" align="center" direction="column" mb={4}>
         <Heading color="blackAlpha.900" fontFamily="Montserrat" fontSize="3xl"> Share your daily water consumption</Heading>
       <Box paddingTop="1%" shadow="md" style={{display: 'flex', justifyContent: 'space-between', gap: '2%'}}> 
