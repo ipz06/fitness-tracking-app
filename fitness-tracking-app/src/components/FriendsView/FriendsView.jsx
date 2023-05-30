@@ -2,6 +2,7 @@ import { useEffect, useState, useContext } from 'react';
 import { Box, Text, Grid, GridItem, Avatar, VStack, Spinner } from '@chakra-ui/react';
 import { getUserAllFriends } from '../../services/friends.service';
 import { AuthContext } from '../../common/context';
+import Friend from '../Friend/Friend';
 
 const FriendsView = () => {
   const [loading, setLoading] = useState(false);
@@ -34,23 +35,11 @@ const FriendsView = () => {
         <Spinner size="lg" color="teal" />
       ) : (
         <Grid templateColumns="repeat(auto-fit, minmax(200px, 1fr))" gap={4}>
+          
           {friends.map((friend, index) => (
-            <GridItem key={index}>
-              <Box
-                p={4}
-                borderWidth="1px"
-                borderRadius="md"
-                boxShadow="md"
-                display="flex"
-                alignItems="center"
-              >
-                <Avatar size="md" src={friend.photo} alt={friend.displayName} mr={4} />
-                <VStack align="start">
-                  <Text fontWeight="bold">{friend.user}</Text>
-                  <Text>{friend.email}</Text>
-                </VStack>
-              </Box>
-            </GridItem>
+            <Box key={index}>
+          <Friend handle={friend.user}/>
+          </Box>
           ))}
         </Grid>
       )}

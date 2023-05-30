@@ -6,7 +6,7 @@ import { saveFriendToDatabase } from '../../services/friends.service';
 import { deleteFriendRequestFromDatabase } from '../../services/friends.service';
 
 const FriendRequests = () => {
-  const { user, photo } = useContext(AuthContext);
+  const { user, photo, photoURL, firstName } = useContext(AuthContext);
   const [friendRequests, setFriendRequests] = useState([]);
   const userPhoto = photo;
   useEffect(() => {
@@ -21,7 +21,7 @@ const FriendRequests = () => {
     fetchFriendRequests();
   }, [user]);
 
-
+console.log(firstName);
 
   const handleAcceptRequest = async (photo, sender, email, friendRequestKey) => {
 	try {

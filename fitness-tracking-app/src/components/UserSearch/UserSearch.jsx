@@ -63,7 +63,7 @@ const UserSearch = () => {
     setFilteredUsers(filtered);
   }, [searchQuery, allUsers]);
 
-
+console.log(filteredUsers);
   const handleSendFriendRequest = async (receiver) => {
     try {
       await saveFriendRequestToDatabase(receiver, handle, photo, email)
