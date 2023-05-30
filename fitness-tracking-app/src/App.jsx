@@ -20,6 +20,7 @@ import Nutrition from "./pages/Nutrition/Nutrition";
 import CustomToastWaterReminder from "./components/CustumeToast/CustumeToastWaterReminder";
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Stats from "./pages/Stats/Stats";
 import UserSearch from "./components/UserSearch/UserSearch";
 
 function App() {
@@ -97,6 +98,14 @@ function App() {
               </AuthenticateRoute>
             }                      
            />
+           <Route 
+            path="stats" 
+            element={
+              <AuthenticateRoute>
+                <Stats />
+              </AuthenticateRoute>
+            }  
+           />     
           <Route 
             path="profile" 
             element={

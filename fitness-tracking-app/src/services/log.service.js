@@ -50,6 +50,23 @@ export const getUserActivityLogs = async (handle) => {
   }
 };
 
+export const getDurationActivity = async (handle) => {
+  try {
+  const durationActivity = query(ref(db, `log-activity/${handle}`), orderByChild('duration'));
+  const snapshot = await get(durationActivity);
+  console.log('snapshot:', snapshot)
+
+  if (snapshot.exists()) {
+    console.log('val',snapshot.val())
+    return snapshot.val();
+  } else {
+    console.log('null')
+    return null;
+  }
+} catch (error) {
+  console.log(error);
+}
+}
 
 export const saveWaterToDatabase = async (
   user,

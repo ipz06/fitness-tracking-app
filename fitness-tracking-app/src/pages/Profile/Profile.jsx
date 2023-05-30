@@ -15,6 +15,8 @@ import {
   Text,
   Heading,
   Button,
+  FormErrorMessage,
+  FormHelperText
 } from "@chakra-ui/react";
 import { useState, useContext, useEffect } from "react";
 import { logoutUser } from "../../services/auth.services";
@@ -31,7 +33,6 @@ const Profile = () => {
   const [isUploading, setIsUploading] = useState(false);
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
-//   const [email, setEmail] = useState("");
   const [birthdayDate, setBirthdayDate] = useState("");
   const [weight, setWeight] = useState("");
   const [height, setHeight] = useState("");
@@ -49,7 +50,6 @@ const Profile = () => {
           console.log("snapshot", userSnapshot);
             setFirstName(userSnapshot.firstName)
             setLastName(userSnapshot.lastName);
-            // setEmail(userSnapshot.email);
             setImage(userSnapshot.photoURL);
             setWeight(userSnapshot.weight);
             setHeight(userSnapshot.height)
@@ -80,7 +80,6 @@ const Profile = () => {
   const handleImageChange = (e) => {
     setImage(URL.createObjectURL(e.target.files[0]));
     setNewImageData(e.target.files[0]);
-    alert('Uploaded successfully!')
   };
 
   const handleSave = async () => {
@@ -96,7 +95,6 @@ const Profile = () => {
         user.displayName,
         firstName,
         lastName,
-        // email,
         phoneNumber,
         weight,
         gender,
@@ -109,12 +107,10 @@ const Profile = () => {
         console.error("Error updating user avatar:", error);
     } finally {
         setIsUploading(false);
-    }
-    
-    //   await writeAdditionalUserData(user.displayName, height, country)
-    
+    }    
   };
 
+  const isError = firstName === "";
   return (
     <Flex
       position="relative"
@@ -159,12 +155,9 @@ const Profile = () => {
             <Text fontWeight="bold" paddingBottom={5}>
               All Time Duration
             </Text>
-            {/* <Button onClick={handleUpload} isLoading={isUploading}>
-              Upload Photo
-            </Button> */}
           </Flex>
         </Flex>
-        <FormControl isRequired paddingBottom={10}>
+        <FormControl isInvalid={isError} paddingBottom={10}>
           <FormLabel fontWeight="bold"> First Name</FormLabel>
           <Input
             value={firstName}
@@ -185,6 +178,13 @@ const Profile = () => {
               border: "2px",
             }}
           />
+          {!isError ? (
+        <FormHelperText>
+          Enter your first name.
+        </FormHelperText>
+      ) : (
+        <FormErrorMessage>Name is required.</FormErrorMessage>
+      )}
         </FormControl>
         <FormControl isRequired paddingBottom={10}>
           <FormLabel fontWeight="bold">Last Name</FormLabel>
@@ -208,28 +208,6 @@ const Profile = () => {
             }}
           />
         </FormControl>
-        {/* <FormControl isRequired paddingBottom={10}>
-          <FormLabel fontWeight="bold">Email</FormLabel>
-          <Input
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="Enter Email"
-            border="1px"
-            borderColor="gray.500"
-            borderRadius="4px"
-            w={550}
-            h={55}
-            _hover={{
-              borderColor: "gray.900",
-              border: "2px",
-            }}
-            _focus={{
-              borderColor: "gray.900",
-              boxShadow: "2xl",
-              border: "2px",
-            }}
-          />
-        </FormControl> */}
         <FormControl isRequired paddingBottom={10}>
           <FormLabel fontWeight="bold">Birth Date</FormLabel>
           <Input
@@ -254,7 +232,7 @@ const Profile = () => {
           />
         </FormControl>
         <Flex alignItems="center" w="100%" h="100%" gap={5} paddingBottom={10}>
-          <Flex flex="1" w="100%">
+          <Flex flex="1">
             <FormControl>
               <FormLabel fontWeight={"bold"}>Weight (kg)</FormLabel>
               <NumberInput
