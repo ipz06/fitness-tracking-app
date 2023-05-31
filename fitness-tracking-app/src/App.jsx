@@ -22,6 +22,7 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Stats from "./pages/Stats/Stats";
 import UserSearch from "./components/UserSearch/UserSearch";
+import User from "./pages/User/User";
 
 function App() {
   const [user] = useAuthState(auth);
@@ -128,6 +129,15 @@ function App() {
             element={
               <AuthenticateRoute>
                 <UserSearch/>
+              </AuthenticateRoute>
+            }  
+           />  
+
+            <Route 
+            path="/user/:user" 
+            element={
+              <AuthenticateRoute>
+                <User/>
               </AuthenticateRoute>
             }  
            />  
