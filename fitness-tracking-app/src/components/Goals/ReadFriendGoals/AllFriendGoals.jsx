@@ -9,7 +9,7 @@ import RenderStayToned from "../ReadGoals/RenderStayToned";
 import RenderStayActive from "../ReadGoals/RenderStayActive";
 import RenderLooseWeight from "../ReadGoals/RenderLooseWeight";
 import RenderTrackCalories from "../ReadGoals/RenderTrackCalories";
-
+import { Text } from "@chakra-ui/react";
 const AllFriendGoals = ({handle})=>{
 
    const [goals, setGoals] = useState(null);
@@ -46,7 +46,7 @@ const AllFriendGoals = ({handle})=>{
       
       goals? (
          <>
-         <div> Goals of {handle}</div>
+         <Text align="center" fontSize="2xl" fontStyle="normal" fontWeight="bold">Shared goals of {handle}</Text> 
          {Object.keys(goals)
             .map((id)=>{
                   if(goals[id]['type']==='stay-toned') {

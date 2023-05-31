@@ -38,6 +38,7 @@ const Nutrition = () => {
           weight={nutr.weight}
           calories={nutr.calories}
           ingredients={nutr.ingredients}
+          sharedStatus={nutr.shared}
           />
           ))}
         </SimpleGrid>

@@ -1,12 +1,16 @@
-import { Box, Text, VStack, Avatar, SimpleGrid, Stat, StatLabel, StatNumber, Flex, HStack } from '@chakra-ui/react';
+import { Box, Text, VStack, Avatar, SimpleGrid, Stat, StatLabel, StatNumber, Flex, HStack, Button } from '@chakra-ui/react';
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { getUserByHandle } from '../../services/user.service';
+import AllFriendGoals from '../../components/Goals/ReadFriendGoals/AllFriendGoals';
+import AllFriendMeals from '../../components/AllFriendMeals/AllFriendMeals';
 
 const User = () => {
   const { user: handle } = useParams();
   const [user, setUser] = useState([])
-  
+  const [showGoals, setShowGoals] = useState(false);
+  const [showMeals, setShowMeals] = useState(false);
+
   useEffect(() => {
 	const fetchUser = async () => {
 		const userData = await getUserByHandle(handle)
@@ -43,7 +47,22 @@ return (
             <StatNumber>{user.birthDate}</StatNumber>
           </Stat>
         </SimpleGrid>
+       
       </Flex>
+      <Box pt="2%">
+        <VStack>
+          <Button borderRadius="sm" borderColor="black" color="black" backgroundColor="teal.200" onClick={() => setShowGoals(!showGoals)}>
+            {showGoals ? "Hide Goals" : "Show Goals"}
+          </Button>
+          {showGoals && <AllFriendGoals handle={handle}/>}
+
+          <Button borderRadius="sm" borderColor="black" color="black" backgroundColor="teal.200" onClick={() => setShowMeals(!showMeals)}>
+            {showMeals ? "Hide Meals" : "Show Meals"}
+          </Button>
+          {showMeals && <AllFriendMeals handle={handle}/>}
+        </VStack>
+      </Box>
+     
     </Box>
 );
 };

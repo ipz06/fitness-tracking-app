@@ -1,4 +1,4 @@
-import { Box, Text, VStack, Button, Badge, UnorderedList, ListItem, Center, Flex, HStack } from '@chakra-ui/react';
+import { Box, Text, VStack, Button, Badge, UnorderedList, IconButton, ListItem, Center, Flex, HStack } from '@chakra-ui/react';
 import { useContext } from 'react';
 import { FaTrash } from "react-icons/fa";
 import { AuthContext } from '../../common/context';
@@ -8,9 +8,15 @@ import 'react-toastify/dist/ReactToastify.css';
 import { deleteNutrituionFromDatabase } from '../../services/nutrition.service';
 import CustomToasEatMeal from '../CustumeToast/CustumeToastEatMeal';
 import { GiMeal } from 'react-icons/gi';
+import { useState, useEffect } from 'react';
+import { FaShareAlt } from "react-icons/fa"  
+import { shareUserMeal } from '../../services/nutrition.service';
 
-const MealView = ({ author, nutritionKey, addOn, title, weight, calories, ingredients }) => {
+const MealView = ({ author, nutritionKey, addOn, title, weight, calories, sharedStatus = false, ingredients }) => {
   const {user} = useContext(AuthContext)
+  const [loading, setLoading] = useState(false)
+  const [shared, setShared] = useState(sharedStatus)
+
 
   const handleLogMeal = async () => {
     try {
@@ -29,6 +35,14 @@ const MealView = ({ author, nutritionKey, addOn, title, weight, calories, ingred
     }
   };
 
+  const handleShare = ()=>{
+    shareUserMeal(author , nutritionKey, !shared)
+    setShared(!shared)
+    toast(`Target shared status updated to ${!shared}`,{
+       autoClose:500
+      })
+ }
+console.log(shared);
   return (
     <Box align="center" p="1%">
     <Flex maxW="50%" minW="60%" justify="center" align="center">
@@ -57,6 +71,14 @@ const MealView = ({ author, nutritionKey, addOn, title, weight, calories, ingred
           <VStack paddingLeft="10%">
           <Button onClick={handleLogMeal} backgroundColor="blackAlpha.300" borderRadius="sm" color="blackAlpha.900" variant="outline" borderColor="black"><GiMeal size={20}/></Button>
           <Button onClick={handleDeleteMeal} backgroundColor="red.500" borderRadius="sm" color="blackAlpha.900" variant="outline" borderColor="black"><FaTrash size={20}/></Button>
+          {author === user.displayName && (
+  shared ? (
+    <IconButton icon={<FaShareAlt/>} size={'sm'} w={8}  onClick={handleShare} colorScheme='green'/>
+  ):(
+    <IconButton icon={<FaShareAlt/>} size={'sm'} w={8}  onClick={handleShare}/>
+  )
+)}
+            
           </VStack>
           </HStack>
         </Box>

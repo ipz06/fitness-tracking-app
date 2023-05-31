@@ -7,6 +7,7 @@ import {
   query,
   orderByChild,
   equalTo,
+  set,
 } from "firebase/database";
 import { db } from "../config/firebase-config";
 import { push } from "firebase/database";
@@ -103,4 +104,23 @@ export const getNutrition = async (handle) => {
 } catch (error) {
   console.log(error);
 }
+}
+
+
+export const shareUserMeal = (handle, nutritionKey, shared) => {
+  const mealPath = ref(db,`nutritions/${handle}/${nutritionKey}/shared`)
+  set(mealPath, shared)
+    .then(()=>console.log('Shared state updated'))
+    .catch((e)=>console.log(e))
+}
+
+export const filterSharedMeals= (data)=>{
+  let result = {}
+  const keys = Object.keys(data)
+  keys.map((key)=>{
+    if(data[key]['shared']){
+      result[key]=data[key]
+    }
+  })
+  return result
 }
