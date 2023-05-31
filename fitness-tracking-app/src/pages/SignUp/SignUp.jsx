@@ -22,6 +22,7 @@ import { updateProfile } from "firebase/auth";
 import { NavLink } from "react-router-dom";
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { phoneRegex } from "../../common/constants";
 
 function SignUp() {
   const [email, setEmail] = useState("");
@@ -61,7 +62,7 @@ function SignUp() {
       setEmailError("");
     }
 
-    const phoneRegex = /^\d{10}$/;
+    // const phoneRegex = /^\d{10}$/;
     if (!phoneRegex.test(phone)) {
       setPhoneError("Invalid phone number format");
       hasError = true;
