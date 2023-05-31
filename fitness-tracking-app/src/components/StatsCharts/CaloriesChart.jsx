@@ -1,10 +1,11 @@
-import { BarChart, XAxis, YAxis, Bar, Tooltip } from "recharts";
+import { BarChart, XAxis, YAxis, Bar, Tooltip, ResponsiveContainer } from "recharts";
 import { redColor } from "../../common/constants";
-import { Flex } from "@chakra-ui/react";
+import { Flex, Heading, Box, Text } from "@chakra-ui/react";
 import { useState, useEffect, useContext } from "react";
 import { getDurationActivity } from "../../services/log.service";
 import { AuthContext } from "../../common/context";
 import { days } from "../../common/daysData";
+import DividerHeader from "../Goals/Divider";
 
 const CaloriesChart = () => {
   const [loading, setLoading] = useState(false);
@@ -15,9 +16,6 @@ const CaloriesChart = () => {
     try {
       setLoading(true);
       const fetchCalories = await getDurationActivity(user.displayName);
-      console.log("user", user);
-      console.log("fetch,", fetchCalories);
-
       const createData = days.map((day) => ({ day: day, calories: 0 }));
 
       Object.entries(fetchCalories)
@@ -30,7 +28,7 @@ const CaloriesChart = () => {
 
       setCalories(createData);
     } catch (error) {
-      alert("Error fetching calories:", error);
+      return("Error fetching calories:", error);
     } finally {
       setLoading(false);
     }
@@ -40,30 +38,41 @@ const CaloriesChart = () => {
     getCalories(user);
   }, [user]);
 
+  if (calories.length === 0) {
+    return (<Box fontStyle='normal'><Heading > No Stats, please add activity!</Heading></Box>)
+  } else {
   return (
     <Flex
       position="relative"
-      w="100vw"
+      w="100%"
       h="100vh"
       alignItems="center"
       justifyContent="center"
-      direction="column"
     >
+      <Flex flexDir="column" alignItems="center" w="100%" h="100%" margin={450}>
+      {/* <Text fontStyle='normal' fontWeight="bold">CALORIES</Text> */}
+      <DividerHeader heading={'calories'}></DividerHeader> 
+
+      <ResponsiveContainer width={700} height="50%">
       <BarChart
-        width={730}
+        width={700}
         height={350}
         data={calories}
         margin={{ top: 20, right: 20, bottom: 20, left: 20 }}
       >
         <XAxis dataKey="day" />
         <YAxis
-          label={{ value: "calories", angle: -90, position: "insideLeft" }}
+          label={{ value: "Calories", angle: -90, position: "insideLeft" }}
         />
         <Tooltip />
-        <Bar dataKey="calories" fill={redColor} background={{ fill: "#eee" }} />
+        <Bar dataKey="calories" fill={redColor} />
       </BarChart>
+      </ResponsiveContainer>
+    </Flex>
     </Flex>
   );
+  }
 };
+
 
 export default CaloriesChart;

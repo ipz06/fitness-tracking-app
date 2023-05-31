@@ -54,10 +54,10 @@ export const getDurationActivity = async (handle) => {
   try {
   const durationActivity = query(ref(db, `log-activity/${handle}`), orderByChild('duration'));
   const snapshot = await get(durationActivity);
-  console.log('snapshot:', snapshot)
+  // console.log('snapshot:', snapshot)
 
   if (snapshot.exists()) {
-    console.log('val',snapshot.val())
+    // console.log('val',snapshot.val())
     return snapshot.val();
   } else {
     console.log('null')

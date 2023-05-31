@@ -1,10 +1,19 @@
-import { BarChart, XAxis, YAxis, Bar, Tooltip } from "recharts";
+import {
+  BarChart,
+  XAxis,
+  YAxis,
+  Bar,
+  Tooltip,
+  ResponsiveContainer,
+} from "recharts";
 import { redColor } from "../../common/constants";
-import { Flex } from "@chakra-ui/react";
+import { Flex, Text } from "@chakra-ui/react";
 import { useState, useEffect, useContext } from "react";
 import { getDurationActivity } from "../../services/log.service";
 import { AuthContext } from "../../common/context";
 import { days } from "../../common/daysData";
+import DividerHeader from '../../components/Goals/Divider';
+
 
 const DurationChart = () => {
   const [loading, setLoading] = useState(false);
@@ -15,7 +24,6 @@ const DurationChart = () => {
     try {
       setLoading(true);
       const fetchDuration = await getDurationActivity(handle);
-
       const createData = days.map((day) => ({ day: day, minutes: 0 }));
 
       Object.entries(fetchDuration)
@@ -28,7 +36,7 @@ const DurationChart = () => {
 
       setDuration(createData);
     } catch (error) {
-      alert("Error fetching duration:", error);
+      return "Error fetching duration:", error;
     } finally {
       setLoading(false);
     }
@@ -38,29 +46,39 @@ const DurationChart = () => {
     getDuration(user.displayName);
   }, [user.displayName]);
 
-  return (
-    <Flex
-      position="relative"
-      w="100vw"
-      h="100vh"
-      alignItems="center"
-      justifyContent="center"
-    >
-      <BarChart
-        width={750}
-        height={350}
-        data={duration}
-        margin={{ top: 20, right: 20, bottom: 20, left: 20 }}
+  if (duration.length !== 0) {
+    return (
+      <Flex
+        position="relative"
+        // flexDir="column"
+        w="100%"
+        h="100vh"
+        alignItems="center"
+        justifyContent="center"
       >
-        <XAxis dataKey="day" />
-        <YAxis
-          label={{ value: "Minutes", angle: -90, position: "insideLeft" }}
-        />
-        <Tooltip />
-        <Bar dataKey="minutes" fill={redColor} />
-      </BarChart>
-    </Flex>
-  );
+        <Flex flexDir="column" alignItems="center" w="100%" h="100%" margin={450}>
+        {/* <Text fontStyle='normal' fontWeight="bold">DURATION (min)</Text> */}
+        <DividerHeader heading={'duration (min)'}></DividerHeader> 
+
+        <ResponsiveContainer width={700} height="50%">
+          <BarChart
+            width={700}
+            height={350}
+            data={duration}
+            margin={{ top: 20, right: 20, bottom: 20, left: 20 }}
+          >
+            <XAxis dataKey="day" />
+            <YAxis
+              label={{ value: "Minutes", angle: -90, position: "insideLeft" }}
+            />
+            <Tooltip />
+            <Bar dataKey="minutes" fill={redColor} />
+          </BarChart>
+        </ResponsiveContainer>
+        </Flex>
+      </Flex>
+    );
+  }
 };
 
 export default DurationChart;

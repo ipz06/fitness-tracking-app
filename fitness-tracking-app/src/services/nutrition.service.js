@@ -86,3 +86,21 @@ export const deleteNutrituionFromDatabase = async (user, activityId) => {
     throw error;
   }
 };
+
+export const getNutrition = async (handle) => {
+  try {
+  const caloriesCount = query(ref(db, `log-nutrition/${handle}`), orderByChild('calories'));
+  const snapshot = await get(caloriesCount);
+  console.log('snapshot:', snapshot)
+
+  if (snapshot.exists()) {
+    console.log('val',snapshot.val())
+    return snapshot.val();
+  } else {
+    console.log('null')
+    return null;
+  }
+} catch (error) {
+  console.log(error);
+}
+}
