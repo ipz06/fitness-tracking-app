@@ -81,7 +81,7 @@ function LogIn() {
             Don't have an account? <b><u><NavLink to="/signup">Sign Up</NavLink></u></b>
           </Text>
 
-          <FormControl id="email" maxW="450px" isInvalid={!!emailError}>
+          <FormControl id="email" maxW="88%" isInvalid={!!emailError}>
             <FormLabel>Email</FormLabel>
             <Input
               size="lg"
@@ -99,7 +99,7 @@ function LogIn() {
             <FormErrorMessage>{emailError || loginError}</FormErrorMessage>
           </FormControl>
 
-          <FormControl id="password" maxW="450px" isInvalid={!!passwordError}>
+          <FormControl id="password" maxW="88%" isInvalid={!!passwordError}>
             <FormLabel>Password</FormLabel>
             <Input
               size="lg"

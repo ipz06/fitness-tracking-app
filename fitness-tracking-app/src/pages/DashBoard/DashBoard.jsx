@@ -156,20 +156,20 @@ activityLogs.map(act => {
       <Flex justify="center" align="center" direction="column" mb={4}>
         <Flex shadow="lg" align="center">
           <Stack direction="row" align="center" spacing={2} ml={2}>
-            <Text fontWeight="bold" fontSize="2xl" fontStyle="normal" fontFamily="Montserrat">
+            <Text fontWeight="bold" fontSize={{ base: "xs", sm: "sm", md: "2xl" }} fontStyle="normal" fontFamily="Montserrat" >
               Total Activities Finished:
             </Text>
-            <Badge colorScheme="teal" fontSize="xl"
+            <Badge colorScheme="teal" fontSize={{ base: "xs", sm: "sm", md: "xl" }}
     variant="outline"
     borderColor="black"
     color="blue">
               {activityLogs.length}
             </Badge>
             <Text fontStyle="normal" fontWeight="bold" fontSize="xl">&</Text>
-            <Text fontWeight="bold" fontSize="2xl" fontFamily="Montserrat" fontStyle="normal">
+            <Text fontWeight="bold" fontSize={{ base: "xs", sm: "sm", md: "2xl" }} fontFamily="Montserrat" fontStyle="normal">
               Burned Calories:
             </Text>
-            <Badge colorScheme="teal" fontSize="xl"   variant="outline"
+            <Badge colorScheme="teal" fontSize={{ base: "xs", sm: "sm", md: "xl" }}   variant="outline"
     borderColor="black"
     color="blue">
               {burnedCalories}
@@ -181,7 +181,7 @@ activityLogs.map(act => {
   <DividerHeader heading={'Activity'}></DividerHeader>
   </Box> 
       <Box> 
-      <Heading align="center" pt="2%" fontSize="2xl" fontFamily="Montserrat">You have {activities.length} activities to choose from</Heading>
+      <Heading align="center" pt="2%" fontSize={{ base: "md", sm: "sm", md: "2xl" }} fontFamily="Montserrat">You have {activities.length} activities to choose from</Heading>
       <Flex justify="center" align="center" >
       <HStack
       justify="flex-start"
@@ -229,26 +229,26 @@ activityLogs.map(act => {
   </Box>    
 	<Stack direction="row" justify="center" mt={4} spacing={8} pt="2%">
         <Box textAlign="center">
-          <Text fontWeight="bold" fontSize="2xl" fontStyle="normal">
+          <Text fontWeight="bold" fontSize={{ base: "md", sm: "sm", md: "2xl" }} fontStyle="normal">
             Start Weight
           </Text>
-          <Text fontWeight="bold" fontSize="3xl" color="teal.500" fontStyle="normal">
+          <Text fontWeight="bold" fontSize={{ base: "md", sm: "sm", md: "3xl" }} color="teal.500" fontStyle="normal">
             {startWeight} kg
           </Text>
         </Box>
         <Box textAlign="center">
-          <Text fontWeight="bold" fontSize="2xl" fontStyle="normal">
+          <Text fontWeight="bold" fontSize={{ base: "md", sm: "sm", md: "2xl" }} fontStyle="normal">
             Current Weight
           </Text>
-          <Text fontWeight="bold" fontSize="3xl" color="teal.500" fontStyle="normal">
+          <Text fontWeight="bold" fontSize={{ base: "md", sm: "sm", md: "3xl" }} color="teal.500" fontStyle="normal">
             {currentWeight} kg
           </Text>
         </Box>
         <Box textAlign="center">
-          <Text fontWeight="bold" fontSize="2xl" fontStyle="normal">
+          <Text fontWeight="bold" fontSize={{ base: "md", sm: "sm", md: "2xl" }} fontStyle="normal">
             Weight Change
           </Text>
-      { currentWeight &&  <Text fontWeight="bold" fontSize="3xl" fontStyle="normal" color={currentWeight <= startWeight ? "green.500" : "red.500"}>
+      { currentWeight &&  <Text fontWeight="bold" fontSize={{ base: "md", sm: "sm", md: "3xl" }} fontStyle="normal" color={currentWeight <= startWeight ? "green.500" : "red.500"}>
             {weightChange} kg
           </Text> } 
         </Box>
@@ -299,7 +299,7 @@ activityLogs.map(act => {
   <DividerHeader heading={'Water'}></DividerHeader>
   </Box> 
       <Flex className="Bottles" pt="3%" justify="center" align="center" direction="column" mb={4}>
-        <Heading color="blackAlpha.900" fontFamily="Montserrat" fontSize="3xl"> Share your daily water consumption</Heading>
+        <Heading color="blackAlpha.900" fontFamily="Montserrat" fontSize={{ base: "md", sm: "sm", md: "3xl" }}> Share your daily water consumption</Heading>
       <Box paddingTop="1%" shadow="md" style={{display: 'flex', justifyContent: 'space-between', gap: '2%'}}> 
   <Box> 
   <button onClick={() => setWaterConsumption(1)}><Image src={OneLitreBottle} boxSize="70px" className="image"/></button>

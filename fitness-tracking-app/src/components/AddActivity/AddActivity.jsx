@@ -7,6 +7,7 @@ import {
   Text,
   FormControl,
   FormLabel,
+  FormErrorMessage,
   Select,
   Input,
   Button,
@@ -19,7 +20,7 @@ const AddActivity = ({ onClose, setIsModalOpen }) => {
   const [activity, setActivity] = useState("");
   const [duration, setDuration] = useState("");
   const [calories, setCalories] = useState(0);
-
+  const [caloriesError, setCaloriesError] = useState("");
 const { user, weight } = useContext(AuthContext);
 
   const handleActivityChange = (event) => {
@@ -49,6 +50,17 @@ const { user, weight } = useContext(AuthContext);
   };
 
   const handleAddActivity = async () => {
+    let hasError = false;
+    if (calories <= 0) {
+      setCaloriesError('Please enter valid calories');
+      hasError = true;
+    } else {
+      setCaloriesError('');
+    }
+    if (hasError) {
+      return;
+    }
+
 	try {
       await saveActivityToDatabase(
         user.displayName,
@@ -138,7 +150,7 @@ const { user, weight } = useContext(AuthContext);
               CALCULATE 
             </Button>
           </Box>
-            <FormControl id="calories">
+            <FormControl id="calories" isInvalid={!!caloriesError}>
               <FormLabel>Calories Burned: Kcal</FormLabel>
               <Input
                 size="lg"
@@ -154,6 +166,7 @@ const { user, weight } = useContext(AuthContext);
                 value={calories}
                 onChange={(event) => setCalories(event.target.value)}
               />
+              <FormErrorMessage>{caloriesError}</FormErrorMessage>
             </FormControl>
 			<Box>
             <Button
