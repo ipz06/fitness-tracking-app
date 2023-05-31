@@ -209,3 +209,21 @@ export const  updateUserGoalTarget = (handle, goalID, target) => {
     .catch((e)=>console.log(e))
 
 }
+
+export const shareUserGoal = (handle, goalID, shared) => {
+  const goalPath = ref(db,`goals/${handle}/${goalID}/shared`)
+  set(goalPath,shared)
+    .then(()=>console.log('Shared state updated'))
+    .catch((e)=>console.log(e))
+}
+
+export const filterSharedGoals= (data)=>{
+  let result = {}
+  const keys = Object.keys(data)
+  keys.map((key)=>{
+    if(data[key]['shared']){
+      result[key]=data[key]
+    }
+  })
+  return result
+}

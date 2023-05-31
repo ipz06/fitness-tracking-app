@@ -16,12 +16,14 @@ import { getUserLog } from '../../../services/goal.service';
 import { toast } from 'react-toastify';
 import { addBadge } from '../../../services/goal.service';
 import { updateUserGoalTarget } from '../../../services/goal.service';
+import { shareUserGoal } from '../../../services/goal.service';
 
 
 
-const RenderStayToned = ({title,workouts,interval,value, handle, goalID, startDate}) => {
+const RenderStayToned = ({title,workouts,interval,value, handle, goalID, startDate, sharedStatus=false, owner=true}) => {
    const [logData, setLogData] = useState('a')
    const [loading,setLoading] = useState(false)
+   const [shared, setShared] = useState(sharedStatus)
    
 
    const [edit, setEdit] = useState(false)
@@ -80,7 +82,9 @@ const RenderStayToned = ({title,workouts,interval,value, handle, goalID, startDa
    }
 
    const handleShare = ()=>{
-      toast(`Target shared with friends`,{
+      shareUserGoal(handle,goalID,!shared)
+      setShared(!shared)
+      toast(`Target shared status updated to ${!shared}`,{
          autoClose:500
         })
    }
@@ -157,11 +161,17 @@ const RenderStayToned = ({title,workouts,interval,value, handle, goalID, startDa
             marginRight={{base:'auto',sm:'50px'}}>
             <PieChartWithNeedle marginX={'auto'} value={((workouts-calculateWorkouts(logData,startDate,interval,workouts))/workouts)*100}/>
          </Stack>
+         {owner &&
          <Stack direction={{ base: 'row', sm: 'column' }} margin={2} marginX={{base:'auto',sm:2}} >
             <IconButton icon={<AiOutlineDelete/>} size={'sm'} w={8}  onClick={handleClick}/>
             <IconButton icon={<AiOutlineEdit/>} size={'sm'} w={8}  onClick={handleEdit}/>
-            <IconButton icon={<AiOutlineShareAlt/>} size={'sm'} w={8}  onClick={handleShare}/>
-         </Stack>
+            {shared ? (
+               <IconButton icon={<AiOutlineShareAlt/>} size={'sm'} w={8}  onClick={handleShare} colorScheme='green'/>
+            ):(
+               <IconButton icon={<AiOutlineShareAlt/>} size={'sm'} w={8}  onClick={handleShare}/>
+            )}
+            
+         </Stack>}
       </Card>
    )
 }

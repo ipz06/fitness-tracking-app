@@ -9,7 +9,7 @@ import {
 } from '@chakra-ui/react';
 import PieChartWithNeedle from '../PieChartWithNeedle';
 import { useEffect, useState } from 'react';
-import {AiOutlineDelete, AiOutlineEdit, AiOutlineCheckCircle, AiOutlineShareAlt}  from "react-icons/all";
+import {AiOutlineDelete, AiOutlineEdit, AiOutlineCheckCircle, AiOutlineShareAlt, TbRuler3}  from "react-icons/all";
 import { deleteUserGoal } from '../../../services/goal.service';
 import { getUserLog } from '../../../services/goal.service';
 import { calculateMinutes } from '../../../services/goal.service';
@@ -17,10 +17,12 @@ import { calculateTargetDate } from '../../../services/goal.service';
 import { toast } from 'react-toastify';
 import { addBadge } from '../../../services/goal.service';
 import { updateUserGoalTarget } from '../../../services/goal.service';
+import { shareUserGoal } from '../../../services/goal.service';
 
-const RenderStayActive = ({title, minutes, startDate, interval,value, handle, goalID}) => {
+const RenderStayActive = ({title, minutes, startDate, interval,value, handle, goalID, sharedStatus=false, owner=true}) => {
    const [logData, setLogData] = useState('a')
    const [loading,setLoading] = useState(false)
+   const [shared, setShared] = useState(sharedStatus)
 
    const [edit, setEdit] = useState(false)
    const [target, setTarget] = useState('')
@@ -35,6 +37,7 @@ const RenderStayActive = ({title, minutes, startDate, interval,value, handle, go
          })
          .catch((e)=>console.log(e))
          .finally(()=>setLoading(false))
+         console.log(`sharedStatus ${sharedStatus}`)
    },[])
 
    useEffect(()=>{
@@ -76,7 +79,9 @@ const RenderStayActive = ({title, minutes, startDate, interval,value, handle, go
    }
 
    const handleShare = ()=>{
-      toast(`Target shared with friends`,{
+      shareUserGoal(handle,goalID,!shared)
+      setShared(!shared)
+      toast(`Target shared status updated to ${!shared}`,{
          autoClose:500
         })
    }
@@ -154,11 +159,17 @@ const RenderStayActive = ({title, minutes, startDate, interval,value, handle, go
                marginRight={{base:'auto',sm:'50px'}}>
             <PieChartWithNeedle value={((minutes-calculateMinutes(logData,startDate,interval,minutes))/minutes)*100}/>
          </Stack>
+         {owner &&
          <Stack direction={{ base: 'row', sm: 'column' }} margin={2} marginX={{base:'auto',sm:2}} >
             <IconButton icon={<AiOutlineDelete/>} size={'sm'} w={8}  onClick={handleClick}/>
             <IconButton icon={<AiOutlineEdit/>} size={'sm'} w={8}  onClick={handleEdit}/>
-            <IconButton icon={<AiOutlineShareAlt/>} size={'sm'} w={8}  onClick={handleShare}/>
-         </Stack>
+            {shared ? (
+               <IconButton icon={<AiOutlineShareAlt/>} size={'sm'} w={8}  onClick={handleShare} colorScheme='green'/>
+            ):(
+               <IconButton icon={<AiOutlineShareAlt/>} size={'sm'} w={8}  onClick={handleShare}/>
+            )}
+            
+         </Stack>}
       </Card>
    )
 }

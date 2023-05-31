@@ -54,31 +54,31 @@ const AllGoals = () => {
             if(goals[id]['type']==='stay-toned') {
                return(
                   <div key={id}>
-                     <RenderStayToned title={goals[id]['type']} workouts={goals[id]['target']} interval={goals[id]['interval']} value={40} handle={user.displayName} goalID={id} startDate={goals[id]['startDate']}/>
+                     <RenderStayToned title={goals[id]['type']} workouts={goals[id]['target']} interval={goals[id]['interval']} value={40} handle={user.displayName} goalID={id} startDate={goals[id]['startDate']} sharedStatus={goals[id]['shared']}/>
                   </div>
                )
             } else if (goals[id]['type']==='stay-active') {
                return(
                   <div key={id}>
-                     <RenderStayActive title={goals[id]['type']} minutes={goals[id]['target']} interval={goals[id]['interval']} value={40} handle={user.displayName} goalID={id} startDate={goals[id]['startDate']}/>
+                     <RenderStayActive title={goals[id]['type']} minutes={goals[id]['target']} interval={goals[id]['interval']} value={40} handle={user.displayName} goalID={id} startDate={goals[id]['startDate']} sharedStatus={goals[id]['shared']}/>
                   </div>
                )
             } else if (goals[id]['type']==='loose-weight') {
                return(
                   <div key={id}>
-                     <RenderLooseWeight title={goals[id]['type']} targetWeight={goals[id]['target']} targetDate={goals[id]['targetDate']} value={40} handle={user.displayName} goalID={id} startWeight={goals[id]['startWeight']}/>
+                     <RenderLooseWeight title={goals[id]['type']} targetWeight={goals[id]['target']} targetDate={goals[id]['targetDate']} value={40} handle={user.displayName} goalID={id} startWeight={goals[id]['startWeight']} sharedStatus={goals[id]['shared']}/>
                   </div>
                )
             } else if(goals[id]['type']==='track-calories') {
                return (
                   <div key={id}>
-                     <RenderTrackCalories title={goals[id]['type']} calories={goals[id]['target']} interval={goals[id]['interval']} value={40} handle={user.displayName} goalID={id} startDate={goals[id]['startDate']}  />
+                     <RenderTrackCalories title={goals[id]['type']} calories={goals[id]['target']} interval={goals[id]['interval']} value={40} handle={user.displayName} goalID={id} startDate={goals[id]['startDate']} sharedStatus={goals[id]['shared']} />
                   </div>
                )
             }
          })
       ):(
-         <div>add some goals</div>
+         <div>Add some goals</div>
       )
       
    )

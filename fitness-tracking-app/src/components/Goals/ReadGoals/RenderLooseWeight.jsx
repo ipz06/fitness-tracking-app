@@ -16,12 +16,16 @@ import { getLastWeight } from '../../../services/goal.service';
 import { toast } from 'react-toastify';
 import { updateUserGoalTarget } from '../../../services/goal.service';
 import WeightPieChart from '../WeightPieChart';
+import { shareUserGoal } from '../../../services/goal.service';
 
-const RenderLooseWeight = ({title,targetWeight,targetDate,value, handle, goalID, startWeight}) => {
+
+const RenderLooseWeight = ({title,targetWeight,targetDate,value, handle, goalID, startWeight, sharedStatus=false, owner=true}) => {
    
    const { weight } = useContext(AuthContext)
    const [currentWeight, setCurrentWeight] = useState('')
    const [date, setDate] = useState('')
+   const [shared, setShared] = useState(sharedStatus)
+
    useEffect(()=>{
       let dateISO = new Date(targetDate)
       setDate(dateISO.toLocaleDateString())
@@ -69,7 +73,9 @@ const RenderLooseWeight = ({title,targetWeight,targetDate,value, handle, goalID,
    }
 
    const handleShare = ()=>{
-      toast(`Target shared with friends`,{
+      shareUserGoal(handle,goalID,!shared)
+      setShared(!shared)
+      toast(`Target shared status updated to ${!shared}`,{
          autoClose:500
         })
    }
@@ -137,11 +143,16 @@ const RenderLooseWeight = ({title,targetWeight,targetDate,value, handle, goalID,
          marginRight={{base:'auto',sm:'50px'}}>
             <WeightPieChart value={50+(currentWeight - targetWeight)/15*100}/>
          </Box>
+         {owner &&
          <Stack direction={{ base: 'row', sm: 'column' }} margin={2} marginX={{base:'auto',sm:2}} >
             <IconButton icon={<AiOutlineDelete/>} size={'sm'} w={8}  onClick={handleClick}/>
             <IconButton icon={<AiOutlineEdit/>} size={'sm'} w={8}  onClick={handleEdit}/>
-            <IconButton icon={<AiOutlineShareAlt/>} size={'sm'} w={8}  onClick={handleShare}/>
-         </Stack>
+            {shared ? (
+               <IconButton icon={<AiOutlineShareAlt/>} size={'sm'} w={8}  onClick={handleShare} colorScheme='green'/>
+            ):(
+               <IconButton icon={<AiOutlineShareAlt/>} size={'sm'} w={8}  onClick={handleShare}/>
+            )}
+         </Stack>}
       </Card>
    )
 }
