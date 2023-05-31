@@ -1,8 +1,10 @@
-import { Box, GridItem, Text, VStack, Avatar, HStack } from "@chakra-ui/react";
+import { Box, Button, GridItem, Text, VStack, Avatar, HStack } from "@chakra-ui/react";
 import { getUserByHandle } from "../../services/user.service";
 import { useEffect, useState } from "react";
+import { deleteFriendsFromDatabase } from "../../services/friends.service";
+import { Link } from "react-router-dom";
 
-const Friend = ({handle}) => {
+const Friend = ({owner, handle}) => {
 const [user, setUser] = useState([]);
 
 useEffect(() => {
@@ -17,12 +19,17 @@ useEffect(() => {
 	fetchUser()
 }, [handle])
 
-console.log(user);
+
+const handleDeleteFriends = async () => {
+  try {
+  await deleteFriendsFromDatabase(owner, handle)
+} catch (error) {
+  console.log(error);
+}
+};
 
 
 	return (
-
-	
               <Box
                 p={4}
                 borderWidth="1px"
@@ -30,13 +37,14 @@ console.log(user);
                 boxShadow="md"
                 display="flex"
                 alignItems="center"
-				maxW="20%"
+                minW="100%"
+				maxW="85%"
               >
-                <Avatar size="md" src={user.photoURL} alt=""  mr={4} />
+              <Link to={`/user/${handle}`}><Avatar size="md" src={user.photoURL} alt=""  mr={4}/></Link>  
                 <VStack align="start">
-                  <Text fontWeight="bold">{user.handle}</Text>
-			<HStack><Text>{user.firstName}</Text><Text>{user.lastName}</Text></HStack>
-                  <Text>{user.email}</Text>
+                 <HStack><Text fontWeight="bold" fontStyle="normal">{user.handle}</Text> <Button color="black" backgroundColor="red.500" borderRadius="sm" size="sm" onClick={handleDeleteFriends}>Unfriend</Button></HStack> 
+			<HStack><Text fontStyle="normal">{user.firstName}</Text><Text fontStyle="normal">{user.lastName}</Text></HStack>
+                  <Text fontStyle="normal">{user.email}</Text>
                 </VStack>
               </Box>
             

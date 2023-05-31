@@ -103,3 +103,26 @@ export const getUserAllFriends = async (handle) => {
     throw error;
   }
 };
+
+
+export const deleteFriendsFromDatabase = async (
+  handle,
+  receiver,
+) => {
+  console.log("Deleting friends:", handle, receiver); // Debug log
+  try {
+    const handleRef = ref(
+      db,
+      `friends/${handle}/${receiver}`
+    );
+    await remove(handleRef);
+    const receiverRef = ref(
+      db,
+      `friends/${receiver}/${handle}`
+    );
+    await remove(receiverRef);
+  } catch (error) {
+    console.log("Error deleting friends:", error);
+    throw error;
+  }
+};

@@ -8,7 +8,10 @@ import {
   Box,
   Avatar,
   HStack,
-  Text
+  Text,
+  Flex,
+  Center,
+  Divider,
 } from '@chakra-ui/react';
 import FriendRequests from '../FriendRequests/FriendRequests';
 import { getAllCreatedUsers } from '../../services/user.service';
@@ -16,6 +19,8 @@ import { query } from 'firebase/database';
 import { saveFriendRequestToDatabase } from '../../services/friends.service';
 import FriendsView from '../FriendsView/FriendsView';
 import { getUserAllFriends } from '../../services/friends.service';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const UserSearch = () => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -24,7 +29,8 @@ const UserSearch = () => {
 	const [filteredUsers, setFilteredUsers] = useState([]);
 	const [allUsers, setAllUsers] = useState([]);
   const [friends, setFriends] = useState([]);
-
+  const [requestSent, setRequestSent] = useState(false);
+  
   useEffect(() => {
     const fetchUsers = async () => {
       try {
@@ -40,7 +46,7 @@ const UserSearch = () => {
 
     fetchUsers();
   }, []);
-
+ 
   const filterUsers = (query, users) => {
 	const lowerCaseQuery = query.toLowerCase();
 	const usersArray = Object.values(users);
@@ -63,13 +69,17 @@ const UserSearch = () => {
     setFilteredUsers(filtered);
   }, [searchQuery, allUsers]);
 
-console.log(filteredUsers);
+
   const handleSendFriendRequest = async (receiver) => {
     try {
       await saveFriendRequestToDatabase(receiver, handle, photo, email)
+      toast.success('Sended friend request', {
+        duration: 500,
+      });
     } catch (error) {
       console.log(error);
     }
+    setRequestSent(true);
   };
 
   useEffect(() => {
@@ -87,40 +97,55 @@ console.log(filteredUsers);
     
     fetchFriends();
   }, [user.displayName]);
-  useEffect(() => {
-  console.log(friends);
-  }, [friends]);
+
 
   return (
-    <Box pl="20%">
+
+   <Flex direction="column" alignItems="center" w="100%">
       <FriendRequests/>
+    <Divider  borderColor="black" borderWidth="1px" heading={'friends'}/>
       <FriendsView/>
+      <Divider  borderColor="black" borderWidth="1px" heading={'friends'}/>
+      <Box pt="2%" minW="65%">
       <Input
         type="text"
         value={searchQuery}
         onChange={handleSearch}
         placeholder="Search users"
-		maxW="30%"
+        maxW="100%"
+        borderRadius={3}
+        borderColor="blackAlpha.500"
+        _hover={{ borderColor: "black", borderWidth: 2 }}
+        _focus={{
+          borderColor: "black",
+          boxShadow: "0 0 0 3px rgba(0,0,0,0.1)",
+        }}
       />
-      <Button onClick={handleSearch}>Search</Button>
+  
       <UnorderedList>
         {searchQuery && filteredUsers.map((user) => (
           <ListItem key={user.uid}>
-       <HStack><Avatar src={user.photoURL}/><Text>{`${user.handle}, ${user.firstName} ${user.lastName}`}</Text></HStack> 
-       {!friends.some((friend) => friend.user === user.handle) && (
-         <Box>
-    <Button onClick={() => handleSendFriendRequest(user.handle)}>
-      Send Request
-    </Button>
-  </Box>
-)}
-			
+            <HStack>
+              <Avatar src={user.photoURL}/>
+              <Text>{`${user.handle}, ${user.firstName} ${user.lastName}`}</Text>
+            </HStack> 
+            {!requestSent && (
+              user.handle !== handle &&
+              !friends.some((friend) => friend.user === user.handle) && (
+                <Box>
+                  <Button onClick={() => handleSendFriendRequest(user.handle)}>
+                    Send Request
+                  </Button>
+                </Box>
+              )
+            )}
+            {requestSent && <p>Friend request sent!</p>}
           </ListItem>
         ))}
       </UnorderedList>
-
+      </Box>
   
-		</Box>
+      </Flex>
   );
 };
 
