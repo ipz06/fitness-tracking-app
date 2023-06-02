@@ -8,6 +8,7 @@ import {
   orderByChild,
   equalTo,
   set,
+  startAt,
 } from "firebase/database";
 import { db } from "../config/firebase-config";
 import { push } from "firebase/database";
@@ -90,12 +91,13 @@ export const deleteNutrituionFromDatabase = async (user, activityId) => {
 
 export const getNutrition = async (handle) => {
   try {
-  const caloriesCount = query(ref(db, `log-nutrition/${handle}`), orderByChild('calories'));
+  const today = new Date();  
+  const timeStampSundayOfThisWeek = today.setDate(today.getDate() - today.getDay())
+  const caloriesCount = query(ref(db, `log-nutrition/${handle}`), orderByChild('timestamp'), startAt(+timeStampSundayOfThisWeek));
   const snapshot = await get(caloriesCount);
-  console.log('snapshot:', snapshot)
 
   if (snapshot.exists()) {
-    console.log('val',snapshot.val())
+    console.log('valCALORIES',snapshot.val())
     return snapshot.val();
   } else {
     console.log('null')

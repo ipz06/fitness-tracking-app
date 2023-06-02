@@ -6,6 +6,7 @@ import {
   query,
   orderByChild,
   equalTo,
+  startAt,
 } from "firebase/database";
 import { db } from "../config/firebase-config";
 import { push } from "firebase/database";
@@ -68,6 +69,24 @@ export const getDurationActivity = async (handle) => {
 }
 }
 
+export const getActivityByDate = async (handle) => {
+  try {
+  const today = new Date();  
+  const timeStampSundayOfThisWeek = today.setDate(today.getDate() - today.getDay())
+  const durationActivity = query(ref(db, `log-activity/${handle}`), orderByChild('timestamp'), startAt(+timeStampSundayOfThisWeek));
+  const snapshot = await get(durationActivity);
+
+  if (snapshot.exists()) {
+    return snapshot.val();
+  } else {
+    console.log('null')
+    return null;
+  }
+} catch (error) {
+  console.log(error);
+}
+}
+
 export const saveWaterToDatabase = async (
   user,
   dailyWater,
@@ -95,6 +114,7 @@ export const saveMealLog = async (
     addOn: new Date().toLocaleString(),
     weight: weight,
     title: title,
+    timestamp: Date.now(),
   };
 
   const now = Date.now();
