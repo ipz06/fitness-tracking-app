@@ -140,6 +140,7 @@ activityLogs.map(act => {
       duration,
       caloriesBurned,
       addedOn: new Date().toLocaleDateString(),
+      timestamp: Date.now(),
     };
   
     saveLogToDatabase(user.displayName, newLogEntry)
