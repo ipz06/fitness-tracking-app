@@ -5,8 +5,9 @@ import { AuthContext } from "../../common/context";
 import "firebase/database";
 import { filterSharedMeals } from "../../services/nutrition.service";
 import MealView from "../MealView/MealView";
-
+import PropTypes from 'prop-types';
 import { Text } from "@chakra-ui/react";
+
 const AllFriendMeals = ({ handle }) => {
   const [meals, setMeals] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -15,7 +16,7 @@ const AllFriendMeals = ({ handle }) => {
     setLoading(true);
     try {
       const dbRef = ref(db, `nutritions/` + handle);
-      const handleGoals = (snap) => {
+      const handleMeals = (snap) => {
         if (snap.val()) {
           const data = filterSharedMeals(snap.val());
           setMeals(data);
@@ -23,7 +24,7 @@ const AllFriendMeals = ({ handle }) => {
         }
       };
       onValue(dbRef, (snapshot) => {
-        handleGoals(snapshot);
+        handleMeals(snapshot);
       });
     } catch (e) {
       console.log(e);
@@ -67,3 +68,7 @@ const AllFriendMeals = ({ handle }) => {
 };
 
 export default AllFriendMeals;
+
+AllFriendMeals.propTypes = {
+  handle: PropTypes.string.isRequired,
+}

@@ -11,6 +11,7 @@ import { GiMeal } from 'react-icons/gi';
 import { useState, useEffect } from 'react';
 import { FaShareAlt } from "react-icons/fa"  
 import { shareUserMeal } from '../../services/nutrition.service';
+import PropTypes from 'prop-types';
 import { USER_TYPE } from '../../common/constants';
 
 const MealView = ({ author, nutritionKey, addOn, title, weight, calories, sharedStatus = false, ingredients }) => {
@@ -91,3 +92,15 @@ console.log(shared);
 };
 
 export default MealView;
+
+
+MealView.propTypes = {
+  author: PropTypes.string.isRequired,
+  nutritionKey: PropTypes.string.isRequired,
+  addOn: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
+  weight: PropTypes.number.isRequired,
+  calories: PropTypes.number.isRequired,
+  sharedStatus: PropTypes.bool,
+  ingredients: PropTypes.arrayOf(PropTypes.string).isRequired
+};

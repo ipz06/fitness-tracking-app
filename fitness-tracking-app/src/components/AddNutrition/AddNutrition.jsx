@@ -13,7 +13,7 @@ const AddNutrition = () => {
   const [nutritionData, setNutritionData] = useState(null);
   const { user } = useContext(AuthContext);
   const [apiError, setApiError] = useState(null);
-
+  const [error, setError] = useState(null);
 
   const handleIngredientChange = (index, event) => {
     const newIngredients = [...ingredients];
@@ -30,15 +30,28 @@ const AddNutrition = () => {
     setApiError(null);
     const data = await analyzeNutrition(recipeTitle, ingredients);
     setNutritionData(data);
+    
     } catch (error) {
       setApiError(error);
     }
   };
 
+  const removeIngredientField = (index) => {
+    const newIngredients = [...ingredients];
+    newIngredients.splice(index, 1);
+    setIngredients(newIngredients);
+  };
+
   const handleSaveNutrition = async () => {
     try {
+      if (ingredients.some(i => i === '') || recipeTitle === '') {
+        setError('All fields must be filled in before saving.')
+        toast.error(error)
+        return
+      }
     await saveNutritionToDatabase(user.displayName, recipeTitle, ingredients, nutritionData.calories, nutritionData.totalWeight)
     toast.success('Your meal is saved');
+    setError('');
     } catch (error) {
       console.log(error);
     }
@@ -49,7 +62,7 @@ const AddNutrition = () => {
     <Container maxW="container.xl" >
     <VStack spacing={2}>
       <Input
-      maxW="80%"
+      maxW="100%"
         value={recipeTitle}
         onChange={(e) => setRecipeTitle(e.target.value)}
         placeholder="Recipe Title"
@@ -62,26 +75,31 @@ const AddNutrition = () => {
         borderRadius="sm"
       />
 
-      {ingredients.map((ingredient, index) => (
-        <Input
-        maxW="80%"
-          key={index}
-          value={ingredient}
-          onChange={(e) => handleIngredientChange(index, e)}
-          placeholder="Ingredient"
-          borderColor="blackAlpha.500"
-          _hover={{ borderColor: "black", borderWidth: 2 }}
-          _focus={{
-            borderColor: "black",
-            // boxShadow: "0 0 0 3px rgba(0,0,0,0.1)",
-          }}
-        borderRadius="sm"
-        />
-      ))}
+{ingredients.map((ingredient, index) => (
+  <HStack key={index}>
+    <Input
+      maxW="80%"
+      value={ingredient}
+      onChange={(e) => handleIngredientChange(index, e)}
+      placeholder="Ingredient"
+      borderColor="blackAlpha.500"
+      _hover={{ borderColor: "black", borderWidth: 2 }}
+      _focus={{
+        borderColor: "black",
+      }}
+      borderRadius="sm"
+    />
+    <Button onClick={() => removeIngredientField(index)} color="black" backgroundColor="blackAlpha.300" borderRadius="sm"  variant="outline" borderColor="black">Remove</Button>
+  </HStack>
+))}
+      {error && (
+  <Box mt={2}>
+    <Text fontSize="lg" color="red">{error}</Text>
+  </Box>
+)}
       <HStack maxW="80%">
       <Button onClick={addIngredientField} color="black" backgroundColor="blackAlpha.300" borderRadius="sm"  variant="outline" borderColor="black"  px={7}>Add Ingredient</Button>
       <Button onClick={analyzeRecipe} color="black" backgroundColor="blackAlpha.300" borderRadius="sm"  variant="outline" borderColor="black">Analyze</Button>
-      <Button onClick={handleSaveNutrition} color="black" backgroundColor="blackAlpha.300" borderRadius="sm"  variant="outline" borderColor="black">Save</Button>
       </HStack>
       {apiError && (
     <Box mt={4}>
@@ -150,7 +168,10 @@ const AddNutrition = () => {
               ))}
             </SimpleGrid>
           </Box>
-          <Button onClick={() => setNutritionData(null)} color="black" backgroundColor="red.500" borderRadius="sm"  minW="20%" variant="outline" borderColor="black">Close</Button>
+          <HStack>
+          <Button onClick={handleSaveNutrition} color="black" backgroundColor="blackAlpha.300" borderRadius="sm" minW="10%" variant="outline" borderColor="black">Save</Button>
+          <Button onClick={() => setNutritionData(null)} color="black" backgroundColor="red.500" borderRadius="sm"  minW="10%" variant="outline" borderColor="black">Close</Button>
+          </HStack>
        </Box>
       )}
     </VStack>
