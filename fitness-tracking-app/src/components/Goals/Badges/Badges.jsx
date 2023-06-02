@@ -3,7 +3,8 @@ import { ref, onValue } from "firebase/database";
 import {
    HStack,  
    Image,
-   Spacer
+   Spacer,
+   Box
 } from '@chakra-ui/react';
 import { db } from "../../../config/firebase-config";
 import "firebase/database";
@@ -12,6 +13,7 @@ import BadgeActiveL1 from '../../../assets/badge-active-level1.png'
 import BadgeToned from '../../../assets/badge-stay-toned.png'
 import BadgeTonedL1 from '../../../assets/badge-toned-level1.png'
 import BadgeHydrated from '../../../assets/badge-hydrated.png'
+import './badges.css'
 
 
 
@@ -55,15 +57,6 @@ const Badges = ({handle}) =>{
 
    },[])
 
-   if(loading){
-      return(
-         <div>
-            Loading..
-         </div>
-      )
-   } else {
-   
-
    const renderActive = (active) => {
       const result = []
       if(active>0){
@@ -76,13 +69,28 @@ const Badges = ({handle}) =>{
          return
       }
 
+      const render = (el) =>{
+         if(el==='/src/assets/badge-active.png') {
+            return 'stay active goal completed'
+         }
+      }
+
+      const renderClass = (el) => {
+         if(el==='/src/assets/badge-active.png') {
+            return 'badge_active'
+         }
+      }
+
       return (
          result.map((el,i) =>{
             return (
-               <Image key={i}
-               src ={el}
-               h='50px'
-               />
+               <Box key={i} className="tooltip" marginY='16px' w={'70px'}>
+                  <Image key={i}
+                  src ={el}
+                  h='50px'
+                  />
+                  <span className={renderClass(el)}>{render(el)}</span>
+               </Box>
             )
          })
       )
@@ -99,23 +107,46 @@ const Badges = ({handle}) =>{
       if(toned === 0) {
          return
       }
+
+      const render = (el) =>{
+         if(el==='/src/assets/badge-stay-toned.png') {
+            return 'stay toned goal completed'
+         }
+      }
+
+      const renderClass = (el) => {
+         if(el==='/src/assets/badge-stay-toned.png') {
+            return 'badge_toned'
+         }
+      }
+      
       return (
          result.map((el,i) =>{
             return (
-               <Image key={i}
-               src ={el}
-               h='50px'
-               />
+               <Box key={i} className="tooltip" marginY='16px' w={'70px'}>
+                  <Image key={i}
+                  src ={el}
+                  h='50px'
+                  />
+                  <span className={renderClass(el)}>{render(el)}</span>
+               </Box>
             )
          })
       )
    }
 
-   return(
-      <HStack w={'300px'} marginX={'auto'} marginY={'auto'} align="center" justify="center" marginBottom={'5'}>
-         {renderActive(active)}
-         {renderToned(toned)}
-      </HStack>
+   if(loading){
+      return(
+         <div>
+            Loading..
+         </div>
+      )
+   } else {
+      return(
+         <HStack w={'300px'} marginX={'auto'} marginY={'auto'} align="center" justify="center" marginBottom={'5'}>
+            {renderActive(active)}
+            {renderToned(toned)}
+         </HStack>
       // <HStack w={'300px'} marginX={'auto'} marginY={'auto'}>
       //    <Image 
       //          src ={BadgeActive}

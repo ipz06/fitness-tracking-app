@@ -1,0 +1,84 @@
+/* Tooltip container */
+.tooltip {
+   position: relative;
+   display: inline-block;
+ }
+ 
+ /* Tooltip text */
+ .tooltip .badge_active {
+   visibility: hidden;
+   width: 100x;
+   background-color: white;
+   color: #848484;
+   text-align: center;
+   border-radius: 6px;
+   font-size: 10px;
+ 
+   /* Position the tooltip text */
+   position: absolute;
+   z-index: 1;
+   bottom: 112%; /* Place tooltip above the image */
+   left: 0%;
+   margin-left: -20px; /* -60 is half of tooltip width */
+ 
+   /* Fade in tooltip */
+   opacity: 0;
+   transition: opacity 0.3s;
+ }
+ 
+ /* Tooltip arrow */
+ .tooltip .badge_active::after {
+   content: "";
+   position: absolute;
+   top: 100%; /* Below the tooltip */
+   left: 50%;
+   margin-left: -6px;
+   border-width: 5px;
+   border-style: solid;
+   border-color: #e0041c transparent transparent transparent;
+ }
+ 
+ /* Show tooltip text when hover */
+ .tooltip:hover .badge_active {
+   visibility: visible;
+   opacity: 1;
+ }
+
+ .tooltip .badge_toned {
+   visibility: hidden;
+   width: 100x;
+   background-color: white;
+   color: #848484;
+   text-align: center;
+   border-radius: 6px;
+   font-size: 10px;
+ 
+   /* Position the tooltip text */
+   position: absolute;
+   z-index: 1;
+   bottom: 112%; /* Place tooltip above the image */
+   left: 0%;
+   margin-left: -20px; /* -60 is half of tooltip width */
+ 
+   /* Fade in tooltip */
+   opacity: 0;
+   transition: opacity 0.3s;
+ }
+ 
+ /* Tooltip arrow */
+ .tooltip .badge_toned::after {
+   content: "";
+   position: absolute;
+   top: 100%; /* Below the tooltip */
+   left: 50%;
+   margin-left: -6px;
+   border-width: 5px;
+   border-style: solid;
+   border-color: #e0041c transparent transparent transparent;
+ }
+ 
+ /* Show tooltip text when hover */
+ .tooltip:hover .badge_toned {
+   visibility: visible;
+   opacity: 1;
+ }
