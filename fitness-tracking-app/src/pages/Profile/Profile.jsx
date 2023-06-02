@@ -102,13 +102,14 @@ const Profile = () => {
   const handleSave = async () => {
         setIsUploading(true);
     try {
+
     let avatarURL 
-
-
     if (newImageData) {
         avatarURL = await uploadAvatar(user.uid, newImageData);
-        setAppState({...appState, photo: avatarURL})
-    }
+        setAppState({...appState, photo: avatarURL , weight: weight})
+    } else {
+      setAppState({...appState, weight:weight})
+    } 
 
     await updateUserProfile(
         user.displayName,
@@ -122,6 +123,9 @@ const Profile = () => {
         country,
         birthdayDate,
     );
+    
+    
+
     } catch (error){
         console.error("Error updating user avatar:", error);
         toast.warning(`You have to fill all the fields!`)
