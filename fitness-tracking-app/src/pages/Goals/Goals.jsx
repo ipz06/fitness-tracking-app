@@ -22,7 +22,6 @@ import { MONTH_MS } from '../../common/constants';
 import { toast } from 'react-toastify';
 import { getLastWeight } from '../../services/goal.service';
 import { addUserWeightGoal } from '../../services/goal.service';
-import AllFriendGoals from '../../components/Goals/ReadFriendGoals/AllFriendGoals';
 
 const Goals = ()=>{
    const date = new Date().toLocaleDateString("en-GB")
@@ -84,7 +83,6 @@ const Goals = ()=>{
          <Goal title={'Four hours a week workout'} description={'Any activity'} startDate={date} handleClick={addTimedActivity}/>
          <Goal title={'Any activity four times a week'} description={'Any activity'} startDate={date} handleClick={addWorkOutActivity}/>
          <Goal title={'Loose 2kg in a month'} description={'Loose some weight'} startDate={date} handleClick={addWeightGoal}/>
-         <AllFriendGoals handle={'misho'}/>
       </Box> 
    )
 }
