@@ -1,9 +1,9 @@
  const DividerHeader =  ({heading}) => {
    return (
       <div style={{
-         'text-align':'center',
-         'border-bottom':'1px solid #CCCCCC' ,
-         'margin-bottom':'10px'
+         'textAlign':'center',
+         'borderBottom':'1px solid #CCCCCC' ,
+         'marginBottom':'10px'
          
       }}>
          <h2 style ={{
@@ -13,7 +13,7 @@
             'background':'#FFFFFF',
             'padding': '0 10px',
             'position': 'relative',
-            'text-transform':'upper-case'
+            'textTransform':'upper-case'
          }}>
             <span>{heading.toUpperCase()}</span>
          </h2>
