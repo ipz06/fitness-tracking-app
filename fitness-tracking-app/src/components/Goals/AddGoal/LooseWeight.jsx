@@ -15,6 +15,7 @@ import { addUserGoal } from "../../../services/goal.service";
 import { getLastWeight } from "../../../services/goal.service";
 import { useNavigate } from "react-router-dom";
 import { addUserWeightGoal } from "../../../services/goal.service";
+import { toast } from 'react-toastify';
 
 
 const LooseWeight = ({open,setOpen}) => {
@@ -38,11 +39,11 @@ useEffect(()=>{
             setCurrentWeight(weight)
          } else {
             navigate('/profile')
-            alert('set weight')
+            toast(('Set weight'),{autoClose:1000})
          }
       })
 },[])
-
+ 
 
 const HandleSubmitGoal = (open,setOpen)=>{
    const now = Date.now()

@@ -11,9 +11,10 @@ import { GiMeal } from 'react-icons/gi';
 import { useState, useEffect } from 'react';
 import { FaShareAlt } from "react-icons/fa"  
 import { shareUserMeal } from '../../services/nutrition.service';
+import { USER_TYPE } from '../../common/constants';
 
 const MealView = ({ author, nutritionKey, addOn, title, weight, calories, sharedStatus = false, ingredients }) => {
-  const {user} = useContext(AuthContext)
+  const {user, role} = useContext(AuthContext)
   const [loading, setLoading] = useState(false)
   const [shared, setShared] = useState(sharedStatus)
 
@@ -70,14 +71,15 @@ console.log(shared);
           </UnorderedList>
           <VStack paddingLeft="10%">
           <Button onClick={handleLogMeal} backgroundColor="blackAlpha.300" borderRadius="sm" color="blackAlpha.900" variant="outline" borderColor="black"><GiMeal size={20}/></Button>
-          <Button onClick={handleDeleteMeal} backgroundColor="red.500" borderRadius="sm" color="blackAlpha.900" variant="outline" borderColor="black"><FaTrash size={20}/></Button>
+          {(role===USER_TYPE.ADMIN || role===USER_TYPE.SUPER_ADMIN) && <Button onClick={handleDeleteMeal} backgroundColor="red.500" borderRadius="sm" color="blackAlpha.900" variant="outline" borderColor="black"><FaTrash size={20}/></Button>}
+          {(author === user.displayName && (role!==USER_TYPE.ADMIN && role!==USER_TYPE.SUPER_ADMIN) ) &&<Button onClick={handleDeleteMeal} backgroundColor="red.500" borderRadius="sm" color="blackAlpha.900" variant="outline" borderColor="black"><FaTrash size={20}/></Button>}
           {author === user.displayName && (
-  shared ? (
-    <IconButton icon={<FaShareAlt/>} size={'sm'} w={8}  onClick={handleShare} colorScheme='green'/>
-  ):(
-    <IconButton icon={<FaShareAlt/>} size={'sm'} w={8}  onClick={handleShare}/>
-  )
-)}
+                                            shared ? (
+                                              <IconButton icon={<FaShareAlt/>} size={'sm'} w={8}  onClick={handleShare} colorScheme='green'/>
+                                            ):(
+                                              <IconButton icon={<FaShareAlt/>} size={'sm'} w={8}  onClick={handleShare}/>
+                                            )
+                                          )}
             
           </VStack>
           </HStack>

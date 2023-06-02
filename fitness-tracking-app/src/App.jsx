@@ -23,6 +23,8 @@ import 'react-toastify/dist/ReactToastify.css';
 import Stats from "./pages/Stats/Stats";
 import UserSearch from "./components/UserSearch/UserSearch";
 import User from "./pages/User/User";
+import AdminPage from "./pages/AdminPage/AdminPage";
+import UserMeals from "./pages/AdminPage/UserMeals";
 
 function App() {
   const [user] = useAuthState(auth);
@@ -140,7 +142,25 @@ function App() {
                 <User/>
               </AuthenticateRoute>
             }  
-           />  
+           /> 
+
+            <Route 
+            path="/admin" 
+            element={
+              <AuthenticateRoute>
+                <AdminPage/>
+              </AuthenticateRoute>
+            }  
+           />
+
+            <Route
+              path="/admin/:handle"
+              element={
+                <AuthenticateRoute>
+                  <UserMeals />
+                </AuthenticateRoute>
+              }
+            />
 
 
         </Routes>

@@ -5,7 +5,8 @@ import {
    Avatar,
    Flex, 
    Image,
-   Spacer
+   Spacer,
+   Button
 } from '@chakra-ui/react';
 import { NavLink } from 'react-router-dom';
 import { useState, useContext } from 'react';
@@ -16,6 +17,7 @@ import { redColor } from '../../common/constants.js';
 import { useLocation } from 'react-router-dom';
 import MobileMenu from './MobileMenu.jsx';
 import { MOBILE_MENU_ITEMS } from "../../common/constants";
+import { USER_TYPE } from '../../common/constants.js';
 
 
  
@@ -25,7 +27,7 @@ const Navbar = ({menu}) => {
    
    let address = useLocation()
    const [activeLink, setActiveLink] = useState((address.pathname).slice(1))
-   const {photo, handle} = useContext(AuthContext)
+   const {photo, handle, role} = useContext(AuthContext)
 
    return (
          <Flex
@@ -61,6 +63,32 @@ const Navbar = ({menu}) => {
             <div className={`underline ${activeLink.toLowerCase()}`}></div>
             </Flex>
             <Spacer/>
+            {(role===USER_TYPE.ADMIN) &&(
+               <HStack marginY='auto' marginEnd={'10'} display={{ base: "none", md: "flex" }}>
+                  <NavLink to = {'/admin'}
+                           onClick = {()=>setActiveLink('admin')}
+                           >
+                     <Button  variant={'solid'} 
+                              color={redColor}
+                              >
+                        Admin
+                     </Button>
+                  </NavLink>
+               </HStack>
+            )}
+            {(role===USER_TYPE.SUPER_ADMIN ) &&(
+               <HStack marginY='auto' marginEnd={'10'} display={{ base: "none", md: "flex" }}>
+                  <NavLink to = {'/admin'}
+                           onClick = {()=>setActiveLink('admin')}
+                           >
+                     <Button  variant={'solid'} 
+                              color={redColor}
+                              >
+                        Owner
+                     </Button>
+                  </NavLink>
+               </HStack>
+            )}
             <Box margin={'auto'} display={{ base: "none", md: "flex" }} >
                <NavLink to = {'/profile'}
                         onClick = {()=>setActiveLink('profile')}>

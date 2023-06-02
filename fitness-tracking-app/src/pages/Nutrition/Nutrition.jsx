@@ -5,9 +5,10 @@ import { Flex, Box, SimpleGrid } from "@chakra-ui/react";
 import { onUserNutritionsChange } from "../../services/nutrition.service";
 import { useContext } from "react";
 import { AuthContext } from "../../common/context";
+import { USER_TYPE } from "../../common/constants";
 
 const Nutrition = () => {
-  const {user} = useContext(AuthContext);
+  const {user,role} = useContext(AuthContext);
   const [nutritions, setNutritions] = useState([]);
   const handle = user.displayName;
 
@@ -21,7 +22,7 @@ const Nutrition = () => {
       <Box p={4} pt="2%" >   
      <Flex justifyContent="center" alignItems="center" height="100%">
   <Box>
-    <AddNutrition />
+    {role !== USER_TYPE.BLOCKED &&<AddNutrition />}
   </Box>
 </Flex>
 
