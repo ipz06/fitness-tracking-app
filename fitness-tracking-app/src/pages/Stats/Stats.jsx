@@ -3,9 +3,8 @@ import DurationChart from "../../components/StatsCharts/DurationChart"
 import CaloriesChart from "../../components/StatsCharts/CaloriesChart"
 import TotalWorkOutChart from "../../components/StatsCharts/totalWorkOutChart"
 import MealNutritionChart from "../../components/StatsCharts/MealNutritionChart"
-const Stats = () => {
 
-   
+const Stats = () => {
 
     return (
         <Flex flexDir="column" alignItems="center" w="100%">

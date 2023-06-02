@@ -2,7 +2,7 @@ import { BarChart, XAxis, YAxis, Bar, Tooltip, ResponsiveContainer } from "recha
 import { redColor } from "../../common/constants";
 import { Flex, Heading, Box, Text } from "@chakra-ui/react";
 import { useState, useEffect, useContext } from "react";
-import { getDurationActivity } from "../../services/log.service";
+import { getActivityByDate } from "../../services/log.service";
 import { AuthContext } from "../../common/context";
 import { days } from "../../common/daysData";
 import DividerHeader from "../Goals/Divider";
@@ -15,16 +15,22 @@ const CaloriesChart = () => {
   const getCalories = async (user) => {
     try {
       setLoading(true);
-      const fetchCalories = await getDurationActivity(user.displayName);
-      const createData = days.map((day) => ({ day: day, calories: 0 }));
-
-      Object.entries(fetchCalories)
-        .map(([timeStamp, value]) => ({ ...value, timeStamp }))
-        .forEach((activity) => {
-          const fromTimeStamp = new Date(+activity.timeStamp);
-          const dayOfWeek = fromTimeStamp.getDay();
-          createData[dayOfWeek].calories += Number(activity.caloriesBurned);
-        });
+      const fetchCalories = await getActivityByDate(user.displayName);
+      const createData = days.map((day) => ({ day: day, caloriesBurned: 0 }));
+      
+      Object.values(fetchCalories)
+      .forEach((activity) => {
+        const fromTimeStamp = new Date(+activity.timestamp);
+        const dayOfWeek = fromTimeStamp.getDay();
+        createData[dayOfWeek].caloriesBurned += Number(activity.caloriesBurned);
+      });
+      // Object.entries(fetchCalories)
+      //   .map(([timeStamp, value]) => ({ ...value, timeStamp }))
+      //   .forEach((activity) => {
+      //     const fromTimeStamp = new Date(+activity.timeStamp);
+      //     const dayOfWeek = fromTimeStamp.getDay();
+      //     createData[dayOfWeek].calories += Number(activity.caloriesBurned);
+      //   });
 
       setCalories(createData);
     } catch (error) {
@@ -62,10 +68,10 @@ const CaloriesChart = () => {
       >
         <XAxis dataKey="day" />
         <YAxis
-          label={{ value: "Calories", angle: -90, position: "insideLeft" }}
+          label={{ value: "caloriesBurned", angle: -90, position: "insideLeft" }}
         />
         <Tooltip />
-        <Bar dataKey="calories" fill={redColor} />
+        <Bar dataKey="caloriesBurned" fill={redColor} />
       </BarChart>
       </ResponsiveContainer>
     </Flex>

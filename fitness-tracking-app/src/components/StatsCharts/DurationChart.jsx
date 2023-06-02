@@ -13,6 +13,7 @@ import { getDurationActivity } from "../../services/log.service";
 import { AuthContext } from "../../common/context";
 import { days } from "../../common/daysData";
 import DividerHeader from '../../components/Goals/Divider';
+import { getActivityByDate } from "../../services/log.service";
 
 
 const DurationChart = () => {
@@ -23,16 +24,23 @@ const DurationChart = () => {
   const getDuration = async (handle) => {
     try {
       setLoading(true);
-      const fetchDuration = await getDurationActivity(handle);
+      const fetchDuration = await  getActivityByDate(handle);
       const createData = days.map((day) => ({ day: day, minutes: 0 }));
 
-      Object.entries(fetchDuration)
-        .map(([timeStamp, value]) => ({ ...value, timeStamp }))
+       Object.values(fetchDuration)
         .forEach((activity) => {
-          const fromTimeStamp = new Date(+activity.timeStamp);
+          const fromTimeStamp = new Date(+activity.timestamp);
           const dayOfWeek = fromTimeStamp.getDay();
           createData[dayOfWeek].minutes += Number(activity.duration);
         });
+
+      // Object.entries(fetchDuration)
+      //   .map(([timeS, value]) => ({ ...value, timeS }))
+      //   .forEach((activity) => {
+      //     const fromTimeStamp = new Date(+activity.timeS);
+      //     const dayOfWeek = fromTimeStamp.getDay();
+      //     createData[dayOfWeek].minutes += Number(activity.duration);
+      //   });
 
       setDuration(createData);
     } catch (error) {

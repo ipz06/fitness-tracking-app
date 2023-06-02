@@ -2,7 +2,7 @@ import { BarChart, XAxis, YAxis, Bar, Tooltip, ResponsiveContainer } from "recha
 import { redColor } from "../../common/constants";
 import { Flex,Text } from "@chakra-ui/react";
 import { useState, useEffect, useContext } from "react";
-import { getDurationActivity } from "../../services/log.service";
+import { getActivityByDate } from "../../services/log.service";
 import { AuthContext } from "../../common/context";
 import { days } from "../../common/daysData";
 import DividerHeader from "../Goals/Divider";
@@ -15,16 +15,22 @@ const TotalWorkOutChart = () => {
   const getDuration = async (handle) => {
     try {
       setLoading(true);
-      const fetchDuration = await getDurationActivity(handle);
+      const fetchDuration = await getActivityByDate(handle);
       const createData = days.map((day) => ({ day: day, workouts: 0 }));
 
-      Object.entries(fetchDuration)
-        .map(([timeStamp, value]) => ({ ...value, timeStamp }))
-        .forEach((activity) => {
-          const fromTimeStamp = new Date(+activity.timeStamp);
-          const dayOfWeek = fromTimeStamp.getDay();
-          createData[dayOfWeek].workouts ++;
-        });
+      Object.values(fetchDuration)
+      .forEach((activity) => {
+        const fromTimeStamp = new Date(+activity.timestamp);
+        const dayOfWeek = fromTimeStamp.getDay();
+        createData[dayOfWeek].workouts ++;
+      });
+      // Object.entries(fetchDuration)
+      //   .map(([timeStamp, value]) => ({ ...value, timeStamp }))
+      //   .forEach((activity) => {
+      //     const fromTimeStamp = new Date(+activity.timeStamp);
+      //     const dayOfWeek = fromTimeStamp.getDay();
+      //     createData[dayOfWeek].workouts ++;
+      //   });
 
       setDuration(createData);
     } catch (error) {
@@ -49,7 +55,7 @@ const TotalWorkOutChart = () => {
     >   
         <Flex flexDir="column" alignItems="center" w="100%" h="100%" margin={450}>
         {/* <Text fontStyle='normal' fontWeight="bold">TOTAL WORKOUTS</Text> */}
-        <DividerHeader heading={'duration (min)'}></DividerHeader> 
+        <DividerHeader heading={'total workouts'}></DividerHeader> 
 
       <ResponsiveContainer width={700} height="50%" >
       <BarChart

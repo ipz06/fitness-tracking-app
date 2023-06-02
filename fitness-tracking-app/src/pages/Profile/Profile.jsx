@@ -54,7 +54,6 @@ const Profile = () => {
       const fetchUser = async () => {
         try {
           const userSnapshot = await getUserByHandle(user.displayName);
-          console.log("snapshot", userSnapshot);
             setFirstName(userSnapshot.firstName)
             setLastName(userSnapshot.lastName);
             setImage(userSnapshot.photoURL);
