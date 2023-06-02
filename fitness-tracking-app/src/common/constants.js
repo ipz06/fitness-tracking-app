@@ -20,3 +20,9 @@ export const MIN_WEIGHT = 10;
 export const MAX_WEIGHT = 500;
 export const MIN_HEIGHT = 1;
 export const MAX_HEIGHT = 4;
+export const USER_TYPE = Object.freeze({
+                                    'USER':1,
+                                    'ADMIN':2,
+                                    'BLOCKED':3,
+                                    'SUPER_ADMIN':4,
+                                 })
