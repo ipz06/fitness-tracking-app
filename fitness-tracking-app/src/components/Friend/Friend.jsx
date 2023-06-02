@@ -1,8 +1,9 @@
-import { Box, Button, GridItem, Text, VStack, Avatar, HStack } from "@chakra-ui/react";
+import { Box, Button, Text, VStack, Avatar, HStack } from "@chakra-ui/react";
 import { getUserByHandle } from "../../services/user.service";
 import { useEffect, useState } from "react";
 import { deleteFriendsFromDatabase } from "../../services/friends.service";
 import { Link } from "react-router-dom";
+import PropTypes from 'prop-types';
 
 const Friend = ({owner, handle}) => {
 const [user, setUser] = useState([]);
@@ -51,5 +52,11 @@ const handleDeleteFriends = async () => {
 	)
 }
 
-
 export default Friend;
+
+
+Friend.propTypes = {
+  owner: PropTypes.string.isRequired,
+  handle: PropTypes.string.isRequired,
+
+};

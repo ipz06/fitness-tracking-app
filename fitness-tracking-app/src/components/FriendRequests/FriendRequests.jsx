@@ -87,10 +87,10 @@ const FriendRequests = () => {
             </VStack>
           </Box>
           <Box display="flex" gap={2} ml={{ base: "2%", md: "10%" }} flexWrap="wrap">
-            <Button fontSize="xs" borderRadius="sm" color="blackAlpha.900" backgroundColor="teal.200" maxW="30%" onClick={() => handleAcceptRequest(request.photo, request.sender, request.email, request.friendRequestKey)} >
+            <Button fontSize="xs" borderRadius="sm" color="blackAlpha.900" backgroundColor="teal.200" minW="35%" onClick={() => handleAcceptRequest(request.photo, request.sender, request.email, request.friendRequestKey)} >
               Accept
             </Button>
-            <Button fontSize="xs" borderRadius="sm" backgroundColor="red.500" color="blackAlpha.900" maxW="30%" onClick={() => handleDeclineRequest(request.friendRequestKey)} >
+            <Button fontSize="xs" borderRadius="sm" backgroundColor="red.500" color="blackAlpha.900" minW="35%" onClick={() => handleDeclineRequest(request.friendRequestKey)} >
               Decline
             </Button>
           </Box>

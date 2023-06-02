@@ -11,6 +11,7 @@ import {
   Text,
   Flex,
   Center,
+  Stack,
   Divider,
 } from '@chakra-ui/react';
 import FriendRequests from '../FriendRequests/FriendRequests';
@@ -21,6 +22,9 @@ import FriendsView from '../FriendsView/FriendsView';
 import { getUserAllFriends } from '../../services/friends.service';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import SendedRequests from '../SendedRequests/SendedRequests';
+import { getDatabase, ref, onValue, off } from "firebase/database"; 
+import { db } from '../../config/firebase-config'; 
 
 const UserSearch = () => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -29,7 +33,47 @@ const UserSearch = () => {
 	const [filteredUsers, setFilteredUsers] = useState([]);
 	const [allUsers, setAllUsers] = useState([]);
   const [friends, setFriends] = useState([]);
-  const [requestSent, setRequestSent] = useState(false);
+  
+
+  const [onlyReceiver, setOnlyReceiver] = useState([]); 
+  const [requests, setRequests] = useState([]); 
+  const friendRequestsRef = ref(db, "friend-requests");
+
+
+
+
+  useEffect(() => {                       
+    const callback = (snapshot) => {
+      const allRequests = snapshot.val();
+      const userRequests = [];
+      const receiverArr = [];
+
+      Object.keys(allRequests).forEach((receiver) => {
+        Object.keys(allRequests[receiver]).forEach((requestKey) => {
+          const request = allRequests[receiver][requestKey];
+
+          if (request.sender === user.displayName) {
+            userRequests.push({
+              receiver: receiver,
+              date: request.createdOn,
+              friendRequestKey: request.friendRequestKey
+            });
+            receiverArr.push(receiver);
+          }
+        });
+      });
+      setRequests(userRequests);
+      setOnlyReceiver(receiverArr);
+    };
+
+    onValue(friendRequestsRef, callback, (error) => {
+      console.error(error);
+    });
+    return () => {
+      off(friendRequestsRef, callback);
+    };
+  }, []); 
+
   
   useEffect(() => {
     const fetchUsers = async () => {
@@ -79,7 +123,6 @@ const UserSearch = () => {
     } catch (error) {
       console.log(error);
     }
-    setRequestSent(true);
   };
 
   useEffect(() => {
@@ -99,10 +142,17 @@ const UserSearch = () => {
   }, [user.displayName]);
 
 
+
   return (
 
    <Flex direction="column" alignItems="center" w="100%">
       <FriendRequests/>
+      <Divider  borderColor="black" borderWidth="1px" heading={'friends'}/>
+      <Box maxW="65%" minW="65%" pt="1%" pb="2%">
+      <SendedRequests 
+      requests={requests}
+      />
+      </Box>
     <Divider  borderColor="black" borderWidth="1px" heading={'friends'}/>
       <FriendsView/>
       <Divider  borderColor="black" borderWidth="1px" heading={'friends'}/>
@@ -122,29 +172,28 @@ const UserSearch = () => {
         }}
       />
   
-      <UnorderedList>
-        {searchQuery && filteredUsers.map((user) => (
-          <ListItem key={user.uid}>
-            <HStack>
-              <Avatar src={user.photoURL}/>
-              <Text>{`${user.handle}, ${user.firstName} ${user.lastName}`}</Text>
-            </HStack> 
-            {!requestSent && (
-              user.handle !== handle &&
-              !friends.some((friend) => friend.user === user.handle) && (
-                <Box>
-                  <Button onClick={() => handleSendFriendRequest(user.handle)}>
-                    Send Request
-                  </Button>
-                </Box>
-              )
-            )}
-            {requestSent && <p>Friend request sent!</p>}
-          </ListItem>
-        ))}
-      </UnorderedList>
+  <Stack spacing={3}>
+  {searchQuery && filteredUsers.map((user) => (
+    <Box key={user.uid}>
+      <HStack spacing={5}>
+        <Avatar src={user.photoURL}/>
+        <Text>{`${user.handle}, ${user.firstName} ${user.lastName}`}</Text>
+        {!onlyReceiver.includes(user.handle) && 
+          user.handle !== handle &&
+          !friends.some((friend) => friend.user === user.handle) && (
+            <Box>
+              <Button onClick={() => handleSendFriendRequest(user.handle)}>
+                Send Request
+              </Button>
+            </Box>
+          )
+        }
+      </HStack>
+    </Box>
+  ))}
+</Stack>
       </Box>
-  
+
       </Flex>
   );
 };
