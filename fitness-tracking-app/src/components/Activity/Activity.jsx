@@ -16,6 +16,7 @@ import ExerciseImage from "./../../assets/exercises.png";
 import { deleteActivityFromDatabase } from "../../services/activity.service";
 import EditActivity from "../EditActivity/EditActivity";
 import { useState } from "react";
+import PropTypes from 'prop-types';
 
 function Activity ({activityKey, type, duration, caloriesBurned, addedOn, onAddToLog, author }) {
   let image;
@@ -143,3 +144,14 @@ const handleCloseEditModal = () => {
 }
 
 export default Activity;
+
+
+Activity.propTypes = {
+  activityKey: PropTypes.string.isRequired,
+  type: PropTypes.string.isRequired,
+  duration: PropTypes.number.isRequired,
+  caloriesBurned: PropTypes.number.isRequired,
+  addedOn: PropTypes.string.isRequired,
+  onAddToLog: PropTypes.func.isRequired,
+  author: PropTypes.string.isRequired,
+};

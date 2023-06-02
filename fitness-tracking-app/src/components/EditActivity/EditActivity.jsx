@@ -13,6 +13,8 @@ import {
 import { updateActivityInDatabase } from "../../services/activity.service";
 import { AuthContext } from "../../common/context";
 import { WALK_MET, RUN_MET, BIKING_MET, GYM_MET, YOGA_MET, EXERCISE_MET } from "../../common/constants";
+import PropTypes from 'prop-types';
+
 const EditActivity = ({ activityKey, duration, onClose, type, }) => {
   const [updatedDuration, setUpdatedDuration] = useState(duration);
   const [updatedCaloriesBurned, setUpdatedCaloriesBurned] = useState(0);
@@ -137,3 +139,10 @@ const EditActivity = ({ activityKey, duration, onClose, type, }) => {
 };
 
 export default EditActivity;
+
+EditActivity.propTypes = {
+  activityKey: PropTypes.string.isRequired,
+  duration: PropTypes.number.isRequired,
+  onClose: PropTypes.func.isRequired,
+  type: PropTypes.string.isRequired,
+};

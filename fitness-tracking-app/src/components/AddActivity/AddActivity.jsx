@@ -15,6 +15,7 @@ import {
 import { WALK_MET, RUN_MET, BIKING_MET, GYM_MET, YOGA_MET, EXERCISE_MET } from "../../common/constants";
 import { saveActivityToDatabase } from "../../services/activity.service";
 import { AuthContext } from "../../common/context";
+import PropTypes from 'prop-types';
 
 const AddActivity = ({ onClose, setIsModalOpen }) => {
   const [activity, setActivity] = useState("");
@@ -192,3 +193,10 @@ const { user, weight } = useContext(AuthContext);
 };
 
 export default AddActivity;
+
+
+AddActivity.propTypes = {
+  onClose: PropTypes.func.isRequired,
+  setIsModalOpen: PropTypes.func.isRequired,
+
+};
