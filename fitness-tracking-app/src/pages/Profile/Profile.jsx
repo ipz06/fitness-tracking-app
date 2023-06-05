@@ -17,8 +17,7 @@ import {
   Button,
   FormErrorMessage,
   FormHelperText,
-  Spacer,
-  Wrap
+
 } from "@chakra-ui/react";
 import { useState, useContext, useEffect } from "react";
 import { logoutUser } from "../../services/auth.services";
@@ -32,6 +31,8 @@ import { MAX_HEIGHT, MAX_WEIGHT, MIN_HEIGHT, MIN_WEIGHT, NAME_MAX_LENGTH, NAME_M
 import { toast } from 'react-toastify';
 import Badges from "../../components/Goals/Badges/Badges";
 import { wrap } from "framer-motion";
+import { Label } from "recharts";
+import uploadPic from "/Users/vanyazlateva/Dev/fitness-tracking-app/fitness-tracking-app/src/assets/upload.jpg"
 
 const Profile = () => {
   const [image, setImage] = useState("");
@@ -47,6 +48,8 @@ const Profile = () => {
   const [country, setCountry] = useState("");
   const [createdOn, setCreatedOn] = useState("");
   const { user, setUser, handle, appState, setAppState} = useContext(AuthContext);
+  
+  const [avatar, setAvatar] = useState(image)
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -150,23 +153,27 @@ const Profile = () => {
 
   return (
     <Flex
-      position="relative"
-      w="100%"
-      h="100vh"
-      alignItems="center"
       justifyContent="center"
+      paddingX="16px"
+      paddingTop="50px"
     >
-      <Flex flexDir="column" alignItems="center" w="100%" h="100%" margin={450}>
-        <Heading size="md" fontWeight="bold" fontStyle="normal" paddingBottom={50}>
+      <Flex direction="column" alignItems="center">
+        <Heading size="xl" fontWeight="bold" fontStyle="normal" fontSize={{ base: "sm", sm: "xl", md: "3xl" }} paddingBottom={50}>
           PROFILE INFORMATION
         </Heading>
-        <Flex w="100%" h="500px" paddingBottom={50} gap={10} justifyContent={"space-between"}>
-          <Flex flex="1" w="100%" marginTop={5}>
-            <FormControl>
-              <Avatar
+        <Flex direction={{base: 'column', md: 'row'}} paddingBottom={50} gap={10} justifyContent={"space-between"} w="100%">
+          <Flex flex="1" marginTop={5}>
+            <FormControl display="flex" justifyContent="center">
+            
+              <Avatar className="avatar"
                 size="2xl"
                 borderRadius="full"
+                opacity={1}
                 src={image}
+               
+                // onMouseEnter={() => setAvatar({uploadPic})}
+                // onMouseOut={() => setImage({image})}
+                _hover={{opacity: "0.5" }}
               />
               <Input
                 type="file"
@@ -183,13 +190,13 @@ const Profile = () => {
             </FormControl>
           </Flex>
           <Flex flex="2" flexDir="column" w="100%" marginTop={5}>
-            <Text fontWeight="bold" fontStyle="normal" paddingBottom={5}>
+            <Text fontWeight="bold" fontStyle="normal" fontSize={{ base: "xs", sm: "sm", md: "lg" }} paddingBottom={5}>
               Member since: {modifyDate(createdOn)}
             </Text>
-            <Text fontWeight="bold" fontStyle="normal" paddingBottom={5}>
+            <Text fontWeight="bold" fontStyle="normal" fontSize={{ base: "xs", sm: "sm", md: "lg" }} paddingBottom={5}>
               Friends
             </Text>
-            <Text fontWeight="bold" fontStyle="normal" paddingBottom={5}>
+            <Text fontWeight="bold" fontStyle="normal" fontSize={{ base: "xs", sm: "sm", md: "lg" }} paddingBottom={5}>
               Achievements
             </Text>
             <Flex>
@@ -197,8 +204,8 @@ const Profile = () => {
             </Flex>
           </Flex>
         </Flex>
-        <Flex  w="100%">
-        <FormControl isInvalid={isErrorFirstName} paddingBottom={10}>
+        <Flex  w="100%" justifyContent={"center"}>
+        <FormControl maxW="450px" isInvalid={isErrorFirstName} paddingBottom={10}>
           <FormLabel fontWeight="bold"> First Name</FormLabel>
           <Input
             value={firstName}
@@ -207,8 +214,7 @@ const Profile = () => {
             border="1px"
             borderColor="gray.500"
             borderRadius="4px"
-            w="100%"
-            h={55}
+            size="lg"
             _hover={{
               borderColor: "gray.900",
               border: "2px",
@@ -228,7 +234,7 @@ const Profile = () => {
       )}
         </FormControl>
         </Flex>
-        <FormControl isInvalid={isErrorLastName} paddingBottom={10}>
+        <FormControl maxW="450px" isInvalid={isErrorLastName} paddingBottom={10}>
           <FormLabel fontWeight="bold">Last Name</FormLabel>
           <Input
             value={lastName}
@@ -237,8 +243,7 @@ const Profile = () => {
             border="1px"
             borderColor="gray.500"
             borderRadius="4px"
-            w="100%"
-            h={55}
+            size="lg"
             _hover={{
               borderColor: "gray.900",
               border: "2px",
@@ -257,7 +262,7 @@ const Profile = () => {
         <FormErrorMessage>Name is required and the length must be greater than 1 symbol.</FormErrorMessage>
       )}
         </FormControl>
-        <FormControl isInvalid={isErrorBirthday} paddingBottom={10}>
+        <FormControl maxW="450px" isInvalid={isErrorBirthday} paddingBottom={10}>
           <FormLabel fontWeight="bold">Birth Date</FormLabel>
           <Input
             value={birthdayDate}
@@ -267,9 +272,7 @@ const Profile = () => {
             border="1px"
             borderColor="gray.500"
             borderRadius="4px"
-            w="100%"
-            // w={550}
-            h={55}
+            size="lg"
             _hover={{
               borderColor: "gray.900",
               border: "2px",
@@ -287,11 +290,11 @@ const Profile = () => {
         <Flex 
         alignItems="center"
         justifyContent="space-between"
-        w="100%" 
+        maxWidth="450px" 
         h="100%" 
         gap={5} 
         paddingBottom={10}>
-            <Flex w="50%">
+            <Flex  w="50%">
             <FormControl isInvalid={isErrorWeight}>
               <FormLabel fontWeight={"bold"}>Weight (kg)</FormLabel>
               <NumberInput
@@ -299,7 +302,7 @@ const Profile = () => {
                 max={500.0}
                 min={10.0}
                 step={0.1}
-                h={55}
+                // h={55}
                 w="100%"
                 border="1px"
                 borderColor="gray.500"
@@ -316,8 +319,6 @@ const Profile = () => {
               >
                 <NumberInputField
                   onChange={(e) => setWeight(e.target.value)}
-                  h={55}
-                  w="100%"
                   border="0px"
                   borderColor="gray.500"
                   borderRadius="4px"
@@ -351,7 +352,6 @@ const Profile = () => {
                 max={4.0}
                 min={1.0}
                 step={0.01}
-                h={55}
                 w="100%"
                 border="1px"
                 borderColor="gray.500"
@@ -368,7 +368,6 @@ const Profile = () => {
               >
                 <NumberInputField
                  onChange={(e) => setHeight(e.target.value)}
-                  h={55}
                   border="0px"
                   borderColor="gray.500"
                   borderRadius="4px"
@@ -386,7 +385,7 @@ const Profile = () => {
               </NumberInput>
               {!isErrorHeight ? (
         <FormHelperText>
-          Enter your height in meters.
+          Enter your height.
         </FormHelperText>
       ) : (
         <FormErrorMessage>Height is required and the  value must be between 1 and 4 meters.</FormErrorMessage>
@@ -395,7 +394,7 @@ const Profile = () => {
             </Flex>
           
         </Flex>
-        <FormControl isRequired paddingBottom={10}>
+        <FormControl maxW="450px" isRequired paddingBottom={10}>
           <FormLabel fontWeight="bold">Gender</FormLabel>
           <Select
             value={gender}
@@ -404,8 +403,7 @@ const Profile = () => {
             border="1px"
             borderColor="gray.500"
             borderRadius="4px"
-            w="100%"
-            h={55}
+            size="lg"
             _hover={{
               borderColor: "gray.900",
               border: "2px",
@@ -420,7 +418,7 @@ const Profile = () => {
             <option>Male</option>
           </Select>
         </FormControl>
-        <FormControl isInvalid={isErrorPhone} paddingBottom={10}>
+        <FormControl   maxW="450px" isInvalid={isErrorPhone} paddingBottom={10}>
           <FormLabel fontWeight="bold">Phone number</FormLabel>
           <Input
             value={phoneNumber}
@@ -429,8 +427,7 @@ const Profile = () => {
             border="1px"
             borderColor="gray.500"
             borderRadius="4px"
-            w="100%"
-            h={55}
+            size="lg"
             _hover={{
               borderColor: "gray.900",
               border: "2px",
@@ -449,7 +446,7 @@ const Profile = () => {
         <FormErrorMessage>Phone is required and the count of numbers must be 10.</FormErrorMessage>
       )}
         </FormControl>
-        <FormControl paddingBottom={10}>
+        <FormControl  maxW="450px" paddingBottom={10}>
           <FormLabel fontWeight="bold">Country</FormLabel>
           <Select
             value={country}
@@ -458,8 +455,7 @@ const Profile = () => {
             border="1px"
             borderColor="gray.500"
             borderRadius="4px"
-            w="100%"
-            h={55}
+            size="lg"
             _hover={{
               borderColor: "gray.900",
               border: "2px",
@@ -473,7 +469,7 @@ const Profile = () => {
             {countryList.map((el, i) => <option key={i}>{el}</option>)}
           </Select>
         </FormControl>
-        <Flex paddingBottom={10} gap={10}>
+        <Flex paddingBottom={10} gap={10} justifyContent={'space-between'}>
           <Button
             size="md"
             w="200px"
