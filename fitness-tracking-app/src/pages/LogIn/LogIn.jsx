@@ -25,7 +25,7 @@ function LogIn() {
   const [passwordError, setPasswordError] = useState("");
   const [loginError, setLoginError] = useState(null);
   const navigate = useNavigate();
-  const { user, setUser } = useContext(AuthContext);
+  const { user, appState, setAppState } = useContext(AuthContext);
 
 
 
@@ -55,11 +55,9 @@ function LogIn() {
 
     loginUser(email, password)
     .then((credential) => {
-      setUser({
-        user: credential.user,
+      setAppState({...appState,
+        user: credential.user
       });
-    })
-    .then(() => {
       navigate("/dashboard");
     })
     .catch((e) => {
