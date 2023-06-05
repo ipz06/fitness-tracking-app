@@ -21,7 +21,10 @@ const Landing = () => {
                 zIndex={2}
             >
                 <img src={logoWhite} width='300px' />
-                <Text marginBottom='100px' color={WHITE_COLOR}>
+                <Text 
+                fontStyle="normal"
+                fontWeight="bold"
+                marginBottom='100px' color={WHITE_COLOR}>
                     Welcome
                 </Text>
                 <NavLink to='signup'>
@@ -36,6 +39,7 @@ const Landing = () => {
              </NavLink>
              <NavLink to='login'>
                 <Text 
+                    fontStyle="normal"
                     marginBottom='50px' 
                     color={WHITE_COLOR}
                     _hover={{
@@ -44,6 +48,13 @@ const Landing = () => {
                     Already have an account? Login
                 </Text>
              </NavLink>
+             <Text 
+                    fontStyle="normal"
+                    marginBottom='50px' 
+                    color={WHITE_COLOR}
+                    >
+                    Active Users: 
+                </Text>
                 
              {/* <Flex w='100%' h='60px'>
                 <Flex flex="1" backgroundColor='coral' />
