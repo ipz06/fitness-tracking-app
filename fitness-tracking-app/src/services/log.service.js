@@ -51,14 +51,35 @@ export const getUserActivityLogs = async (handle) => {
   }
 };
 
-export const getDurationActivity = async (handle) => {
+// export const getDurationActivity = async (handle) => {
+//   try {
+//   const durationActivity = query(ref(db, `log-activity/${handle}`), orderByChild('duration'));
+//   const snapshot = await get(durationActivity);
+//   // console.log('snapshot:', snapshot)
+
+//   if (snapshot.exists()) {
+//     // console.log('val',snapshot.val())
+//     return snapshot.val();
+//   } else {
+//     console.log('null')
+//     return null;
+//   }
+// } catch (error) {
+//   console.log(error);
+// }
+// }
+
+export const getActivityByDate = async (handle) => {
   try {
-  const durationActivity = query(ref(db, `log-activity/${handle}`), orderByChild('duration'));
+  const today = new Date();
+  today.setUTCHours(0, 0, 0, 0);
+  const timeStampSundayOfThisWeek = today.setDate(today.getDate() - today.getDay());
+  const durationActivity = query(ref(db, `log-activity/${handle}`), orderByChild('timestamp'), startAt(+timeStampSundayOfThisWeek));
   const snapshot = await get(durationActivity);
-  // console.log('snapshot:', snapshot)
 
   if (snapshot.exists()) {
-    // console.log('val',snapshot.val())
+    console.log('durationACTIVITY', snapshot.val())
+
     return snapshot.val();
   } else {
     console.log('null')
@@ -69,14 +90,59 @@ export const getDurationActivity = async (handle) => {
 }
 }
 
-export const getActivityByDate = async (handle) => {
+export const getActivityForToday = async (handle) => {
   try {
-  const today = new Date();  
-  const timeStampSundayOfThisWeek = today.setDate(today.getDate() - today.getDay())
+  const today = new Date();
+  today.setUTCHours(0, 0, 0, 0);
+  // const timeStampSundayOfThisWeek = today.setDate(today.getDate() - today.getDay());
+  const durationActivity = query(ref(db, `log-activity/${handle}`), orderByChild('timestamp'), startAt(+today));
+  const snapshot = await get(durationActivity);
+
+  if (snapshot.exists()) {
+    console.log('durationACTIVITYTODAY', snapshot.val())
+
+    return snapshot.val();
+  } else {
+    console.log('null')
+    return null;
+  }
+} catch (error) {
+  console.log(error);
+}
+}
+
+function getMondays() {
+  const d = new Date(),
+      month = d.getMonth(),
+      mondays = [];
+
+  d.setDate(1);
+
+  // Get the first Monday in the month
+  while (d.getDay() !== 1) {
+      d.setDate(d.getDate() + 1);
+  }
+
+  // Get all the other Mondays in the month
+  while (d.getMonth() === month) {
+      mondays.push(new Date(d.getTime()));
+      d.setDate(d.getDate() + 7);
+  }
+
+  return mondays;
+}
+
+export const getActivityByMonth = async (handle) => {
+  try {
+  const today = new Date();
+  today.setUTCHours(0, 0, 0, 0);
+  const timeStampSundayOfThisWeek = today.setDate(today.getDate() - today.getDay());
   const durationActivity = query(ref(db, `log-activity/${handle}`), orderByChild('timestamp'), startAt(+timeStampSundayOfThisWeek));
   const snapshot = await get(durationActivity);
 
   if (snapshot.exists()) {
+    console.log('durationACTIVITY', snapshot.val())
+
     return snapshot.val();
   } else {
     console.log('null')

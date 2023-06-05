@@ -92,12 +92,12 @@ export const deleteNutrituionFromDatabase = async (user, activityId) => {
 export const getNutrition = async (handle) => {
   try {
   const today = new Date();  
+  today.setUTCHours(0, 0, 0, 0);
   const timeStampSundayOfThisWeek = today.setDate(today.getDate() - today.getDay())
   const caloriesCount = query(ref(db, `log-nutrition/${handle}`), orderByChild('timestamp'), startAt(+timeStampSundayOfThisWeek));
   const snapshot = await get(caloriesCount);
 
   if (snapshot.exists()) {
-    console.log('valCALORIES',snapshot.val())
     return snapshot.val();
   } else {
     console.log('null')
