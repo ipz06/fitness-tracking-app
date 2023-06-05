@@ -1,6 +1,6 @@
 import AddNutrition from "../../components/AddNutrition/AddNutrition";
 import { useState, useEffect } from "react";
-import MealView from "../../components/MealView/MealView";
+import MealView from "../../components/Meal/Meal";
 import { Flex, Box, SimpleGrid } from "@chakra-ui/react";
 import { onUserNutritionsChange } from "../../services/nutrition.service";
 import { useContext } from "react";

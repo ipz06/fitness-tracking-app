@@ -14,6 +14,7 @@ const AddNutrition = () => {
   const { user } = useContext(AuthContext);
   const [apiError, setApiError] = useState(null);
   const [error, setError] = useState(null);
+  const sharedStatus = false;
 
   const handleIngredientChange = (index, event) => {
     const newIngredients = [...ingredients];
@@ -49,8 +50,10 @@ const AddNutrition = () => {
         toast.error(error)
         return
       }
-    await saveNutritionToDatabase(user.displayName, recipeTitle, ingredients, nutritionData.calories, nutritionData.totalWeight)
-    toast.success('Your meal is saved');
+    await saveNutritionToDatabase(user.displayName, recipeTitle, ingredients, nutritionData.calories, nutritionData.totalWeight, sharedStatus)
+    toast.success('Your meal is saved', {
+      autoClose:500
+     });
     setError('');
     } catch (error) {
       console.log(error);

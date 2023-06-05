@@ -1,8 +1,8 @@
 import { Flex, Box, SimpleGrid } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import MealView from "../../components/MealView/MealView"
-import { getUserMeals } from "../../services/admin.service";
+import MealView from "../../components/Meal/Meal"
+import { getUserMeals } from "../../services/admin.service"; // proverka dali vsichko e ok
 import DividerHeader from "../../components/Goals/Divider";
 import { ref, onValue } from 'firebase/database';
 import { db } from "../../config/firebase-config";

@@ -4,9 +4,10 @@ import { db } from "../../config/firebase-config";
 import { AuthContext } from "../../common/context";
 import "firebase/database";
 import { filterSharedMeals } from "../../services/nutrition.service";
-import MealView from "../MealView/MealView";
+import MealView from "../Meal/Meal";
 import PropTypes from 'prop-types';
-import { Text } from "@chakra-ui/react";
+import { Text, SimpleGrid, Box } from "@chakra-ui/react";
+
 
 const AllFriendMeals = ({ handle }) => {
   const [meals, setMeals] = useState(null);
@@ -36,7 +37,7 @@ const AllFriendMeals = ({ handle }) => {
   } else {
   
     return meals ? (
-      <>
+     <Box p={2}>
         <Text
           align="center"
           fontSize="2xl"
@@ -45,8 +46,9 @@ const AllFriendMeals = ({ handle }) => {
         >
           Shared meals of {handle}
         </Text>
+        <SimpleGrid columns={[1, 2, 3]}>
 		{Object.keys(meals).map((meal) => {
-  console.log("one meal", meals[meal]);
+
   return (
 	
     <MealView
@@ -58,9 +60,11 @@ const AllFriendMeals = ({ handle }) => {
       title={meals[meal].title}
       weight={meals[meal].weight}
     />
+   
   );
 })}
-      </>
+ </SimpleGrid>
+      </Box>
     ) : (
       <div>No shared meals</div>
     );
