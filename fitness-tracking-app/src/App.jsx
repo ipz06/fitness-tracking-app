@@ -85,6 +85,7 @@ function App() {
           {!user && <Route path="/" element={<Landing />}/>}
           {!user && <Route path="/login" element={<LogIn/>}/>}
           {!user && <Route path="/signup" element={<SignUp />}/>}
+          {user && <Route path="/" element={<DashBoard />}/>}
           <Route 
             path="dashboard" 
             element={

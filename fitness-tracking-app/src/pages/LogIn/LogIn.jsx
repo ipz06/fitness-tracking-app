@@ -12,7 +12,7 @@ import {
   FormErrorMessage,
 } from "@chakra-ui/react";
 import { MIN_PASSWORD_LENGTH, MAX_PASSWORD_LENGTH } from "../../common/constants";
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { loginUser } from "../../services/auth.services";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../common/context";
@@ -25,7 +25,11 @@ function LogIn() {
   const [passwordError, setPasswordError] = useState("");
   const [loginError, setLoginError] = useState(null);
   const navigate = useNavigate();
-  const { setUser } = useContext(AuthContext);
+  const { user, setUser } = useContext(AuthContext);
+
+
+
+  
   const handleSubmit = (e) => {
     e.preventDefault();
     let hasError = false;
@@ -55,12 +59,12 @@ function LogIn() {
         user: credential.user,
       });
     })
-    .catch((e) => {
-      setLoginError(e.message);
-      console.log(e);
-    })
-    .finally(() => {
+    .then(() => {
       navigate("/dashboard");
+    })
+    .catch((e) => {
+      setLoginError('Wrong password or email');
+      console.log(e);
     })
 
 
@@ -81,7 +85,7 @@ function LogIn() {
             Don't have an account? <b><u><NavLink to="/signup">Sign Up</NavLink></u></b>
           </Text>
 
-          <FormControl id="email" maxW="88%" isInvalid={!!emailError}>
+          <FormControl id="email" maxW="100%" isInvalid={!!emailError || !!loginError} >
             <FormLabel>Email</FormLabel>
             <Input
               size="lg"
@@ -99,7 +103,7 @@ function LogIn() {
             <FormErrorMessage>{emailError || loginError}</FormErrorMessage>
           </FormControl>
 
-          <FormControl id="password" maxW="88%" isInvalid={!!passwordError}>
+          <FormControl id="password" maxW="100%" isInvalid={!!passwordError || !!loginError}>
             <FormLabel>Password</FormLabel>
             <Input
               size="lg"
