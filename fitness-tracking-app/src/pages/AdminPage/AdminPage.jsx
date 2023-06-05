@@ -4,6 +4,8 @@ import DividerHeader from "../../components/Goals/Divider";
 import { getAllCreatedUsers } from "../../services/user.service";
 import UsersTable from "./UsersTable";
 import {USER_TYPE} from '../../common/constants'
+import NewUsersStats from "./NewUsersStats";
+import UserActivityStats from "./UsersActivityStats";
 
 const AdminPage = () =>{
 
@@ -21,9 +23,9 @@ const AdminPage = () =>{
    if (role !== USER_TYPE.ADMIN && role !== USER_TYPE.SUPER_ADMIN) {
       return <div>Please sign in as admin....</div>;
     }
-    if (loading) {
-      return <div>Loading...</div>;
-    }
+   if (loading) {
+   return <div>Loading...</div>;
+   }
 
 
    return (
@@ -32,9 +34,11 @@ const AdminPage = () =>{
          <UsersTable
                   keys={Object.keys(users)}
                   users={users}
-                  itemsPerPage={5}
+                  items={4}
                   role={role}
                   />
+         <NewUsersStats/>
+         <UserActivityStats/>
       </>
 
    )

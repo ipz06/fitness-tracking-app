@@ -27,7 +27,7 @@ import {
 import { updateUserRole } from "../../services/admin.service";
 import { USER_TYPE } from "../../common/constants";
 
-const UsersTable = ({ keys, users, items = 8, role }) => {
+const UsersTable = ({ keys, users, items = 4, role }) => {
   const [itemsPerPage,setItemsPerPage] = useState(items)
   const [allUsers, setAllUsers] = useState(users);
   const [currentPage, setCurrentPage] = useState(0);

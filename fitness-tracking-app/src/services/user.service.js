@@ -111,3 +111,19 @@ export const getAllCreatedUsers = async () => {
   }
 };
 
+
+export const getAllUsersActivitiesLogs = async () => {
+  try {
+    const allLogs = query(ref(db, `log-activity`));
+    const snapshot = await get(allLogs);
+
+    if (snapshot.exists()) {
+      return snapshot.val();
+    } else {
+      return null;
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+

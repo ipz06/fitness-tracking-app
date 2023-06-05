@@ -32,7 +32,7 @@ import { toast } from 'react-toastify';
 import Badges from "../../components/Goals/Badges/Badges";
 import { wrap } from "framer-motion";
 import { Label } from "recharts";
-import uploadPic from "/Users/vanyazlateva/Dev/fitness-tracking-app/fitness-tracking-app/src/assets/upload.jpg"
+
 
 const Profile = () => {
   const [image, setImage] = useState("");
