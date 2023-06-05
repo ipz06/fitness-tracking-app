@@ -36,7 +36,7 @@ const FriendsView = () => {
 
   return (
     <Box p={4} pt="2%" minW="65%" shadow="xl">
-      <Text fontSize="xl" fontWeight="bold" mb={4}>
+      <Text fontSize="xl" fontWeight="bold" mb={4} fontStyle="normal">
         Friends
       </Text>
       {loading ? (

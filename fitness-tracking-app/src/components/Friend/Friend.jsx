@@ -1,4 +1,4 @@
-import { Box, Button, Text, VStack, Avatar, HStack } from "@chakra-ui/react";
+import { Box, Button, Text, VStack, Avatar, HStack, Flex } from "@chakra-ui/react";
 import { getUserByHandle } from "../../services/user.service";
 import { useEffect, useState } from "react";
 import { deleteFriendsFromDatabase } from "../../services/friends.service";
@@ -31,23 +31,30 @@ const handleDeleteFriends = async () => {
 
 
 	return (
-              <Box
-                p={4}
-                borderWidth="1px"
-                borderRadius="sm"
-                boxShadow="md"
-                display="flex"
-                alignItems="center"
-                minW="100%"
-				maxW="85%"
-              >
-              <Link to={`/user/${handle}`}><Avatar size="md" src={user.photoURL} alt=""  mr={4}/></Link>  
-                <VStack align="start">
-                 <HStack><Text fontWeight="bold" fontStyle="normal">{user.handle}</Text> <Button color="black" backgroundColor="red.500" borderRadius="sm" size="sm" onClick={handleDeleteFriends}>Unfriend</Button></HStack> 
-			<HStack><Text fontStyle="normal">{user.firstName}</Text><Text fontStyle="normal">{user.lastName}</Text></HStack>
-                  <Text fontStyle="normal">{user.email}</Text>
-                </VStack>
-              </Box>
+    <Flex
+    p={4}
+    borderWidth="1px"
+    borderRadius="sm"
+    boxShadow="md"
+    minW="100%"
+    maxW="85%"
+    position="relative"
+  >
+    <Link to={`/user/${handle}`}>
+      <Avatar size="md" src={user.photoURL} alt="" mr={4} />
+    </Link>
+    <VStack align="start">
+    <Link to={`/user/${handle}`}><Text fontWeight="bold" fontStyle="normal">{user.handle}</Text> </Link>
+      <HStack>
+        <Text fontStyle="normal">{user.firstName}</Text>
+        <Text fontStyle="normal">{user.lastName}</Text>
+      </HStack>
+      <Text fontStyle="normal">{user.email}</Text>
+    </VStack>
+    <Box position="absolute" top={2} right={2}>
+      <Button color="black" backgroundColor="red.500" borderRadius="sm" size="sm"  _hover={{ bg: "red.300" }}  onClick={handleDeleteFriends}>Unfriend</Button>
+    </Box>
+  </Flex>
             
 	)
 }

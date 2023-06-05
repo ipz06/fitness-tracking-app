@@ -26,7 +26,7 @@ return (
 <Text fontStyle="normal" fontWeight="bold">On:</Text>
 <Text fontStyle="normal">{date}</Text>
 </VStack>
-<Button maxW="20%" size="sm" borderRadius="sm" borderColor="black" backgroundColor="teal.200" onClick={removeRequest}>Remove</Button>
+<Button maxW="20%" size="sm" borderRadius="sm" borderColor="black" backgroundColor="teal.200" onClick={removeRequest} fontSize={{ base: "xs", sm: "sm", md: "sm" }}>Remove</Button>
 </HStack>
 
 

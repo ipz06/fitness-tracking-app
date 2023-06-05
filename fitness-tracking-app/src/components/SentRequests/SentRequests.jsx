@@ -6,13 +6,13 @@ import { AuthContext } from "../../common/context";
 import { Box, HStack, SimpleGrid, Text, Center } from "@chakra-ui/react";
 import PropTypes, { string } from 'prop-types';
 
-const SendedRequests = ({ requests }) => {
+const SentRequests = ({ requests }) => {
   const { user } = useContext(AuthContext);
   console.log(requests);
   return (
     <Box>
-    <Text align="center" fontSize="xl" fontWeight="bold" mb={4}>
-    Sended Friend Requests            
+    <Text align="center" fontSize="xl" fontStyle="normal" fontWeight="bold" mb={4}>
+    Sent Friend Requests            
   </Text>
     <Center>
       <SimpleGrid columns={[1, 2, 3]} spacing={4}>
@@ -26,17 +26,17 @@ const SendedRequests = ({ requests }) => {
         ))}
       </SimpleGrid>
       {requests.length === 0 && (
-        <Text>No sended friend requests</Text>
+        <Text fontStyle="normal">No sent friend requests</Text>
       )}
     </Center>
     </Box>
   );
 };
 
-export default SendedRequests;
+export default SentRequests;
 
 
-SendedRequests.propTypes = {
+SentRequests.propTypes = {
 	requests: PropTypes.array.isRequired,
 	
   }

@@ -18,13 +18,14 @@ import FriendRequests from '../FriendRequests/FriendRequests';
 import { getAllCreatedUsers } from '../../services/user.service';
 import { query } from 'firebase/database';
 import { saveFriendRequestToDatabase } from '../../services/friends.service';
-import FriendsView from '../FriendsView/FriendsView';
+import FriendsView from '../Friends/Friends';
 import { getUserAllFriends } from '../../services/friends.service';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import SendedRequests from '../SendedRequests/SendedRequests';
+import SentRequests from '../SentRequests/SentRequests';
 import { getDatabase, ref, onValue, off } from "firebase/database"; 
 import { db } from '../../config/firebase-config'; 
+import DividerHeader from '../Goals/Divider';
 
 const UserSearch = () => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -118,8 +119,8 @@ const UserSearch = () => {
     try {
       await saveFriendRequestToDatabase(receiver, handle, photo, email)
       toast.success('Sended friend request', {
-        duration: 500,
-      });
+        autoClose:500
+       });
     } catch (error) {
       console.log(error);
     }
@@ -149,7 +150,7 @@ const UserSearch = () => {
       <FriendRequests/>
       <Divider  borderColor="black" borderWidth="1px" heading={'friends'}/>
       <Box maxW="65%" minW="65%" pt="1%" pb="2%">
-      <SendedRequests 
+      <SentRequests 
       requests={requests}
       />
       </Box>
@@ -177,7 +178,7 @@ const UserSearch = () => {
     <Box key={user.uid}>
       <HStack spacing={5}>
         <Avatar src={user.photoURL}/>
-        <Text>{`${user.handle}, ${user.firstName} ${user.lastName}`}</Text>
+        <Text fontStyle="normal">{`${user.handle}, ${user.firstName} ${user.lastName}`}</Text>
         {!onlyReceiver.includes(user.handle) && 
           user.handle !== handle &&
           !friends.some((friend) => friend.user === user.handle) && (
