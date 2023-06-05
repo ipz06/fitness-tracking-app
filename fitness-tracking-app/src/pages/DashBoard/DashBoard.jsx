@@ -1,4 +1,4 @@
-import { Box, Flex, Button, Text, VStack, Heading, Input, Badge, Stack, Image, Icon, HStack,  Modal, ModalOverlay, ModalContent, ModalBody} from "@chakra-ui/react";
+import { Box, Flex, Button, Text, VStack, Heading, Input, Badge, Stack, Image, Icon, HStack,  Modal, ModalOverlay, ModalContent, ModalBody, FormControl, FormErrorMessage, Center} from "@chakra-ui/react";
 import { useState, useEffect } from "react";
 import { GiRunningShoe, GiBurningEmbers} from "react-icons/gi";
 import Activity from "../../components/Activity/Activity";
@@ -37,6 +37,7 @@ const Dashboard = () => {
   const [weightChange, setWeightChange] = useState('');
   const [activityLogs, setActivityLogs] = useState([]);
   const [waterConsumption, setWaterConsumption] = useState('');
+  const [weightError, setWeightError] = useState('');
 
   useEffect(() => {
     if (user) {
@@ -97,11 +98,16 @@ activityLogs.map(act => {
 })
 
   const handleAddWeght = async () => {
+    if (!currentWeight || currentWeight <= 0) {
+      setWeightError('Current weight must be valid data')
+      return
+    }
     try {
     await saveWeightToDatabase(user.displayName, weightChange, currentWeight, startWeight)
     toast.success('Weight updated successfully to your goals', {
-      duration: 500,
-    });
+      autoClose:500
+     });
+    setWeightError('')
     } catch (error) {
       console.log(error);
     }
@@ -112,11 +118,17 @@ activityLogs.map(act => {
     try {
     await saveWaterToDatabase(user.displayName, waterConsumption)
     if (waterConsumption <= 2) {
-      toast(<CustomToastBadAmountWater/>);
+      toast(<CustomToastBadAmountWater/>, {
+        autoClose:1000
+       });
     } else if (waterConsumption > 2 && waterConsumption <= 4) {
-      toast(<CustomToastGoodAmountWater/>);
+      toast(<CustomToastGoodAmountWater/>, {
+        autoClose:1000
+       });
     } else {
-      toast(<CustomToastToMuchWater/>);
+      toast(<CustomToastToMuchWater/>, {
+        autoClose:1000
+       });
     }
     } catch (error) {
       console.log(error);
@@ -145,7 +157,9 @@ activityLogs.map(act => {
   
     saveLogToDatabase(user.displayName, newLogEntry)
       .then(() => {
-        toast(<CustumeToastActivityFinished type={type} duration={duration}/>)
+        toast(<CustumeToastActivityFinished type={type} duration={duration}/>, {
+          autoClose:1500
+         })
       })
       .catch((error) => {
         console.log("Error saving log data:", error);
@@ -173,7 +187,7 @@ activityLogs.map(act => {
             <Badge colorScheme="teal" fontSize={{ base: "xs", sm: "sm", md: "xl" }}   variant="outline"
     borderColor="black"
     color="blue">
-              {burnedCalories}
+              {burnedCalories.toFixed(2)}
             </Badge>
           </Stack>
         </Flex>
@@ -254,7 +268,12 @@ activityLogs.map(act => {
           </Text> } 
         </Box>
       </Stack>
+      <FormControl isInvalid={!!weightError}>
+        <Center>
+          <FormErrorMessage a>{weightError}</FormErrorMessage>
+          </Center>
       <Flex justify="center" mt={4}>
+       
         <Input
           type="number"
           placeholder="    Current Weight"
@@ -269,7 +288,9 @@ activityLogs.map(act => {
             boxShadow: "0 0 0 3px rgba(0,0,0,0.1)",
           }}
         />
+     
       </Flex>
+      </FormControl>
    <Box>
 	<Flex pt="2%" justify="center" mt={4}>
         <Button
@@ -303,23 +324,23 @@ activityLogs.map(act => {
         <Heading color="blackAlpha.900" fontFamily="Montserrat" fontSize={{ base: "md", sm: "sm", md: "3xl" }}> Share your daily water consumption</Heading>
       <Box paddingTop="1%" shadow="md" style={{display: 'flex', justifyContent: 'space-between', gap: '2%'}}> 
   <Box> 
-  <button onClick={() => setWaterConsumption(1)}><Image src={OneLitreBottle} boxSize="70px" className="image"/></button>
+  <button className="waterButton" onClick={() => setWaterConsumption(1)}><Image src={OneLitreBottle} boxSize="70px" className="image"/></button>
     <Text>1 litre</Text>
   </Box>
   <Box>
-  <button onClick={() => setWaterConsumption(2)}><Image src={TwoLitreBottle} boxSize="70px" className="image"/></button>  
+  <button className="waterButton" onClick={() => setWaterConsumption(2)}><Image src={TwoLitreBottle} boxSize="70px" className="image"/></button>  
     <Text>2 litre</Text>
   </Box>
   <Box>
-  <button onClick={() => setWaterConsumption(3)}><Image src={ThreeLitreBottle} boxSize="70px" className="image"/></button>  
+  <button className="waterButton" onClick={() => setWaterConsumption(3)}><Image src={ThreeLitreBottle} boxSize="70px" className="image"/></button>  
     <Text>3 litre</Text>
   </Box>
   <Box>
-  <button onClick={() => setWaterConsumption(4)}> <Image src={FourLitreBottle} boxSize="70px" className="image"/></button>  
+  <button className="waterButton" onClick={() => setWaterConsumption(4)}> <Image src={FourLitreBottle} boxSize="70px" className="image"/></button>  
     <Text>4 litre</Text>
   </Box>
   <Box>
-  <button onClick={() => setWaterConsumption(5)}><Image src={FiveLitreBottle} boxSize="70px" className="image"/></button>  
+  <button className="waterButton" onClick={() => setWaterConsumption(5)}><Image src={FiveLitreBottle} boxSize="70px" className="image"/></button>  
     <Text>5 litre</Text>
   </Box>
   <Badge paddingLeft="7px"  colorScheme="teal" fontSize="2xl"  maxH="10" minW="30px" variant="outline" borderColor="black" color="blue">{waterConsumption}</Badge>
