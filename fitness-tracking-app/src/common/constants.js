@@ -2,6 +2,8 @@ export const WALK_MET = 3.5;
 export const RUN_MET = 8;
 export const BIKING_MET = 14;
 export const GYM_MET = 11;
+export const SWIMMING_MET = 8.5;
+export const ROW_MET = 9;
 export const EXERCISE_MET = 5;
 export const YOGA_MET = 4;
 export const USERNAME_MIN_LENGTH = 2;
@@ -26,3 +28,16 @@ export const USER_TYPE = Object.freeze({
                                     'BLOCKED':3,
                                     'SUPER_ADMIN':4,
                                  })
+export const ACTIVITY_TYPE = Object.freeze(
+   {
+      RUNNING: 'Running',
+      BIKING: 'Biking',
+      WALKING: 'Walking',
+      GYM: 'Gym',
+      YOGA: 'Yoga',
+      EXERCISE: 'Exercise',
+      SWIMMING: 'Swim',
+      ROW: 'Row',
+   }
+)
+export const ONE_HOUR_IN_MIN = 60;

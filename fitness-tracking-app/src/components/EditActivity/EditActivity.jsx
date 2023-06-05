@@ -9,34 +9,42 @@ import {
   FormLabel,
   Input,
   Button,
+  FormErrorMessage,
 } from "@chakra-ui/react";
 import { updateActivityInDatabase } from "../../services/activity.service";
 import { AuthContext } from "../../common/context";
-import { WALK_MET, RUN_MET, BIKING_MET, GYM_MET, YOGA_MET, EXERCISE_MET } from "../../common/constants";
-import PropTypes from 'prop-types';
+import { WALK_MET, RUN_MET, BIKING_MET, GYM_MET, YOGA_MET, EXERCISE_MET, SWIMMING_MET, ROW_MET } from "../../common/constants";
+import PropTypes from 'prop-types'; 
+import { ACTIVITY_TYPE } from "../../common/constants";
+import { ONE_HOUR_IN_MIN } from "../../common/constants";
 
 const EditActivity = ({ activityKey, duration, onClose, type, }) => {
   const [updatedDuration, setUpdatedDuration] = useState(duration);
   const [updatedCaloriesBurned, setUpdatedCaloriesBurned] = useState(0);
   const { user, weight } = useContext(AuthContext);
- 
+  const [caloriesError, setCaloriesEror] = useState('');
 
 
   const handleCalculateClick = () => {
     let calculatedCalories = 0;
-    if (type === "Biking") {
-      calculatedCalories = BIKING_MET * weight * (updatedDuration/60);
-    } else if (type === "Running") {
-      calculatedCalories = RUN_MET * weight * (updatedDuration/60);
-    } else if (type === "Walking") {
-      calculatedCalories = WALK_MET * weight * (updatedDuration/60);
-    } else if (type === "Gym") {
-      calculatedCalories = GYM_MET * weight * (updatedDuration/60);
-    }  else if (type === "Exercise") {
-      calculatedCalories = EXERCISE_MET * weight * (updatedDuration/60);
-    }  else if (type === "Yoga") {
-      calculatedCalories = YOGA_MET * weight * (updatedDuration/60);
+    if (type === ACTIVITY_TYPE.BIKING) {
+      calculatedCalories = BIKING_MET * weight * (updatedDuration/ONE_HOUR_IN_MIN);
+    } else if (type === ACTIVITY_TYPE.RUNNING) {
+      calculatedCalories = RUN_MET * weight * (updatedDuration/ONE_HOUR_IN_MIN);
+    } else if (type === ACTIVITY_TYPE.WALKING) {
+      calculatedCalories = WALK_MET * weight * (updatedDuration/ONE_HOUR_IN_MIN);
+    } else if (type === ACTIVITY_TYPE.GYM) {
+      calculatedCalories = GYM_MET * weight * (updatedDuration/ONE_HOUR_IN_MIN);
+    }  else if (type === ACTIVITY_TYPE.EXERCISE) {
+      calculatedCalories = EXERCISE_MET * weight * (updatedDuration/ONE_HOUR_IN_MIN);
+    }  else if (type === ACTIVITY_TYPE.YOGA) {
+      calculatedCalories = YOGA_MET * weight * (updatedDuration/ONE_HOUR_IN_MIN);
+    } else if (type === ACTIVITY_TYPE.SWIMMING) {
+      calculatedCalories = SWIMMING_MET * weight * (updatedDuration/ONE_HOUR_IN_MIN);
+    } else if (type === ACTIVITY_TYPE.ROW) {
+      calculatedCalories = ROW_MET * weight * (updatedDuration/ONE_HOUR_IN_MIN);
     }
+    
     setUpdatedCaloriesBurned(calculatedCalories);
   };
 
@@ -45,6 +53,11 @@ const EditActivity = ({ activityKey, duration, onClose, type, }) => {
   };
 
   const handleUpdateActivity = async () => {
+
+    if (updatedCaloriesBurned <= 0) {
+      setCaloriesEror('Calories Burned cannot be 0')
+      return
+    }
     try {
       await updateActivityInDatabase(user.displayName, activityKey,  {
         duration: updatedDuration,
@@ -99,8 +112,9 @@ const EditActivity = ({ activityKey, duration, onClose, type, }) => {
               CALCULATE 
             </Button>
           </Box>
-            <FormControl id="calories">
+            <FormControl id="calories" isInvalid={!!caloriesError}>
               <FormLabel>Calories Burned: Kcal</FormLabel>
+              <FormErrorMessage>{caloriesError}</FormErrorMessage>
               <Input
                 size="lg"
                 placeholder="Enter calories"
@@ -142,7 +156,7 @@ export default EditActivity;
 
 EditActivity.propTypes = {
   activityKey: PropTypes.string.isRequired,
-  duration: PropTypes.number.isRequired,
+  duration: PropTypes.string.isRequired,
   onClose: PropTypes.func.isRequired,
   type: PropTypes.string.isRequired,
 };

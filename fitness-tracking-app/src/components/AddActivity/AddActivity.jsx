@@ -12,10 +12,12 @@ import {
   Input,
   Button,
 } from "@chakra-ui/react";
-import { WALK_MET, RUN_MET, BIKING_MET, GYM_MET, YOGA_MET, EXERCISE_MET } from "../../common/constants";
+import { WALK_MET, RUN_MET, BIKING_MET, GYM_MET, YOGA_MET, EXERCISE_MET, SWIMMING_MET, ROW_MET } from "../../common/constants";
 import { saveActivityToDatabase } from "../../services/activity.service";
 import { AuthContext } from "../../common/context";
 import PropTypes from 'prop-types';
+import { ACTIVITY_TYPE } from "../../common/constants";
+import { ONE_HOUR_IN_MIN } from "../../common/constants";
 
 const AddActivity = ({ onClose, setIsModalOpen }) => {
   const [activity, setActivity] = useState("");
@@ -34,18 +36,22 @@ const { user, weight } = useContext(AuthContext);
 
   const handleCalculateClick = () => {
     let calculatedCalories = 0;
-    if (activity === "Biking") {
-      calculatedCalories = BIKING_MET * weight * (duration/60);
-    } else if (activity === "Running") {
-      calculatedCalories = RUN_MET * weight * (duration/60);
-    } else if (activity === "Walking") {
-      calculatedCalories = WALK_MET * weight * (duration/60);
-    } else if (activity === "Gym") {
-      calculatedCalories = GYM_MET * weight * (duration/60);
-    }  else if (activity === "Exercise") {
-      calculatedCalories = EXERCISE_MET * weight * (duration/60);
-    }  else if (activity === "Yoga") {
-      calculatedCalories = YOGA_MET * weight * (duration/60);
+    if (activity === ACTIVITY_TYPE.BIKING) {
+      calculatedCalories = BIKING_MET * weight * (duration/ONE_HOUR_IN_MIN);
+    } else if (activity === ACTIVITY_TYPE.RUNNING) {
+      calculatedCalories = RUN_MET * weight * (duration/ONE_HOUR_IN_MIN);
+    } else if (activity === ACTIVITY_TYPE.WALKING) {
+      calculatedCalories = WALK_MET * weight * (duration/ONE_HOUR_IN_MIN);
+    } else if (activity === ACTIVITY_TYPE.GYM) {
+      calculatedCalories = GYM_MET * weight * (duration/ONE_HOUR_IN_MIN);
+    }  else if (activity === ACTIVITY_TYPE.EXERCISE) {
+      calculatedCalories = EXERCISE_MET * weight * (duration/ONE_HOUR_IN_MIN);
+    }  else if (activity === ACTIVITY_TYPE.YOGA) {
+      calculatedCalories = YOGA_MET * weight * (duration/ONE_HOUR_IN_MIN);
+    } else if (activity === ACTIVITY_TYPE.SWIMMING) {
+      calculatedCalories = SWIMMING_MET * weight * (duration/ONE_HOUR_IN_MIN);
+    } else if (activity === ACTIVITY_TYPE.ROW) {
+      calculatedCalories = ROW_MET * weight * (duration/ONE_HOUR_IN_MIN);
     }
     setCalories(calculatedCalories);
   };
@@ -113,6 +119,8 @@ const { user, weight } = useContext(AuthContext);
               <option value="Gym">Gym</option>
               <option value="Exercise">Exercise</option>
               <option value="Yoga">Yoga</option>
+              <option value="Swim">Swim</option>
+              <option value="Row">Row</option>
             </Select>
           </FormControl>
 

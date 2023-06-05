@@ -1,4 +1,4 @@
-import { Box, Flex, Text, VStack, Button, Image, HStack,  Modal,
+import { Box, Flex, Text, VStack, Button, Image, HStack,  Modal, Tooltip,
   ModalOverlay,
   ModalContent,
   ModalHeader,
@@ -13,28 +13,35 @@ import WalkingImage from "./../../assets/walking.png";
 import GymImage from "./../../assets/gym.webp";
 import YogaImage from "./../../assets/yoga.png";
 import ExerciseImage from "./../../assets/exercises.png";
+import SwimmingImage from "./../../assets/swimming.png";
+import RowImage from "./../../assets/rowing.png";
 import { deleteActivityFromDatabase } from "../../services/activity.service";
 import EditActivity from "../EditActivity/EditActivity";
 import { useState } from "react";
 import PropTypes from 'prop-types';
+import { ACTIVITY_TYPE } from "../../common/constants";
 
 function Activity ({activityKey, type, duration, caloriesBurned, addedOn, onAddToLog, author }) {
   let image;
 	let iconSize = "70px";
-if (type === 'Running') {
+if (type === ACTIVITY_TYPE.RUNNING) {
   image = RunningImage;
-} else if (type === 'Biking') {
+} else if (type === ACTIVITY_TYPE.BIKING) {
   image = BikingImage;
-} else if (type === 'Walking') {
+} else if (type === ACTIVITY_TYPE.WALKING) {
   image = WalkingImage;
-} else if (type === 'Gym') {
+} else if (type === ACTIVITY_TYPE.GYM) {
   image = GymImage;
-} else if (type === 'Yoga') {
+} else if (type === ACTIVITY_TYPE.YOGA) {
   image = YogaImage;
-} else if (type === 'Exercise') {
+} else if (type === ACTIVITY_TYPE.EXERCISE) {
   image = ExerciseImage;
+} else if (type === ACTIVITY_TYPE.SWIMMING) {
+  image = SwimmingImage;
+} else if (type === ACTIVITY_TYPE.ROW) {
+  image = RowImage;
 }
- 
+ console.log(image);
 const handleDeleteActivity = async () => {
   try {
     await deleteActivityFromDatabase(author, activityKey);
@@ -65,7 +72,7 @@ const handleCloseEditModal = () => {
         </Text>
         <Box paddingLeft="25px">
         <VStack spacing={1}>
-        <Button 
+        <Tooltip label="Activity done" fontSize="md"><Button 
          backgroundColor="blackAlpha.300"
          borderRadius="sm"
          variant="outline"
@@ -73,10 +80,11 @@ const handleCloseEditModal = () => {
          size="sm"
          onClick={() => onAddToLog(type, duration, caloriesBurned, addedOn)}
          mt={-2} 
+         _hover={{ bg: "blackAlpha.100" }} 
          >
         <FaCheckDouble/>
-        </Button>
-        <Button 
+        </Button></Tooltip>
+        <Tooltip label="Delete activity" fontSize="md"><Button 
             backgroundColor="red.500"
             color="blackAlpha.900"
             variant="outline"
@@ -84,10 +92,11 @@ const handleCloseEditModal = () => {
             borderRadius="sm"
             onClick={handleDeleteActivity} 
             size="sm"
+            _hover={{ bg: "red.300" }} 
           >
             <FaTrash/>
-          </Button>
-          <Button
+          </Button></Tooltip>
+          <Tooltip label="Edit activity" fontSize="md"><Button
       backgroundColor="blackAlpha.500"
       color="blackAlpha.900"
       variant="outline"
@@ -95,9 +104,10 @@ const handleCloseEditModal = () => {
       borderRadius="sm"
       onClick={() => handleEditActivity(activityKey)}
       size="sm"
+      _hover={{ bg: "blackAlpha.300" }} 
     >
       <FaEdit />
-    </Button>
+    </Button></Tooltip>
         </VStack>
         </Box>
       </Flex>
