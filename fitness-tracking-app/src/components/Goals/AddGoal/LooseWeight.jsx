@@ -7,7 +7,7 @@ import { FormControl,
          NumberDecrementStepper,
          NumberIncrementStepper,
          NumberInputStepper, 
-         IconButton } from "@chakra-ui/react"
+         IconButton, Stat, StatLabel, StatNumber, StatHelpText  } from "@chakra-ui/react"
 import {CgAdd}  from "react-icons/all";
 import { useState, useContext, useEffect } from "react"
 import { AuthContext } from "../../../common/context";
@@ -16,6 +16,7 @@ import { getLastWeight } from "../../../services/goal.service";
 import { useNavigate } from "react-router-dom";
 import { addUserWeightGoal } from "../../../services/goal.service";
 import { toast } from 'react-toastify';
+import { MONTH_MS } from "../../../common/constants";
 
 
 const LooseWeight = ({open,setOpen}) => {
@@ -46,19 +47,33 @@ useEffect(()=>{
  
 
 const HandleSubmitGoal = (open,setOpen)=>{
+   
    const now = Date.now()
    const targetDate = new Date(date).getTime()
+   if(Math.abs(targetWeight-currentWeight)/((targetDate-now)/MONTH_MS) > 6  ) {
+      toast(('Loose/gain less than 6 kg in a month!'),{autoClose:1000})
+      return
+   } else if (targetWeight <= 39) {
+      toast(('Minimum weight 40'),{autoClose:1000})
+      return
+   } else if ( targetDate < now ) {
+      toast(('Please enter valid date'),{autoClose:1000})
+      return
+   } else if(!targetDate) {
+      toast(('Please enter valid date'),{autoClose:1000})
+      return
+   }
    setOpen(!open)
    addUserWeightGoal(handle,'loose-weight', now, 0, targetDate,targetWeight,currentWeight)
 }
-
+ 
 return (
 <>
-<Text fontSize={'md'}
-      fontWeight={'light'}
-      marginBottom={'4'} >
-   Set your weight goal and be realistic
-</Text>
+         <Stat textAlign={'center'}>
+               <StatLabel>Current weight</StatLabel>
+               <StatNumber>{currentWeight} kg</StatNumber>
+               <StatHelpText>Please set target date</StatHelpText>
+         </Stat>
    <FormControl
                w={'10rem'}
                marginX={'auto'}>
@@ -70,8 +85,8 @@ return (
           onChange={(e) => setTargetDate((e.target.value))}
         />
    </FormControl>
-   <FormLabel textAlign={'center'} fontSize={'sm'} fontWeight={'light'} p={'2'}>Target Weight</FormLabel>
-   <NumberInput size='xs' maxW={16} defaultValue={45} min={40} onChange={(valueAsString, valueAsNumber)=>setTargetWeight(valueAsNumber)} margin={'auto'}>
+   <FormLabel textAlign={'center'} fontSize={'sm'} fontWeight={'light'} p={'2'}>Set target Weight</FormLabel>
+   <NumberInput size='xs' maxW={16} defaultValue={''} min={39} onChange={(valueAsString, valueAsNumber)=>setTargetWeight(valueAsNumber)} margin={'auto'}>
       <NumberInputField />
       <NumberInputStepper>
          <NumberIncrementStepper />

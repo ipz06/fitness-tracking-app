@@ -7,7 +7,7 @@ import {
    ResponsiveContainer,
  } from "recharts";
  import { redColor } from "../../common/constants";
- import { Box, Stat, StatLabel, StatNumber, StatHelpText } from "@chakra-ui/react";
+ import { Box, Stat, StatLabel, StatNumber, StatHelpText, Card, Flex } from "@chakra-ui/react";
  import { useState, useEffect} from "react";
  import DividerHeader from '../../components/Goals/Divider';
 import { getAllCreatedUsers } from "../../services/user.service";
@@ -68,19 +68,27 @@ const NewUsersStats = () => {
          </Stat> 
       </Box>
       <Box marginX={'auto'} w={'fit-content'} marginTop={'10'}>
-         <BarChart
-            width={700}
-            height={300}
-            data={data}
-            margin={{ top: 20, right: 20, bottom: 20, left: 20 }}
-            >
-            <XAxis dataKey="date" />
-            <YAxis
-               label={{ value: "New users", angle: -90, position: "insideLeft" }}
-            />
-            <Tooltip />
-            <Bar dataKey="newUsers" fill={redColor} />
-         </BarChart>
+         <Card
+            h={{ base: "200px", md: "300px", lg: "400px" }}
+            w={{ base: "400px", md: "2xl", lg: "3xl" }}
+            marginX={"auto"}
+         >
+            <ResponsiveContainer w="100%" h={300}>
+               <BarChart
+                  width={700}
+                  height={300}
+                  data={data}
+                  margin={{ top: 20, right: 20, bottom: 20, left: 20 }}
+                  >
+                  <XAxis dataKey="date" />
+                  <YAxis
+                     label={{ value: "New users", angle: -90, position: "insideLeft" }}
+                  />
+                  <Tooltip />
+                  <Bar dataKey="newUsers" fill={redColor} />
+               </BarChart>
+            </ResponsiveContainer>
+         </Card>
       </Box>
       </>
    )

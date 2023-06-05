@@ -13,17 +13,29 @@ import { useState } from "react"
 import { useContext } from "react";
 import { AuthContext } from "../../../common/context";
 import { addUserGoal, startTimeCaloriesGoal } from "../../../services/goal.service";
+import { toast } from 'react-toastify';
 
 const TrackCalories = ({open,setOpen}) => {
    const { handle } = useContext(AuthContext)
-
-
-const [startTime, setStartTime] = useState('')
-const [calories, setCalories] = useState(1)
+   const [startTime, setStartTime] = useState('')
+   const [calories, setCalories] = useState('')
 
 const HandleSubmitGoal = (open,setOpen)=>{
-   console.log(startTime)
-   console.log(typeof +startTime)
+   if(!calories) {
+      toast(('Please enter calories!'),{autoClose:1000})
+      return
+   }
+   if(calories < 1200) {
+      toast(('Please enter more that 1200 Kcal!'),{autoClose:1000})
+      return
+   }
+
+   if(!startTime){
+      toast(('Please enter start time!'),{autoClose:1000})
+      return
+   }
+
+
    let time = startTimeCaloriesGoal(+startTime,0,0)
    setOpen(!open)
    addUserGoal(handle,'track-calories', time, 1/7 , 0, calories)
@@ -53,7 +65,7 @@ return (
       </Select>
    </FormControl>
    <FormLabel textAlign={'center'} fontSize={'sm'} fontWeight={'light'}>Set daily kcal</FormLabel>
-   <NumberInput size='xs' maxW={'75px'} defaultValue={1200} min={1000} onChange={(valueAsString, valueAsNumber)=>setCalories(valueAsNumber)} margin={'auto'}>
+   <NumberInput size='xs' maxW={'75px'} defaultValue={''} min={1000} onChange={(valueAsString, valueAsNumber)=>setCalories(valueAsNumber)} margin={'auto'}>
       <NumberInputField />
       <NumberInputStepper>
          <NumberIncrementStepper />

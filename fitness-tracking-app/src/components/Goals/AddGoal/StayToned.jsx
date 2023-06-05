@@ -13,7 +13,7 @@ import { useState } from "react"
 import { useContext } from "react";
 import { AuthContext } from "../../../common/context";
 import { addUserGoal } from "../../../services/goal.service";
-
+import { toast } from 'react-toastify';
 
 const StayToned = ({open,setOpen}) => {
 
@@ -21,9 +21,18 @@ const { handle } = useContext(AuthContext)
 
 
 const [interval, setInterval] = useState('')
-const [workouts, setWorkOuts] = useState(1)
+const [workouts, setWorkOuts] = useState('')
 
 const HandleSubmitGoal = (open,setOpen)=>{
+   if(!interval){
+      toast(('Please set interval!'),{autoClose:1000})
+      return
+   }
+
+   if(!workouts) {
+      toast(('Please enter workouts!'),{autoClose:1000})
+      return
+   }
    const now = Date.now()
    setOpen(!open)
    addUserGoal(handle,'stay-toned', now, interval, 0, workouts)
@@ -50,7 +59,7 @@ return (
             </Select>
          </FormControl>
          <FormLabel textAlign={'center'} fontSize={'sm'} fontWeight={'light'}>Workouts</FormLabel>
-         <NumberInput size='xs' maxW={16} defaultValue={2} min={1} onChange={(valueAsString, valueAsNumber)=>setWorkOuts(valueAsNumber)} margin={'auto'}>
+         <NumberInput size='xs' maxW={16} defaultValue={''} min={1} onChange={(valueAsString, valueAsNumber)=>setWorkOuts((Math.floor(valueAsNumber)))} margin={'auto'}>
             <NumberInputField />
             <NumberInputStepper>
                <NumberIncrementStepper />

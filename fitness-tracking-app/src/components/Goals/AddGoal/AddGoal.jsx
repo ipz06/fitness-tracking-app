@@ -41,7 +41,7 @@ const AddGoal = ({open, setOpen}) => {
          
             <Card size={'xsm'} w={{base:'sm',md:'md'}} marginX={'auto'}>
                <CardBody p={'1rem'}>
-                  <FormControl  width={'8rem'} marginX={'auto'} marginBottom={'1rem'}>
+                  <FormControl  width={'10rem'} marginX={'auto'} marginBottom={'1rem'}>
                         <Select
                            size={'sm'}
                            placeholder='Select Goal'

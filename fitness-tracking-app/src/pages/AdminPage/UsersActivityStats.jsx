@@ -4,9 +4,10 @@ import {
    YAxis,
    Bar,
    Tooltip,
+   ResponsiveContainer
  } from "recharts";
 import { redColor } from "../../common/constants";
-import { Box, Stat, StatLabel, StatNumber, StatHelpText } from "@chakra-ui/react";
+import { Box, Stat, StatLabel, StatNumber, StatHelpText, Card, Flex } from "@chakra-ui/react";
 import { useState, useEffect } from "react";
 import DividerHeader from '../../components/Goals/Divider';
 import { getLastMonth } from "../../services/admin.service";
@@ -59,7 +60,13 @@ const UserActivityStats = () => {
          </Stat> 
       </Box>
 
-      <Box marginX={'auto'} w={'fit-content'} marginTop={'10'}>
+      <Flex justifyContent="center" paddingX="16px">
+      <Card
+          h={{ base: "200px", md: "300px", lg: "400px" }}
+          w={{ base: "400px", md: "2xl", lg: "3xl" }}
+          marginX={"auto"}
+        >
+          <ResponsiveContainer w="100%" h={300}>
          <BarChart
             width={700}
             height={300}
@@ -73,7 +80,9 @@ const UserActivityStats = () => {
             <Tooltip />
             <Bar dataKey="loggedActivities" fill={redColor} />
          </BarChart>
-      </Box>
+         </ResponsiveContainer>
+         </Card>
+      </Flex>
       </>
    )
 }

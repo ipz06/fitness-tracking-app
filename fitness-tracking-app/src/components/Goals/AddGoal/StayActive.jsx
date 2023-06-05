@@ -13,6 +13,7 @@ import { useState } from "react"
 import { useContext } from "react";
 import { AuthContext } from "../../../common/context";
 import { addUserGoal } from "../../../services/goal.service";
+import { toast } from 'react-toastify';
 
 
 const StayActive = ({open,setOpen}) => {
@@ -21,9 +22,18 @@ const { handle } = useContext(AuthContext)
 
 
 const [interval, setInterval] = useState('')
-const [minutes, setMinutes] = useState(1)
+const [minutes, setMinutes] = useState('')
 
 const HandleSubmitGoal = (open,setOpen)=>{
+   if(!interval){
+      toast(('Please set interval!'),{autoClose:1000})
+      return
+   }
+
+   if(!minutes) {
+      toast(('Please enter minutes!'),{autoClose:1000})
+      return
+   }
    const now = Date.now()
    setOpen(!open)
    addUserGoal(handle,'stay-active', now, interval, 0, minutes)
@@ -49,7 +59,7 @@ return (
       </Select>
    </FormControl>
    <FormLabel textAlign={'center'} fontSize={'sm'} fontWeight={'light'}>Minutes</FormLabel>
-   <NumberInput size='xs' maxW={16} defaultValue={15} min={5} onChange={(valueAsString, valueAsNumber)=>setMinutes(valueAsNumber)} margin={'auto'}>
+   <NumberInput size='xs' maxW={16} defaultValue={''} min={5} onChange={(valueAsString, valueAsNumber)=>setMinutes(valueAsNumber)} margin={'auto'}>
       <NumberInputField />
       <NumberInputStepper>
          <NumberIncrementStepper />
