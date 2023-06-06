@@ -170,7 +170,7 @@ function App() {
         </Routes>
 
         <ToastContainer position="top-center" />
-        <Footer />
+        {user && <Footer />}
 
       </div>
       </AuthContext.Provider>
