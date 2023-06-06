@@ -26,6 +26,8 @@ import FriendsPage from "./pages/FriendsPage/FriendsPage";
 import User from "./pages/User/User";
 import AdminPage from "./pages/AdminPage/AdminPage";
 import UserMeals from "./pages/AdminPage/UserMeals";
+import Footer from "./components/Footer/Footer";
+import './App.css' 
 
 function App() {
   const [user] = useAuthState(auth);
@@ -166,8 +168,10 @@ function App() {
 
 
         </Routes>
-    
+
         <ToastContainer position="top-center" />
+        <Footer />
+
       </div>
       </AuthContext.Provider>
     </ChakraProvider>
