@@ -70,13 +70,13 @@ function LogIn() {
 
   return (
     <Flex minHeight="100vh" width="full" align="center" justifyContent="center" paddingBottom={350}>
-      <Box w={"lg"}>
-        <Stack spacing={4}>
-          <Heading fontSize={"5xl"} paddingLeft={140}>
+      <Box w={"md"}>
+        <Stack spacing={4} padding={4}>
+          <Heading fontSize={"5xl"} marginX={'auto'}>
             Log In{" "}
           </Heading>
           <Text
-            paddingLeft={110}
+            marginX={'auto'}
             fontSize={"sm"}
             color={useColorModeValue("gray.600", "gray.400")}
           >
@@ -119,7 +119,7 @@ function LogIn() {
             <FormErrorMessage>{passwordError || loginError}</FormErrorMessage>
           </FormControl>
 
-          <Box paddingLeft="80px">
+          <Box marginX={'auto'}>
             <Button
               bg={"#000"}
               color={"white"}

@@ -67,6 +67,7 @@ const Goals = ()=>{
          <Box 
             textAlign={'center'}
             margin={'auto'}
+            p={5}
             >
          <Badges handle={handle} />
          <h2>GOALS</h2>
@@ -77,9 +78,13 @@ const Goals = ()=>{
             <IconButton icon={<CgRemove/>} size={'md'} marginTop={'5'} marginBottom={'5'} onClick={()=>setOpen(!open)}/>
          )}
          {open&& <AddGoal open={open} setOpen={setOpen}/>}
-         <DividerHeader heading={'active goals'}/>
+         <Box marginBottom={6}>
+            <DividerHeader heading={'active goals'} />
+         </Box>
          <AllGoals/>
-         <DividerHeader heading={'suggested goals'}/> 
+         <Box marginBottom={6}>
+            <DividerHeader heading={'suggested goals'}/> 
+          </Box>
          <Goal title={'Four hours a week workout'} description={'Any activity'} startDate={date} handleClick={addTimedActivity}/>
          <Goal title={'Any activity four times a week'} description={'Any activity'} startDate={date} handleClick={addWorkOutActivity}/>
          <Goal title={'Loose 2kg in a month'} description={'Loose some weight'} startDate={date} handleClick={addWeightGoal}/>

@@ -80,7 +80,7 @@ const RenderTrackCalories = ({title, calories, startDate, interval,value, handle
    return (
       <Card h={{base:'fit-content',md:'140',lg:'140'}} 
             direction={{ base: 'column', sm: 'row' }}
-            w={{base:'sm',md:'3xl',lg:'4xl'}}
+            w={{base:'xsm',md:'3xl',lg:'4xl'}}
             marginTop={'2px'}
             marginBottom={'5px'}
             marginX={'auto'}

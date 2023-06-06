@@ -129,20 +129,19 @@ function SignUp() {
 
   return (
     <Flex minHeight="100vh" width="full" align="center" justifyContent="center" paddingBottom={40}>
-      <Box w={"lg"}>
+      <Box w={"lg"} p={4} textAlign={'center'}>
         <Stack spacing={4}>
-          <Heading fontSize="5xl" paddingLeft={7}>
-            Welcome To 7Fit{" "}
+          <Heading fontSize="5xl" textAlign={'center'}>
+            Welcome To 7Fit
           </Heading>
           <Text
-            paddingLeft={100}
             fontSize="sm"
             color={useColorModeValue("gray.600", "gray.400")}
           >
             Already have an account? <b><u><NavLink to="/login">Log in</NavLink></u></b>
           </Text>
 
-          <FormControl id="firstName" maxW="450px">
+          <FormControl id="firstName" maxW="450px" marginX={'auto'}>
             <FormLabel>First Name</FormLabel>
             <Input
               size="lg"
@@ -159,7 +158,7 @@ function SignUp() {
             />
           </FormControl>
 
-          <FormControl id="lastName" maxW="450px">
+          <FormControl id="lastName" maxW="450px" marginX={'auto'}>
             <FormLabel>Last Name</FormLabel>
             <Input
               size="lg"
@@ -176,7 +175,7 @@ function SignUp() {
             />
           </FormControl>
 
-          <FormControl id="handle" maxW="450px" isInvalid={handleError}>
+          <FormControl id="handle" maxW="450px" isInvalid={handleError} marginX={'auto'}>
             <FormLabel>Username</FormLabel>
             <Input
               size="lg"
@@ -194,7 +193,7 @@ function SignUp() {
             <FormErrorMessage>{handleError}</FormErrorMessage>
           </FormControl>
 
-          <FormControl id="email1" maxW="450px" isInvalid={emailError}>
+          <FormControl id="email1" maxW="450px" isInvalid={emailError} marginX={'auto'}>
             <FormLabel>Email</FormLabel>
             <Input
               size="lg"
@@ -212,7 +211,7 @@ function SignUp() {
             <FormErrorMessage>{emailError}</FormErrorMessage>
           </FormControl>
 
-          <FormControl id="password1" maxW="450px" isInvalid={passwordError}>
+          <FormControl id="password1" maxW="450px" isInvalid={passwordError} marginX={'auto'}>
             <FormLabel>Password</FormLabel>
             <Input
               size="lg"
@@ -230,7 +229,7 @@ function SignUp() {
             <FormErrorMessage>{passwordError}</FormErrorMessage>
           </FormControl>
 
-          <FormControl id="phoneNumber" maxW="450px" isInvalid={phoneError}>
+          <FormControl id="phoneNumber" maxW="450px" isInvalid={phoneError} marginX={'auto'}>
             <FormLabel>Phone Number</FormLabel>
             <Input
               size="lg"
@@ -248,7 +247,7 @@ function SignUp() {
             <FormErrorMessage>{phoneError}</FormErrorMessage>
           </FormControl>
 
-          <Box paddingLeft="80px">
+          <Box textAlign={'center'}>
             <Button
               bg={"#000"}
               color={"white"}
