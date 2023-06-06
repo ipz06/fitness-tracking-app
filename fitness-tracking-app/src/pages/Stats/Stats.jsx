@@ -30,21 +30,21 @@ const Stats = () => {
 
           if (userSnapshot.gender === "male") {
             const basalMetaMaleFormula =
-              66 +
+              (66 +
               13.7 * userSnapshot.weight +
               5 * userSnapshot.height * 100 -
               6.8 *
                 (new Date().getFullYear() -
-                  Number(userSnapshot.birthDate.slice(0, 4)));
+                  Number(userSnapshot.birthDate.slice(0, 4)))).toFixed(1);
             setBmrMale(basalMetaMaleFormula);
           } else {
             const basalMetaFemaleFormula =
-              655 +
+              (655 +
               9.6 * userSnapshot.weight +
               1.8 * userSnapshot.height * 100 -
               4.7 *
                 (new Date().getFullYear() -
-                  Number(userSnapshot.birthDate.slice(0, 4)));
+                  Number(userSnapshot.birthDate.slice(0, 4)))).toFixed(1);
             setBmrFemale(basalMetaFemaleFormula);
           }
         } catch (error) {
@@ -216,7 +216,7 @@ const Stats = () => {
                     marginX={"auto"}
                     >
                 <Text fontStyle="normal" >
-                {calNutrition.map(meal => <span> Title: {meal.title} Cal: {meal.calories} Weight: {meal.weight}<br/></span>)}
+                {calNutrition.map((meal, index) => <span key={index}> Title: {meal.title} Cal: {meal.calories} Weight: {meal.weight}<br/></span>)}
                 </Text>
                 </Card>
                 <DividerHeader heading={'water consumption'} /> 
