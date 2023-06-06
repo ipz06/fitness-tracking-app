@@ -22,6 +22,7 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Stats from "./pages/Stats/Stats";
 import UserSearch from "./components/UserSearch/UserSearch";
+import FriendsPage from "./pages/FriendsPage/FriendsPage";
 import User from "./pages/User/User";
 import AdminPage from "./pages/AdminPage/AdminPage";
 import UserMeals from "./pages/AdminPage/UserMeals";
@@ -131,7 +132,7 @@ function App() {
             path="friends" 
             element={
               <AuthenticateRoute>
-                <UserSearch/>
+                <FriendsPage/>
               </AuthenticateRoute>
             }  
            />  
