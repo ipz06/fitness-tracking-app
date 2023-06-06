@@ -10,8 +10,7 @@ const MenuForToday = () => {
           h={{ base: "200px", md: "300px", lg: "400px" }}
           w={{ base: "400px", md: "2xl", lg: "3xl" }}
           marginX={"auto"}
-          >
-            
+          >           
         </Card>
     )
 }

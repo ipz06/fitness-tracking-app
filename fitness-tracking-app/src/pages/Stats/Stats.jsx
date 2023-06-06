@@ -4,11 +4,13 @@ import CaloriesChart from "../../components/StatsCharts/CaloriesChart"
 import TotalWorkOutChart from "../../components/StatsCharts/totalWorkOutChart"
 import MealNutritionChart from "../../components/StatsCharts/MealNutritionChart"
 import DividerHeader from "../../components/Goals/Divider"
-import { GiAfterburn } from "react-icons/gi"
 import { useContext, useState, useEffect } from "react"
 import { AuthContext } from "../../common/context"
 import { getActivityByDate } from "../../services/log.service"
 import { getNutrition } from "../../services/nutrition.service"
+import WaterConsumptionChart from "../../components/StatsCharts/WaterConsumption"
+import { modifyDate, toHoursAndMinutes } from "../../common/helpFn"
+import { getUserByHandle } from "../../services/user.service"
 
 const Stats = () => {
   const [loading, setLoading] = useState(false);
@@ -17,7 +19,42 @@ const Stats = () => {
   const [calories, setCalories] = useState(0);
   const [workOuts, setWorkouts] = useState(0);
   const [calNutrition, setCalNutrition] = useState([]);
+  const [bmrMale, setBmrMale] = useState(0);
+  const [bmrFemale, setBmrFemale] = useState(0);
 
+  useEffect(() => {
+    if (user) {
+      const fetchUser = async () => {
+        try {
+          const userSnapshot = await getUserByHandle(user.displayName);
+
+          if (userSnapshot.gender === "male") {
+            const basalMetaMaleFormula =
+              66 +
+              13.7 * userSnapshot.weight +
+              5 * userSnapshot.height * 100 -
+              6.8 *
+                (new Date().getFullYear() -
+                  Number(userSnapshot.birthDate.slice(0, 4)));
+            setBmrMale(basalMetaMaleFormula);
+          } else {
+            const basalMetaFemaleFormula =
+              655 +
+              9.6 * userSnapshot.weight +
+              1.8 * userSnapshot.height * 100 -
+              4.7 *
+                (new Date().getFullYear() -
+                  Number(userSnapshot.birthDate.slice(0, 4)));
+            setBmrFemale(basalMetaFemaleFormula);
+          }
+        } catch (error) {
+          console.log(error);
+        }
+      };
+
+      fetchUser();
+    }
+  }, [user]);
     const today = new Date();
     today.setUTCHours(0, 0, 0, 0);
     const timeStampSundayOfThisWeek = today.setDate(today.getDate() - today.getDay());
@@ -25,20 +62,10 @@ const Stats = () => {
     const afterSevenDays = (today.setDate(today.getDate() + 6));
     const afterSevenDaysDate = new Date(afterSevenDays).toISOString();
 
-    const modifyDate = (dateIso) => {
-        const date = dateIso.slice(0,10);
-        const year = date.substring(0,4);
-        const month = date.substring(5,7);
-        const day = date.substring(8);
-        return `${day}.${month}, ${year}`
-      }
-
       const getDuration = async (handle) => {
         try {
           setLoading(true);
-          const fetchDuration = await getActivityByDate(handle);
-          console.log("FETCH", fetchDuration);
-    
+          const fetchDuration = await getActivityByDate(handle);    
          const durations =  Object.values(fetchDuration)
             .reduce((durations, activity) =>  durations + (+activity.duration), 0);
 
@@ -64,9 +91,7 @@ const Stats = () => {
       const getCaloriesFromNutrition = async (user) => {
         try {
           setLoading(true);
-          const fetchCalFromNutrition = await getNutrition(user.displayName);
-          console.log("Food", fetchCalFromNutrition)
-    
+          const fetchCalFromNutrition = await getNutrition(user.displayName);    
           const kcal = Object.values(fetchCalFromNutrition).filter(meal => {
             const today = new Date().toISOString();
            const dayOfMonth = today.slice(8,10);
@@ -87,12 +112,6 @@ const Stats = () => {
       useEffect(() => {
         getCaloriesFromNutrition(user);
       }, [user]);
-
-      function toHoursAndMinutes(totalMinutes) {
-        const hours = Math.floor(totalMinutes / 60);
-        const minutes = totalMinutes % 60;
-        return  `${hours}:${minutes}`;
-      }
 
     return (
         <Flex 
@@ -126,7 +145,8 @@ const Stats = () => {
                     {toHoursAndMinutes(duration)}
                     <br/> 
                     </Heading>
-                    <Text fontStyle="normal" 
+                    <Text fontStyle="normal"
+                    color="gray.600" 
                     paddingLeft={-1}
                     fontSize={{ base: "10px", sm: "md", md: "lg" }} >
                     
@@ -138,10 +158,11 @@ const Stats = () => {
             >
                     <Heading 
                     fontSize={{ base: "xl", sm: "2xl", md: "4xl" }} >
-                    {calories}
+                    {calories.toFixed(1)}
                     <br/> 
                     </Heading>
                     <Text fontStyle="normal" 
+                    color="gray.600"
                     paddingLeft={-1}
                     fontSize={{ base: "10px", sm: "sm", md: "md" }} >
                     Calories (kcal) Burnt
@@ -156,6 +177,7 @@ const Stats = () => {
                     <br/> 
                     </Heading>
                     <Text fontStyle="normal"
+                     color="gray.600"
                      paddingLeft={-1}
                      fontSize={{ base: "10px", sm: "sm", md: "md" }} >
                     Workouts
@@ -166,10 +188,11 @@ const Stats = () => {
             >
                     <Heading 
                     fontSize={{ base: "xl", sm: "2xl", md: "4xl" }} >
-                    {1400}
+                    {bmrFemale ? bmrFemale : bmrMale}
                     <br/> 
                     </Heading>
-                    <Text fontStyle="normal" 
+                    <Text fontStyle="normal"
+                    color="gray.600" 
                     paddingLeft={-1}
                     fontSize={{ base: "10px", sm: "sm", md: "md" }} >
                     Your BMR
@@ -187,19 +210,18 @@ const Stats = () => {
                 <DividerHeader heading={'daily calorie balance'} /> 
                 <MealNutritionChart />
                 <DividerHeader heading={'Meals of the day'} /> 
-
-            
-            
-            <Card
-          h={{ base: "100px", md: "200px", lg: "300px" }}
-          w={{ base: "400px", md: "2xl", lg: "3xl" }}
-          marginX={"auto"}
-        >
+                <Card
+                    h={{ base: "100px", md: "200px", lg: "300px" }}
+                    w={{ base: "400px", md: "2xl", lg: "3xl" }}
+                    marginX={"auto"}
+                    >
                 <Text fontStyle="normal" >
                 {calNutrition.map(meal => <span> Title: {meal.title} Cal: {meal.calories} Weight: {meal.weight}<br/></span>)}
                 </Text>
                 </Card>
-                </Box>
+                <DividerHeader heading={'water consumption'} /> 
+                <WaterConsumptionChart />
+            </Box>
             
         </Flex>
     )

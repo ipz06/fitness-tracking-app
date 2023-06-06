@@ -111,26 +111,26 @@ export const getActivityForToday = async (handle) => {
 }
 }
 
-function getMondays() {
-  const d = new Date(),
-      month = d.getMonth(),
-      mondays = [];
+// function getMondays() {
+//   const d = new Date(),
+//       month = d.getMonth(),
+//       mondays = [];
 
-  d.setDate(1);
+//   d.setDate(1);
 
-  // Get the first Monday in the month
-  while (d.getDay() !== 1) {
-      d.setDate(d.getDate() + 1);
-  }
+//   // Get the first Monday in the month
+//   while (d.getDay() !== 1) {
+//       d.setDate(d.getDate() + 1);
+//   }
 
-  // Get all the other Mondays in the month
-  while (d.getMonth() === month) {
-      mondays.push(new Date(d.getTime()));
-      d.setDate(d.getDate() + 7);
-  }
+//   // Get all the other Mondays in the month
+//   while (d.getMonth() === month) {
+//       mondays.push(new Date(d.getTime()));
+//       d.setDate(d.getDate() + 7);
+//   }
 
-  return mondays;
-}
+//   return mondays;
+// }
 
 export const getActivityByMonth = async (handle) => {
   try {
@@ -141,8 +141,25 @@ export const getActivityByMonth = async (handle) => {
   const snapshot = await get(durationActivity);
 
   if (snapshot.exists()) {
-    console.log('durationACTIVITY', snapshot.val())
+    return snapshot.val();
+  } else {
+    console.log('null')
+    return null;
+  }
+} catch (error) {
+  console.log(error);
+}
+}
 
+export const getWaterConsumption = async (handle) => {
+  try {
+  const today = new Date();
+  today.setUTCHours(0, 0, 0, 0);
+  const timeStampSundayOfThisWeek = today.setDate(today.getDate() - today.getDay());
+  const durationActivity = query(ref(db, `log-water/${handle}`), orderByChild('timestamp'), startAt(+timeStampSundayOfThisWeek));
+  const snapshot = await get(durationActivity);
+
+  if (snapshot.exists()) {
     return snapshot.val();
   } else {
     console.log('null')
@@ -160,6 +177,7 @@ export const saveWaterToDatabase = async (
   const WaterData = {
     dailyWater: dailyWater,
     addOn: new Date().toLocaleString(),
+    timestamp: Date.now(),
   };
 
   const now = Date.now();
@@ -167,6 +185,7 @@ export const saveWaterToDatabase = async (
   updates[`/log-water/${user}/${now}`] = WaterData;
   return update(ref(db), updates);
 };
+
 
 
 export const saveMealLog = async (
