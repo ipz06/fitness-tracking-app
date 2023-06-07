@@ -121,6 +121,7 @@ function SignUp() {
       
     } catch (e) {
       console.log(e)
+      toast.warning(e.message);
     } finally {
       navigate("/profile");
     }
