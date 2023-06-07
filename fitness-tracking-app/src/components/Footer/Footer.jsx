@@ -1,11 +1,13 @@
 import { Flex, Text } from "@chakra-ui/react";
 import {AiFillGitlab, AiFillLinkedin, AiFillInstagram} from "react-icons/all"
 import logoWhite from "../../assets/logo-white.png"
+import "./Footer.css"
+import { NavLink } from "react-router-dom";
 
 const Footer = () => {
     const year = new Date().getFullYear();
   
-    return <footer>
+    return <footer className="footer">
             <Flex justifyContent="space-between">
                 <img src={logoWhite} width='60px' />
 
@@ -14,12 +16,20 @@ const Footer = () => {
                 fontSize="xs"
                 >
                     {`All rights reserved © ${year}`}
-                    contact us
+                </Text>
+                <Text 
+                  fontStyle="normal"
+                  fontSize="xs"
+                  >
+
+                    About us
                 </Text>
                 <Flex>
                     <AiFillInstagram />
                     <AiFillLinkedin />
-                    <AiFillGitlab />
+                    <NavLink to='https://gitlab.com/ipz06/fitness-tracking-app' >
+                        <AiFillGitlab />
+                    </NavLink>
                 </Flex>
                 
             </Flex>

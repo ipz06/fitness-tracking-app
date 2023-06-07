@@ -82,7 +82,7 @@ function App() {
   return (
     <ChakraProvider>
       <AuthContext.Provider value={{...appState, appState, setAppState}}>
-      <div>
+      <div className="App">
       {user && <Navbar menu ={MENU_ITEMS}/>}
         <Routes>
           {!user && <Route path="/" element={<Landing />}/>}
