@@ -159,7 +159,7 @@ export default Activity;
 Activity.propTypes = {
   activityKey: PropTypes.string.isRequired,
   type: PropTypes.string.isRequired,
-  duration: PropTypes.number.isRequired,
+  duration: PropTypes.string.isRequired,
   caloriesBurned: PropTypes.number.isRequired,
   addedOn: PropTypes.string.isRequired,
   onAddToLog: PropTypes.func.isRequired,
