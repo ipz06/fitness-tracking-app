@@ -66,7 +66,7 @@ const RenderStayToned = ({title,workouts,interval,value, handle, goalID, startDa
    const handleSetTarget = () => {
       setEdit(!edit)
       if(target<=0){
-         toast('Please enter valid weight',{
+         toast('Please enter valid data',{
             autoClose:500
            })
          return

@@ -45,7 +45,7 @@ const RenderTrackCalories = ({title, calories, startDate, interval,value, handle
    const handleSetTarget = () => {
       setEdit(!edit)
       if(target<=0){
-         toast('Please enter valid weight',{
+         toast('Please enter valid calories',{
             autoClose:500
            })
          return

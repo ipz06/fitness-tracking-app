@@ -81,7 +81,7 @@ const RenderLooseWeight = ({title,targetWeight,targetDate,value, handle, goalID,
    }
 
    return (
-      <Card h={{base:'fit-content',md:'140',lg:'140'}} 
+      <Card h={{base:'fit-content',md:'fit-content',lg:'fit-content'}} 
             direction={{ base: 'column', sm: 'row' }}
             w={{base:'xsm',md:'3xl',lg:'4xl'}}
             marginTop={'2px'}

@@ -8,7 +8,7 @@ import { db } from '../../config/firebase-config';
 import { ref,  onValue, off, child, update, get, query, remove } from "firebase/database";
 
 const FriendRequests = () => {
-  const { user, photo, photoURL, firstName } = useContext(AuthContext);
+  const { user, photo, photoURL, firstName, setFriendAlerts } = useContext(AuthContext);
   const [friendRequests, setFriendRequests] = useState([]);
   const userPhoto = photo;
 
@@ -20,6 +20,7 @@ const FriendRequests = () => {
         const requests = snapshot.val();
         if (requests) {
           setFriendRequests(Object.values(requests));
+          setFriendAlerts(true)
         } else {
           setFriendRequests([]);
         }
@@ -39,12 +40,14 @@ const FriendRequests = () => {
   const handleAcceptRequest = async (photo, sender, email, friendRequestKey) => {
 	try {
     await saveFriendToDatabase(userPhoto, user.displayName, user.email, photo, sender, email)
+    setFriendAlerts(false)
 	} catch (error) {
 		console.log(error);
 	}
 
 	try {
 		await deleteFriendRequestFromDatabase(user.displayName, friendRequestKey)
+    
 	} catch (error) {
 		console.log(error);
 	}
@@ -55,6 +58,7 @@ const FriendRequests = () => {
   const handleDeclineRequest = async (friendRequestKey) => {
     try {
 		await deleteFriendRequestFromDatabase(user.displayName, friendRequestKey)
+    setFriendAlerts(false)
 	} catch (error) {
 		console.log(error);
 	}

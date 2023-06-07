@@ -12,13 +12,14 @@ import { NavLink } from 'react-router-dom';
 import { useState, useContext } from 'react';
 import { AuthContext } from '../../common/context.js'
 import Logo from '../../assets/Logo.png'
+import Alert from '../../assets/notification.png'
 import './navbar.css'
 import { redColor } from '../../common/constants.js';
 import { useLocation } from 'react-router-dom';
 import MobileMenu from './MobileMenu.jsx';
 import { MOBILE_MENU_ITEMS } from "../../common/constants";
 import { USER_TYPE } from '../../common/constants.js';
-
+import FriendAlert from './FriendAlert.jsx';
 
  
 
@@ -27,7 +28,7 @@ const Navbar = ({menu}) => {
    
    let address = useLocation()
    const [activeLink, setActiveLink] = useState((address.pathname).slice(1))
-   const {photo, handle, role} = useContext(AuthContext)
+   const {photo, handle, role, friendAlerts} = useContext(AuthContext)
 
    return (
          <Flex
@@ -44,24 +45,24 @@ const Navbar = ({menu}) => {
                marginLeft={'5'}/>
             <Spacer/>
             <Flex className='nav' display={{base:'none',md:'flex'}}>
-            {menu.map((el, i)=>{
-               return(
-                  <HStack key={i}
-                        margin ='auto'
-                        p={'5'}>
-                     
-                        <NavLink key={i} to={`/${el.toLowerCase()}`}
-                           className={activeLink===el ? 'active':''}
-                           onClick={()=>setActiveLink(el.toLowerCase())}>
-                              {el}
-                        </NavLink>
-                     
-                     
-                  </HStack>
-               )
-            })}
-            <div className={`underline ${activeLink.toLowerCase()}`}></div>
+               {menu.map((el, i)=>{
+                  return(
+                     <HStack key={i}
+                           margin ='auto'
+                           p={'5'}>
+                           <NavLink key={i} to={`/${el.toLowerCase()}`}
+                              className={activeLink===el ? 'active':''}
+                              onClick={()=>setActiveLink(el.toLowerCase())}>
+                                 {el}
+                           </NavLink>
+                     </HStack>
+                  )
+               })}
+               <div className={`underline ${activeLink.toLowerCase()}`}></div>
             </Flex>
+            <div style={{position:'relative',width:'40px'}} >
+               {friendAlerts && < FriendAlert setActiveLink={setActiveLink} />}
+            </div>
             <Spacer/>
             {(role===USER_TYPE.ADMIN) &&(
                <HStack marginY='auto' marginEnd={'10'} display={{ base: "none", md: "flex" }}>

@@ -32,6 +32,7 @@ import './App.css'
 function App() {
   const [user] = useAuthState(auth);
   const [appState, setAppState] = useState({ user });
+  const [friendAlerts, setFriendAlerts] = useState(false)
 
   if (appState.user !== user) {
     setAppState({ user });
@@ -60,6 +61,7 @@ function App() {
           age: age,
           gender: gender,
           weight: weight,
+          friendAlerts:false
         });
       })
       .catch((error) => {
@@ -81,7 +83,7 @@ function App() {
 
   return (
     <ChakraProvider>
-      <AuthContext.Provider value={{...appState, appState, setAppState}}>
+      <AuthContext.Provider value={{...appState, appState, setAppState, friendAlerts, setFriendAlerts}}>
       <div className="App">
       {user && <Navbar menu ={MENU_ITEMS}/>}
         <Routes>
