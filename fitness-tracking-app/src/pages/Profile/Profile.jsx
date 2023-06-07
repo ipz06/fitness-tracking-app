@@ -32,7 +32,7 @@ import { toast } from 'react-toastify';
 import Badges from "../../components/Goals/Badges/Badges";
 import { wrap } from "framer-motion";
 import { Label } from "recharts";
-
+import { BiEdit } from 'react-icons/bi';
 
 const Profile = () => {
   const [image, setImage] = useState("");
@@ -48,7 +48,7 @@ const Profile = () => {
   const [country, setCountry] = useState("");
   const [createdOn, setCreatedOn] = useState("");
   const { user, setUser, handle, appState, setAppState} = useContext(AuthContext);
-  
+  const [isHovering, setIsHovering] = useState(false);
   const [avatar, setAvatar] = useState(image)
   const navigate = useNavigate();
 
@@ -162,33 +162,60 @@ const Profile = () => {
           PROFILE INFORMATION
         </Heading>
         <Flex direction={{base: 'column', md: 'row'}} paddingBottom={50} gap={10} justifyContent={"space-between"} w="100%">
-          <Flex flex="1" marginTop={5}>
-            <FormControl display="flex" justifyContent="center">
-            
-              <Avatar className="avatar"
-                size="2xl"
-                borderRadius="full"
-                opacity={1}
-                src={image}
-               
-                // onMouseEnter={() => setAvatar({uploadPic})}
-                // onMouseOut={() => setImage({image})}
-                _hover={{opacity: "0.5" }}
-              />
-              <Input
-                type="file"
-                height="100%"
-                width="100%"
-                position="absolute"
-                top="0"
-                left="0"
-                opacity="0"
-                aria-hidden="true"
-                accept="image/*"
-                onChange={handleImageChange}
-              />
-            </FormControl>
+          <Box>
+          <Flex flex="1" marginTop="2%">
+          <FormControl 
+    display="flex" 
+    justifyContent="center" 
+    position="relative"
+    onMouseEnter={() => setIsHovering(true)}
+    onMouseLeave={() => setIsHovering(false)}
+  >
+<Avatar //or box
+    className="avatar"
+    w="140px"  
+    h="140px"  
+    borderRadius="full"
+    // backgroundImage={`url(${image})`} 
+    src={image}
+    backgroundSize="cover"
+    backgroundPosition="center"
+    opacity={isHovering ? "0.5" : "1"}
+/>
+    
+    <Input
+      type="file"
+      height="100%"
+      width="100%"
+      position="absolute"
+      top="0"
+      left="0"
+      opacity="0"
+      aria-hidden="true"
+      accept="image/*"
+      onChange={handleImageChange}
+    />
+    {isHovering && (
+      <Box 
+        display="flex" 
+        position="absolute" 
+        top={["50%", "50%"]}
+        left="50%" 
+        transform="translate(-50%, -50%)"
+        justifyContent="center"
+        alignItems="center"
+        backgroundColor="rgba(0,0,0,0.5)"
+        borderRadius="full"
+        w="140px"
+        h="140px"
+        pointerEvents="none"
+      >
+        <BiEdit size={24} color="white" />
+      </Box>
+    )}
+  </FormControl>
           </Flex>
+          </Box>
           <Flex flex="2" flexDir="column" w="100%" marginTop={5}>
             <Text fontWeight="bold" fontStyle="normal" fontSize={{ base: "xs", sm: "sm", md: "lg" }} paddingBottom={5}>
               Member since: {modifyDate(createdOn)}
