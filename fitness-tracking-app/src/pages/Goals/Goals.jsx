@@ -49,13 +49,13 @@ const Goals = ()=>{
    const addTimedActivity = () => {
       const now = Date.now()
       addUserGoal(handle,'stay-active', now, 1, 0, 240)
-      toast('goal added',{autoClose:500})
+      
    }
 
    const addWorkOutActivity = () => {
       const now = Date.now()
       addUserGoal(handle,'stay-toned', now, 1, 0, 4)
-      toast('goal added',{autoClose:500})
+      
    }
    const addWeightGoal = () => {
       const now = Date.now()
