@@ -11,6 +11,7 @@ import { getNutrition } from "../../services/nutrition.service"
 import WaterConsumptionChart from "../../components/StatsCharts/WaterConsumption"
 import { modifyDate, toHoursAndMinutes } from "../../common/helpFn"
 import { getUserByHandle } from "../../services/user.service"
+import MenuForToday from "../../components/StatsCharts/MenuForToday"
 
 const Stats = () => {
   const [loading, setLoading] = useState(false);
@@ -207,20 +208,12 @@ const Stats = () => {
                 <CaloriesChart />
                 <DividerHeader heading={'total workouts'} />
                 <TotalWorkOutChart />
-                <DividerHeader heading={'daily calorie balance'} /> 
-                <MealNutritionChart />
-                <DividerHeader heading={'Meals of the day'} /> 
-                <Card
-                    h={{ base: "100px", md: "200px", lg: "300px" }}
-                    w={{ base: "400px", md: "2xl", lg: "3xl" }}
-                    marginX={"auto"}
-                    >
-                <Text fontStyle="normal" >
-                {calNutrition.map((meal, index) => <span key={index}> Title: {meal.title} Cal: {meal.calories} Weight: {meal.weight}<br/></span>)}
-                </Text>
-                </Card>
                 <DividerHeader heading={'water consumption'} /> 
                 <WaterConsumptionChart />
+                <DividerHeader heading={'daily calorie balance'} /> 
+                <MealNutritionChart />
+                <DividerHeader heading={'meals of the day'} /> 
+                <MenuForToday />
             </Box>
             
         </Flex>

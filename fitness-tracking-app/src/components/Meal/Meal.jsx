@@ -11,6 +11,7 @@ import {
   Flex,
   HStack,
   Tooltip,
+  Image
 } from "@chakra-ui/react";
 import { useContext } from "react";
 import { FaTrash, FaShareAlt } from "react-icons/fa";
@@ -21,12 +22,15 @@ import "react-toastify/dist/ReactToastify.css";
 import { deleteNutrituionFromDatabase } from "../../services/nutrition.service";
 import CustomToasEatMeal from "../CustumeToast/CustumeToastEatMeal";
 import { GiMeal } from "react-icons/gi";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { shareUserMeal } from "../../services/nutrition.service";
 import PropTypes from "prop-types";
 import { USER_TYPE } from "../../common/constants";
 import { BsSaveFill } from "react-icons/bs";
 import { saveNutritionToDatabase } from "../../services/nutrition.service";
+import upload from "../../assets/upload.jpg"
+import { ICON_SIZE } from "../../common/constants";
+import useMealImages from "../../hooks/useMealImages";
 
 const MealView = ({
   author,
@@ -37,14 +41,16 @@ const MealView = ({
   calories,
   sharedStatus = false,
   ingredients,
+  typeMeal
 }) => {
   const { user, role } = useContext(AuthContext);
-  const [loading, setLoading] = useState(false);
   const [shared, setShared] = useState(sharedStatus);
+  const imageMeal = useMealImages(typeMeal)
+
 
   const handleLogMeal = async () => {
     try {
-      await saveMealLog(user.displayName, calories, weight, title);
+      await saveMealLog(user.displayName, calories, weight, title, typeMeal);
       toast(<CustomToasEatMeal title={title} />);
     } catch (error) {
       console.error("An error occurred while logging the meal:", error);
@@ -67,6 +73,7 @@ const MealView = ({
     });
   };
 
+
   const handleSaveMeal = async () => {
     try {
       await saveNutritionToDatabase(
@@ -75,13 +82,15 @@ const MealView = ({
         ingredients,
         calories,
         weight,
-        sharedStatus
+        sharedStatus,
+        typeMeal
       );
       toast(`Meal ${title} was saved`);
     } catch (error) {
       console.log(error);
     }
   };
+
 
   return (
     <Box align="center" p="1%">
@@ -102,10 +111,14 @@ const MealView = ({
             <Text fontSize="lg" fontWeight="bold" fontStyle="normal">
               {title}
             </Text>
-            <Badge colorScheme="teal" p={1} mr={2}>
+            <Box>
+              <Image src={imageMeal ? imageMeal : upload } boxSize={ICON_SIZE} className="image" />
+            </Box>
+            
+            <Badge  p={1} mr={2}>
               Weight: {weight} g
             </Badge>
-            <Badge colorScheme="teal" p={1}>
+            <Badge p={1}>
               Calories: {calories}
             </Badge>
             <Text fontSize="md" fontWeight="bold" mt={3} fontStyle="normal">
