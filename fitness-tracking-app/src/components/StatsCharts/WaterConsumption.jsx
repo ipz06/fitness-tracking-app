@@ -24,9 +24,7 @@ const WaterConsumptionChart = () => {
       try {
         setLoading(true);
         const fetchWaterConsumption = await getWaterConsumption(handle);
-        console.log("FETCH", fetchWaterConsumption);
         const createData = days.map((day) => ({ day: day, dailyWater: 0 }));
-        console.log("createDATA", createData);
   
         Object.values(fetchWaterConsumption)
           .forEach((waterList) => {

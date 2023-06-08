@@ -95,7 +95,7 @@ const { user, weight } = useContext(AuthContext);
             fontSize={"sm"}
             color={"blue"}
           >
-            Here you can calculete the burned calories
+            Here you can calculate the burned calories
           </Text>
 
           <FormControl id="activity">

@@ -31,21 +31,21 @@ const MealNutritionChart = () => {
 
           if (userSnapshot.gender === "male") {
             const basalMetaMaleFormula =
-              66 +
+              (66 +
               13.7 * userSnapshot.weight +
               5 * userSnapshot.height * 100 -
               6.8 *
                 (new Date().getFullYear() -
-                  Number(userSnapshot.birthDate.slice(0, 4)));
+                  Number(userSnapshot.birthDate.slice(0, 4)))).toFixed(1);
             setBmrMale(basalMetaMaleFormula);
           } else {
             const basalMetaFemaleFormula =
-              655 +
+              (655 +
               9.6 * userSnapshot.weight +
               1.8 * userSnapshot.height * 100 -
               4.7 *
                 (new Date().getFullYear() -
-                  Number(userSnapshot.birthDate.slice(0, 4)));
+                  Number(userSnapshot.birthDate.slice(0, 4)))).toFixed(1);
             setBmrFemale(basalMetaFemaleFormula);
           }
         } catch (error) {
@@ -61,7 +61,6 @@ const MealNutritionChart = () => {
     try {
       setLoading(true);
       const fetchCalFromNutrition = await getNutrition(user.displayName);
-      console.log("Food", fetchCalFromNutrition)
       const createData = days.map((day) => ({ day: day, calories: 0 }));
 
       Object.values(fetchCalFromNutrition).forEach((meal) => {

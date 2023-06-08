@@ -22,9 +22,7 @@ const DurationChart = () => {
     try {
       setLoading(true);
       const fetchDuration = await getActivityByDate(handle);
-      console.log("FETCH", fetchDuration);
       const createData = days.map((day) => ({ day: day, minutes: 0 }));
-      console.log("createDATA", createData);
 
       Object.values(fetchDuration)
         .forEach((activity) => {
@@ -48,7 +46,6 @@ const DurationChart = () => {
   if (duration.length !== 0) {
     return (
       <Flex justifyContent="center" paddingX="16px">
-        {/* <Flex direction="column" alignItems="center" maxWidth="100%" > */}
         <Card
           h={{ base: "200px", md: "300px", lg: "400px" }}
           w={{ base: "400px", md: "2xl", lg: "3xl" }}
@@ -68,7 +65,6 @@ const DurationChart = () => {
             </BarChart>
           </ResponsiveContainer>
         </Card>
-        {/* </Flex> */}
       </Flex>
     );
   }

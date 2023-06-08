@@ -41,7 +41,7 @@ if (type === ACTIVITY_TYPE.RUNNING) {
 } else if (type === ACTIVITY_TYPE.ROW) {
   image = RowImage;
 }
- console.log(image);
+
 const handleDeleteActivity = async () => {
   try {
     await deleteActivityFromDatabase(author, activityKey);

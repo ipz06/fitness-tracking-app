@@ -41,3 +41,21 @@ export const ACTIVITY_TYPE = Object.freeze(
    }
 )
 export const ONE_HOUR_IN_MIN = 60;
+
+export const MEALS_TYPE = Object.freeze (
+   {
+      HEALTHY_BREAKFAST: 'Healthy Breakfast',
+      BREAKFAST_FOR_GENTLEMEN: 'Breakfast for Gentlemen',
+      ENERGETIC_START_OF_THE_DAY: 'Energetic Start of the Day',
+      ON_THE_GO_SNACK: 'On-the-go Snack',
+      SNACK: 'Snack',
+      LUNCH_FOR_LADIES: 'Lunch for the Ladies',
+      MUSCLE_LUNCH: 'Lunch for Muscles',
+      HEALTHY_DINNER: 'Healthy Dinner',
+      DINNER: 'Dinner',
+      SALAD: 'Salad'   
+   }
+)
+
+export const ICON_SIZE = "70px";
+export const ICON_SIZE_BIGGER = "150px"
