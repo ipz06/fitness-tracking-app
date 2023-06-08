@@ -7,6 +7,7 @@
          
       }}>
          <h2 style ={{
+            'fontWeight':'bold',
             'top':'11px',
             'display':'inline-block',
             'color':'#6D717A',
