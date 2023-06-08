@@ -66,9 +66,6 @@ const FriendRequests = () => {
 //key={request.friendRequestKey}
   return (
     <Box p={4} maxW="65%" pt="2%">
-      <Text fontSize="xl" fontWeight="bold" fontStyle="normal" mb={4}>
-        Friend Requests            
-      </Text>
       <SimpleGrid  columns={[1, 2, 3 ]}  gap={4}>
       {friendRequests.map((request) => (
          
@@ -91,10 +88,10 @@ const FriendRequests = () => {
             </VStack>
           </Box>
           <Box display="flex" gap={2} ml={{ base: "2%", md: "10%" }} flexWrap="wrap">
-            <Button fontSize={{ base: "xs", sm: "sm", md: "sm" }} borderRadius="sm" color="blackAlpha.900" backgroundColor="teal.200" maxW="80%"  onClick={() => handleAcceptRequest(request.photo, request.sender, request.email, request.friendRequestKey)} >
+            <Button fontSize={{ base: "xs", sm: "sm", md: "sm" }} borderRadius="sm" color="blackAlpha.900" backgroundColor="teal.200" maxW={{ base: "80%", sm: "40%", md: "75%" }} size="sm"  onClick={() => handleAcceptRequest(request.photo, request.sender, request.email, request.friendRequestKey)} >
               Accept
             </Button>
-            <Button fontSize={{ base: "xs", sm: "sm", md: "sm" }} borderRadius="sm" backgroundColor="red.500" color="blackAlpha.900" maxW="80%"  _hover={{ bg: "red.300" }} onClick={() => handleDeclineRequest(request.friendRequestKey)} >
+            <Button fontSize={{ base: "xs", sm: "sm", md: "sm" }} borderRadius="sm" backgroundColor="red.500" color="blackAlpha.900" maxW={{ base: "80%", sm: "40%", md: "75%" }} size="sm"  _hover={{ bg: "red.300" }} onClick={() => handleDeclineRequest(request.friendRequestKey)} >
               Decline
             </Button>
           </Box>

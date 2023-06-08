@@ -8,14 +8,10 @@ import PropTypes, { string } from 'prop-types';
 
 const SentRequests = ({ requests }) => {
   const { user } = useContext(AuthContext);
-  console.log(requests);
   return (
-    <Box>
-    <Text align="center" fontSize="xl" fontStyle="normal" fontWeight="bold" mb={4}>
-    Sent Friend Requests            
-  </Text>
+    <Box pt="2%" boxShadow="md">
     <Center>
-      <SimpleGrid columns={[1, 2, 3]} spacing={4}>
+      <SimpleGrid columns={[1, 2, 3, 4]} spacing={4}>
         {requests.map((request, index) => (
           <SingleSentRequest
             key={index}

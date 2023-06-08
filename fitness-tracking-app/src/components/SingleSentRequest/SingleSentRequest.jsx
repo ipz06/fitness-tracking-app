@@ -19,14 +19,16 @@ return (
 <Box shadow="md">
 <HStack>
 	<VStack>
-<Text fontStyle="normal" fontWeight="bold">Sent request to:</Text>
+<Text fontStyle="normal" fontWeight="bold">Sent to:</Text>
 <Text fontStyle="normal">{receiver}</Text>
 </VStack>
 <VStack>
 <Text fontStyle="normal" fontWeight="bold">On:</Text>
 <Text fontStyle="normal">{date}</Text>
 </VStack>
-<Button maxW="20%" size="sm" borderRadius="sm" borderColor="black" backgroundColor="teal.200" onClick={removeRequest} fontSize={{ base: "xs", sm: "sm", md: "sm" }}>Remove</Button>
+<Box ml='auto' pr={{ base: "2", sm: "1", md: "1" }}>
+<Button maxW={{ base: "80%", sm: "40%", md: "75%" }} size="sm" borderRadius="sm" borderColor="black" backgroundColor="teal.200" onClick={removeRequest} fontSize={{ base: "xs", sm: "sm", md: "sm" }}>Remove</Button>
+</Box>
 </HStack>
 
 
