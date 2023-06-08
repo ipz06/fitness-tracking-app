@@ -77,21 +77,21 @@ const FriendRequests = () => {
               boxShadow="md"
               display="flex"
               alignItems="center"
-              minW={{ base: "85%", sm: "60%", md: "40%" }} // Responsive minimum width
-      maxW="85%"
+              minW={{ base: "85%", sm: "60%", md: "40%" }} 
+      maxW="100%"
             >
-          <Box display="flex" alignItems="center" flexWrap="wrap">
+          <Box display="flex" alignItems="center" flexWrap="wrap"  flexDirection={{ base: "column", sm: "row" }}>
             <Image src={request.photo} alt="Profile" boxSize="22%" borderRadius="full" mr={4} />
             <VStack align="start">
-              <Text fontWeight="bold">{request.sender}</Text>
-              <Text fontSize={{ base: "xs", sm: "sm", md: "md" }}>{request.email}</Text>
+              <Text fontStyle="normal" fontWeight="bold">{request.sender}</Text>
+              <Text fontStyle="normal" fontSize={{ base: "xs", sm: "sm", md: "md" }}>{request.email}</Text>
             </VStack>
           </Box>
           <Box display="flex" gap={2} ml={{ base: "2%", md: "10%" }} flexWrap="wrap">
-            <Button fontSize={{ base: "xs", sm: "sm", md: "sm" }} borderRadius="sm" color="blackAlpha.900" backgroundColor="teal.200" maxW={{ base: "80%", sm: "40%", md: "75%" }} size="sm"  onClick={() => handleAcceptRequest(request.photo, request.sender, request.email, request.friendRequestKey)} >
+            <Button fontSize={{ base: "xs", sm: "sm", md: "sm" }} borderRadius="sm" color="blackAlpha.900" backgroundColor="teal.200" maxW={{ base: "80%", sm: "40%", md: "100%" }} size="sm"  onClick={() => handleAcceptRequest(request.photo, request.sender, request.email, request.friendRequestKey)} >
               Accept
             </Button>
-            <Button fontSize={{ base: "xs", sm: "sm", md: "sm" }} borderRadius="sm" backgroundColor="red.500" color="blackAlpha.900" maxW={{ base: "80%", sm: "40%", md: "75%" }} size="sm"  _hover={{ bg: "red.300" }} onClick={() => handleDeclineRequest(request.friendRequestKey)} >
+            <Button fontSize={{ base: "xs", sm: "sm", md: "sm" }} borderRadius="sm" backgroundColor="red.500" color="blackAlpha.900" maxW={{ base: "80%", sm: "40%", md: "100%" }} size="sm"  _hover={{ bg: "red.300" }} onClick={() => handleDeclineRequest(request.friendRequestKey)} >
               Decline
             </Button>
           </Box>
