@@ -141,7 +141,7 @@ const RenderLooseWeight = ({title,targetWeight,targetDate,value, handle, goalID,
          <Box
          margin={'auto'}
          marginRight={{base:'auto',sm:'50px'}}>
-            <WeightPieChart value={50+(currentWeight - targetWeight)/15*100}/>
+            <WeightPieChart value={50+(currentWeight - targetWeight)/50*100}/>
          </Box>
          {owner &&
          <Stack direction={{ base: 'row', sm: 'column' }} margin={2} marginX={{base:'auto',sm:2}} >

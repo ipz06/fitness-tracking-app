@@ -6,6 +6,9 @@ import UsersTable from "./UsersTable";
 import {USER_TYPE} from '../../common/constants'
 import NewUsersStats from "./NewUsersStats";
 import UserActivityStats from "./UsersActivityStats";
+import {ref, onValue} from "firebase/database";
+import { db } from "../../config/firebase-config";
+import "firebase/database";
 
 const AdminPage = () =>{
 
@@ -15,9 +18,24 @@ const AdminPage = () =>{
 
    useEffect(()=>{
       setLoading(true)
-      getAllCreatedUsers()
-         .then((data)=>setUsers(data))
-         .finally(()=>setLoading(false))
+      // getAllCreatedUsers()
+      //    .then((data)=>setUsers(data))
+      //    .finally(()=>setLoading(false))
+         try{
+            const dbRef = ref(db, `users`)
+            const handleUsers = snap =>{
+               if(snap.val()) {
+                  setUsers(snap.val())
+               }
+            }
+            onValue(dbRef,(snapshot)=>{
+               handleUsers(snapshot)
+            })
+         } catch(e) {
+            console.log(e)
+         } finally {
+            setLoading(false)
+         }
    },[])
 
    if (role !== USER_TYPE.ADMIN && role !== USER_TYPE.SUPER_ADMIN) {
@@ -33,7 +51,7 @@ const AdminPage = () =>{
          <DividerHeader heading={'admin panel'}/>
          <UsersTable
                   keys={Object.keys(users)}
-                  users={users}
+                  allUsers={users}
                   items={4}
                   role={role}
                   />

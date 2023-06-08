@@ -14,6 +14,7 @@ import {
   Input,
   FormControl,
   Image,
+  Avatar
 } from "@chakra-ui/react";
 import AdminIcon from "./../../assets/icons8-microsoft-admin-64.png";
 import OwnerIcon from "./../../assets/icons8-caretaker-30.png";
@@ -26,10 +27,13 @@ import {
 } from "react-icons/all";
 import { updateUserRole } from "../../services/admin.service";
 import { USER_TYPE } from "../../common/constants";
+import { redColor } from "../../common/constants";
+import { deleteUserPhoto } from "../../services/admin.service";
+import { toast } from 'react-toastify';
 
-const UsersTable = ({ keys, users, items = 4, role }) => {
+const UsersTable = ({ keys, allUsers, items = 4, role }) => {
   const [itemsPerPage,setItemsPerPage] = useState(items)
-  const [allUsers, setAllUsers] = useState(users);
+  //const [allUsers, setAllUsers] = useState(users);
   const [currentPage, setCurrentPage] = useState(0);
   const [displayName, setDisplayName] = useState("");
   const [email, setEmail] = useState("");
@@ -137,6 +141,12 @@ const UsersTable = ({ keys, users, items = 4, role }) => {
     });
   };
 
+  const handleDeletePhoto = (handle)=>{
+    deleteUserPhoto(handle)
+      .then(()=>toast(('User Photo deleted!'),{autoClose:1000}))
+      .catch((e)=>console.log(e))
+  }
+
   if (loading) {
     return <div> Loading... </div>;
   }
@@ -218,32 +228,23 @@ const UsersTable = ({ keys, users, items = 4, role }) => {
           <Thead>
             <Tr>
               <Th textAlign={"center"}>
-                <Input
+                
+              </Th>
+              <Th textAlign={"center"}>
+              <Input
                   placeholder="Display Name"
                   size="sm"
                   onChange={(e) => setDisplayName(e.target.value)}
                 />
               </Th>
               <Th textAlign={"center"}>
-                <form onSubmit={handleSubmitMail}>
+              <form onSubmit={handleSubmitMail}>
                   <FormControl>
                     <Input
                       placeholder="EMAIL"
                       size="sm"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
-                    />
-                  </FormControl>
-                </form>
-              </Th>
-              <Th textAlign={"center"}>
-                <form onSubmit={handleSubmitUid}>
-                  <FormControl>
-                    <Input
-                      placeholder="ID"
-                      size="sm"
-                      value={uid}
-                      onChange={(e) => setUid(e.target.value)}
                     />
                   </FormControl>
                 </form>
@@ -255,9 +256,13 @@ const UsersTable = ({ keys, users, items = 4, role }) => {
           <Tbody>
             {currentKeys.map((key) => (
               <Tr fontSize={"small"} key={allUsers[key].uid}>
+                <Td textAlign={"center"}> <Avatar name = {allUsers[key].handle}
+                                                  src = {allUsers[key].photoURL} showBorder={true}
+                                                  borderColor={redColor}
+                                                  marginRight={'5'}
+                                                  onClick={()=>handleDeletePhoto(allUsers[key].handle)}/> </Td>
                 <Td textAlign={"center"}>{allUsers[key].handle}</Td>
                 <Td textAlign={"center"}>{allUsers[key].email}</Td>
-                <Td textAlign={"center"}>{allUsers[key].uid}</Td>
                 <Td textAlign={"center"}>
                   {" "}
                   <Link to={`/admin/${allUsers[key].handle}`}>
@@ -301,3 +306,4 @@ const UsersTable = ({ keys, users, items = 4, role }) => {
 };
 
 export default UsersTable;
+

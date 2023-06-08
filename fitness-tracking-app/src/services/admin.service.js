@@ -1,4 +1,4 @@
-import { ref, update, get } from 'firebase/database';
+import { ref, update, get, set } from 'firebase/database';
 import { db } from '../config/firebase-config';
 import {MONTH_MS} from '../common/constants'
 
@@ -64,3 +64,10 @@ export const calculateTotalActivities = (createData) => {
  
   return total
 } 
+
+export const deleteUserPhoto = (handle) => {
+  const updates = {
+    [`/users/${handle}/photoURL`]: '',
+  };
+  return update(ref(db), updates);
+}
