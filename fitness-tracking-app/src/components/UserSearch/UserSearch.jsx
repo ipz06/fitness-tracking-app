@@ -26,6 +26,7 @@ import SentRequests from '../SentRequests/SentRequests';
 import { getDatabase, ref, onValue, off } from "firebase/database"; 
 import { db } from '../../config/firebase-config'; 
 import DividerHeader from '../Goals/Divider';
+import CustomDivider from '../CustumeDivider/CustumeDivider';
 
 const UserSearch = () => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -147,17 +148,18 @@ const UserSearch = () => {
   return (
 
    <Flex direction="column" alignItems="center" w="100%">
+     <CustomDivider heading={"friend requests"} />
       <FriendRequests/>
-      <Divider  borderColor="black" borderWidth="1px" heading={'friends'}/>
+      <CustomDivider heading={"sent requests"} />
       <Box maxW="65%" minW="65%" pt="1%" pb="2%">
       <SentRequests 
       requests={requests}
       />
       </Box>
-    <Divider  borderColor="black" borderWidth="1px" heading={'friends'}/>
+      <CustomDivider heading={"my friends"} />
       <FriendsView/>
-      <Divider  borderColor="black" borderWidth="1px" heading={'friends'}/>
-      <Box pt="2%" minW="65%">
+      <CustomDivider heading={"User search"} />
+      <Box pt="2%" pb="5%" minW="65%">
       <Input
         type="text"
         value={searchQuery}
