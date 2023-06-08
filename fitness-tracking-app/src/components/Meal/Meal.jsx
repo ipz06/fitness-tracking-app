@@ -7,7 +7,6 @@ import {
   UnorderedList,
   IconButton,
   ListItem,
-  Center,
   Flex,
   HStack,
   Tooltip,
@@ -51,7 +50,9 @@ const MealView = ({
   const handleLogMeal = async () => {
     try {
       await saveMealLog(user.displayName, calories, weight, title, typeMeal);
-      toast(<CustomToasEatMeal title={title} />);
+      toast(<CustomToasEatMeal title={title} />, {
+        autoClose: 1000,
+      });
     } catch (error) {
       console.error("An error occurred while logging the meal:", error);
     }
@@ -233,5 +234,6 @@ MealView.propTypes = {
   weight: PropTypes.number.isRequired,
   calories: PropTypes.number.isRequired,
   sharedStatus: PropTypes.bool,
+  typeMeal: PropTypes.string.isRequired,
   ingredients: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
