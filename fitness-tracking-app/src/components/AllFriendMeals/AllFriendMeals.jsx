@@ -52,13 +52,14 @@ const AllFriendMeals = ({ handle }) => {
   return (
 	
     <MealView
-	key={meals[meal].nutritionKey}
+	    key={meals[meal].nutritionKey}
       addOn={meals[meal].addOn}
       calories={meals[meal].calories}
       ingredients={meals[meal].ingredients}
       nutritionKey={meals[meal].nutritionKey}
       title={meals[meal].title}
       weight={meals[meal].weight}
+      typeMeal={meals[meal].typeMeal}
     />
    
   );

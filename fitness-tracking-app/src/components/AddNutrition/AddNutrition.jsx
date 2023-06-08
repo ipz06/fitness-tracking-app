@@ -13,6 +13,9 @@ import {
   HStack,
   Center,
   Icon,
+  FormControl,
+  FormLabel,
+  Select
 } from "@chakra-ui/react";
 import { analyzeNutrition } from "../../services/api.service";
 import { saveNutritionToDatabase } from "../../services/nutrition.service";
@@ -20,6 +23,10 @@ import { useContext } from "react";
 import { AuthContext } from "../../common/context";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { MEALS_TYPE } from "../../common/constants";
+import healthyDinner from "../../assets/healthy-dinner.jpg";
+import breakfastForGentlemen from "../../assets/breakfast-Gentlemen.jpg";
+import lunchForLadies from "../../assets/lunch-for-l.jpg";
 
 const AddNutrition = () => {
   const [recipeTitle, setRecipeTitle] = useState("");
@@ -28,6 +35,7 @@ const AddNutrition = () => {
   const { user } = useContext(AuthContext);
   const [apiError, setApiError] = useState(null);
   const [error, setError] = useState(null);
+  const [typeMeal, setTypeMeal] = useState('');
   const sharedStatus = false;
 
   const handleIngredientChange = (index, event) => {
@@ -71,7 +79,8 @@ const AddNutrition = () => {
         ingredients,
         nutritionData.calories,
         nutritionData.totalWeight,
-        sharedStatus
+        sharedStatus,
+        typeMeal
       );
       toast.success("Your meal is saved", {
         autoClose: 500,
@@ -82,6 +91,9 @@ const AddNutrition = () => {
     }
   };
 
+  const handleChooseMealImage = async (e) => {
+   setTypeMeal(e.target.value)
+}
   return (
     <Center>
       <Container maxW="container.xl">
@@ -229,7 +241,36 @@ const AddNutrition = () => {
                     )}
                 </SimpleGrid>
               </Box>
-              <HStack>
+              <HStack spacing={5}>
+                  <FormControl>
+                    <Select
+                      size="md"
+                      w='50%'
+                      minW="20%"
+                      placeholder="Select type of meal"
+                      borderRadius='sm'
+                      borderColor="blackAlpha.500"
+                      _hover={{ borderColor: "black", borderWidth: 2 }}
+                      _focus={{
+                        borderColor: "black",
+                        boxShadow: "0 0 0 3px rgba(0,0,0,0.1)",
+                      }}
+                      value={typeMeal}
+                      onChange={handleChooseMealImage}
+                    >
+                      <option value="Healthy Breakfast">Healthy Breakfast</option>
+                      <option value="Breakfast for Gentlemen">Breakfast for Gentlemen</option>
+                      <option value="Energetic Start of the Day">Energetic Start of the Day</option>
+                      <option value="On-the-go Snack">On-the-go Snack</option>
+                      <option value="Snack">Snack</option>
+                      <option value="Lunch for the Ladies">Lunch for the Ladies</option>
+                      <option value="Lunch for Muscles">Lunch for Muscles</option>
+                      <option value="Healthy Dinner">Healthy Dinner</option>
+                      <option value="Dinner">Dinner</option>
+                      <option value="Salad">Salad</option>
+                    </Select>
+                  </FormControl>
+                
                 <Button
                   onClick={handleSaveNutrition}
                   color="black"
