@@ -51,24 +51,6 @@ export const getUserActivityLogs = async (handle) => {
   }
 };
 
-// export const getDurationActivity = async (handle) => {
-//   try {
-//   const durationActivity = query(ref(db, `log-activity/${handle}`), orderByChild('duration'));
-//   const snapshot = await get(durationActivity);
-//   // console.log('snapshot:', snapshot)
-
-//   if (snapshot.exists()) {
-//     // console.log('val',snapshot.val())
-//     return snapshot.val();
-//   } else {
-//     console.log('null')
-//     return null;
-//   }
-// } catch (error) {
-//   console.log(error);
-// }
-// }
-
 export const getActivityByDate = async (handle) => {
   try {
   const today = new Date();
@@ -78,7 +60,6 @@ export const getActivityByDate = async (handle) => {
   const snapshot = await get(durationActivity);
 
   if (snapshot.exists()) {
-    console.log('durationACTIVITY', snapshot.val())
 
     return snapshot.val();
   } else {
@@ -99,7 +80,6 @@ export const getActivityForToday = async (handle) => {
   const snapshot = await get(durationActivity);
 
   if (snapshot.exists()) {
-    console.log('durationACTIVITYTODAY', snapshot.val())
 
     return snapshot.val();
   } else {
@@ -192,7 +172,8 @@ export const saveMealLog = async (
   user,
   calories,
   weight,
-  title
+  title,
+  typeMeal
 ) => {
   const nutritionData = {
     calories: calories,
@@ -200,6 +181,7 @@ export const saveMealLog = async (
     weight: weight,
     title: title,
     timestamp: Date.now(),
+    typeMeal: typeMeal,
   };
 
   const now = Date.now();

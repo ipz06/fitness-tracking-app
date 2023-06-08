@@ -21,7 +21,8 @@ export const saveNutritionToDatabase = async (
   ingredients,
   calories,
   totalWeight,
-  sharedStatus
+  sharedStatus,
+  typeMeal
 ) => {
   const nutritionData = {
     title: recipeTitle,
@@ -29,7 +30,8 @@ export const saveNutritionToDatabase = async (
     ingredients: ingredients,
     calories: calories,
     weight: totalWeight,
-    shared: sharedStatus
+    shared: sharedStatus,
+    typeMeal: typeMeal
   };
 
   const newNutritionKey = push(child(ref(db), "activity")).key;
