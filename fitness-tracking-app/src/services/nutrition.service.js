@@ -130,3 +130,18 @@ export const filterSharedMeals= (data)=>{
   })
   return result
 }
+
+export const getAllCreatedMeals = async () => {
+  try {
+    const allMeals = query(ref(db, `nutritions`));
+    const snapshot = await get(allMeals);
+
+    if (snapshot.exists()) {
+      return snapshot.val();
+    } else {
+      return null;
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};

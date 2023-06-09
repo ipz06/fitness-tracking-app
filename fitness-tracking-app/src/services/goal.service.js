@@ -227,3 +227,18 @@ export const filterSharedGoals= (data)=>{
   })
   return result
 }
+
+export const getAllCreatedGoals = async () => {
+  try {
+    const allGoals = query(ref(db, `goals`));
+    const snapshot = await get(allGoals);
+
+    if (snapshot.exists()) {
+      return snapshot.val();
+    } else {
+      return null;
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
