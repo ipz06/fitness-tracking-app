@@ -23,10 +23,7 @@ import { useContext } from "react";
 import { AuthContext } from "../../common/context";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { MEALS_TYPE } from "../../common/constants";
-import healthyDinner from "../../assets/healthy-dinner.jpg";
-import breakfastForGentlemen from "../../assets/breakfast-Gentlemen.jpg";
-import lunchForLadies from "../../assets/lunch-for-l.jpg";
+
 
 const AddNutrition = () => {
   const [recipeTitle, setRecipeTitle] = useState("");

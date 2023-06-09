@@ -17,32 +17,20 @@ const MenuForToday = () => {
 
   const [calNutrition, setCalNutrition] = useState([])
   const { user } = useContext(AuthContext);
-  const [index, setIndex] = useState(0);
-  // const [imageMeal, setImageMeal] = useState("")
-
-
 
   const getCaloriesFromNutrition = async (user) => {
     try {
-      const fetchCalFromNutrition = await getNutrition(user.displayName); 
-      console.log("fetch CALORIES", fetchCalFromNutrition)
-   
+      const fetchCalFromNutrition = await getNutrition(user.displayName);    
       const kcal = Object.values(fetchCalFromNutrition).filter(meal => {
-        const today = new Date();
-        console.log('today', today);
-       const dayOfMonth = today.getDate();
-       console.log('daOFMonth', dayOfMonth);
-       const logged = new Date(meal.timestamp)
-       const dateLogged = logged.getDate()
-       console.log("dateLogged",dateLogged)
+      const today = new Date();
+      const dayOfMonth = today.getDate();
+      const logged = new Date(meal.timestamp)
+      const dateLogged = logged.getDate()
        if (dayOfMonth === dateLogged) {
-        console.log("MEAl", meal)
         return meal;
        }
       })
-      console.log("KCAL", kcal)
       setCalNutrition(kcal);
-      console.log("CALNUTRITION", calNutrition)
     } catch (error) {
       return "Error fetching calories:", error;
     } 
