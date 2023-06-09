@@ -10,7 +10,6 @@ const Footer = () => {
     return <footer className="footer">
             <Flex justifyContent="space-between">
                 <img src={logoWhite} width='60px' />
-
                 <Text
                 fontStyle="normal"
                 fontSize="xs"
@@ -25,8 +24,12 @@ const Footer = () => {
                     About us
                 </Text>
                 <Flex>
-                    <AiFillInstagram />
-                    <AiFillLinkedin />
+                    <NavLink to="https://navre.me/">
+                        <AiFillInstagram />
+                    </NavLink>
+                    <NavLink to="https://navre.me/">
+                        <AiFillLinkedin />
+                    </NavLink>
                     <NavLink to='https://gitlab.com/ipz06/fitness-tracking-app' >
                         <AiFillGitlab />
                     </NavLink>
