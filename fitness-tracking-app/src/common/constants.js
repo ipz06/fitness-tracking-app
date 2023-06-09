@@ -20,8 +20,8 @@ export const NAME_MIN_LENGTH = 1;
 export const NAME_MAX_LENGTH = 20;
 export const MIN_WEIGHT = 10;
 export const MAX_WEIGHT = 500;
-export const MIN_HEIGHT = 1;
-export const MAX_HEIGHT = 4;
+export const MIN_HEIGHT = 50;
+export const MAX_HEIGHT = 300;
 export const USER_TYPE = Object.freeze({
                                     'USER':1,
                                     'ADMIN':2,

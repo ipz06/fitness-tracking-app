@@ -27,14 +27,17 @@ import {  uploadAvatar } from "../../services/user.service";
 import { getUserByHandle } from "../../services/user.service";
 import { updateUserProfile } from "../../services/user.service";
 import { countryList } from "../../common/countriesData";
-import { MAX_HEIGHT, MAX_WEIGHT, MIN_HEIGHT, MIN_WEIGHT, NAME_MAX_LENGTH, NAME_MIN_LENGTH, phoneRegex } from "../../common/constants";
 import { toast } from 'react-toastify';
 import Badges from "../../components/Goals/Badges/Badges";
 import { wrap } from "framer-motion";
 import { Label } from "recharts";
 import { BiEdit } from 'react-icons/bi';
+import { modifyDate } from "../../common/helpFn"
+import { isErrorFirstName, isErrorLastName, isErrorHeight, isErrorWeight, isErrorPhone, isErrorBirthday, isErrorGender } from "../../common/helpFn";
+import { getUserAllFriends } from "../../services/friends.service";
 
 const Profile = () => {
+
   const [image, setImage] = useState("");
   const [newImageData, setNewImageData] = useState(null)
   const [isUploading, setIsUploading] = useState(false);
@@ -47,10 +50,12 @@ const Profile = () => {
   const [gender, setGender] = useState("");
   const [country, setCountry] = useState("");
   const [createdOn, setCreatedOn] = useState("");
+  const [userHandle, setUserHandle] = useState("");
   const { user, setUser, handle, appState, setAppState} = useContext(AuthContext);
   const [isHovering, setIsHovering] = useState(false);
-  const [avatar, setAvatar] = useState(image)
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
+  const [friendsCount, setFriendsCount] = useState([]);
 
   useEffect(() => {
     if (user) {
@@ -67,12 +72,34 @@ const Profile = () => {
             setCountry(userSnapshot.country);
             setBirthdayDate(userSnapshot.birthDate);
             setCreatedOn(userSnapshot.createdOn);
+            setUserHandle(userSnapshot.handle);
+
         } catch (error) {
           console.log(error);
         }
       };
 
       fetchUser();
+      
+    }
+  }, [user]);
+
+  const friendsCounting = async (handle) => {
+
+    try {
+      setLoading(true);
+      const fetchFriendsCount = await getUserAllFriends(handle);
+      setFriendsCount(fetchFriendsCount);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    if (user) {
+      friendsCounting(user.displayName);
     }
   }, [user]);
 
@@ -125,8 +152,6 @@ const Profile = () => {
         country,
         birthdayDate,
     );
-    
-    
 
     } catch (error){
         console.error("Error updating user avatar:", error);
@@ -136,20 +161,6 @@ const Profile = () => {
     }    
   };
 
-  const modifyDate = (createdOn) => {
-    const date = createdOn.slice(0,10);
-    const year = date.substring(0,4);
-    const month = date.substring(5,7);
-    const day = date.substring(8);
-    return `${day}-${month}-${year}`
-  }
-
-  const isErrorFirstName = firstName === "" || firstName.length <= NAME_MIN_LENGTH || firstName.length > NAME_MAX_LENGTH;
-  const isErrorLastName = lastName === "" || lastName.length <=  NAME_MIN_LENGTH || lastName.length > NAME_MAX_LENGTH;
-  const isErrorWeight = weight === "" || weight < MIN_WEIGHT || weight > MAX_WEIGHT;
-  const isErrorHeight = height === "" || height < MIN_HEIGHT || height > MAX_HEIGHT;
-  const isErrorPhone = phoneNumber === "" || !phoneRegex.test(phoneNumber);
-  const isErrorBirthday = birthdayDate === "";
 
   return (
     <Flex
@@ -176,7 +187,6 @@ const Profile = () => {
     w="140px"  
     h="140px"  
     borderRadius="full"
-    // backgroundImage={`url(${image})`} 
     src={image}
     backgroundSize="cover"
     backgroundPosition="center"
@@ -217,11 +227,14 @@ const Profile = () => {
           </Flex>
           </Box>
           <Flex flex="2" flexDir="column" w="100%" marginTop={5}>
+          <Text fontWeight="bold" fontStyle="normal" fontSize={{ base: "xs", sm: "sm", md: "lg" }} paddingBottom={5}>
+              Username: {userHandle}
+            </Text>
             <Text fontWeight="bold" fontStyle="normal" fontSize={{ base: "xs", sm: "sm", md: "lg" }} paddingBottom={5}>
               Member since: {modifyDate(createdOn)}
             </Text>
             <Text fontWeight="bold" fontStyle="normal" fontSize={{ base: "xs", sm: "sm", md: "lg" }} paddingBottom={5}>
-              Friends
+              Friends: {friendsCount.length}
             </Text>
             <Text fontWeight="bold" fontStyle="normal" fontSize={{ base: "xs", sm: "sm", md: "lg" }} paddingBottom={5}>
               Achievements
@@ -232,7 +245,7 @@ const Profile = () => {
           </Flex>
         </Flex>
         <Flex  w="100%" justifyContent={"center"}>
-        <FormControl maxW="450px" isInvalid={isErrorFirstName} paddingBottom={10}>
+        <FormControl maxW="450px" isInvalid={isErrorFirstName(firstName)} paddingBottom={10}>
           <FormLabel fontWeight="bold"> First Name</FormLabel>
           <Input
             value={firstName}
@@ -252,7 +265,7 @@ const Profile = () => {
               border: "2px",
             }}
           />
-          {!isErrorFirstName ? (
+          {!isErrorFirstName(firstName) ? (
         <FormHelperText>
           Enter your first name.
         </FormHelperText>
@@ -261,7 +274,7 @@ const Profile = () => {
       )}
         </FormControl>
         </Flex>
-        <FormControl maxW="450px" isInvalid={isErrorLastName} paddingBottom={10}>
+        <FormControl maxW="450px" isInvalid={isErrorLastName(lastName)} paddingBottom={10}>
           <FormLabel fontWeight="bold">Last Name</FormLabel>
           <Input
             value={lastName}
@@ -281,7 +294,7 @@ const Profile = () => {
               border: "2px",
             }}
           />
-          {!isErrorLastName ? (
+          {!isErrorLastName(lastName) ? (
         <FormHelperText>
           Enter your last name.
         </FormHelperText>
@@ -289,7 +302,7 @@ const Profile = () => {
         <FormErrorMessage>Name is required and the length must be greater than 1 symbol.</FormErrorMessage>
       )}
         </FormControl>
-        <FormControl maxW="450px" isInvalid={isErrorBirthday} paddingBottom={10}>
+        <FormControl maxW="450px" isInvalid={isErrorBirthday(birthdayDate)} paddingBottom={10}>
           <FormLabel fontWeight="bold">Birth Date</FormLabel>
           <Input
             value={birthdayDate}
@@ -310,8 +323,8 @@ const Profile = () => {
               border: "2px",
             }}
           />
-          {!isErrorBirthday  ? (<FormHelperText>
-          Enter your last name.
+          {!isErrorBirthday(birthdayDate)  ? (<FormHelperText>
+          Enter your Birth Date.
         </FormHelperText>) : (<FormErrorMessage>Enter Birth Date.</FormErrorMessage>)}
         </FormControl>
         <Flex 
@@ -322,7 +335,7 @@ const Profile = () => {
         gap={5} 
         paddingBottom={10}>
             <Flex  w="50%">
-            <FormControl isInvalid={isErrorWeight}>
+            <FormControl isInvalid={isErrorWeight(weight)}>
               <FormLabel fontWeight={"bold"}>Weight (kg)</FormLabel>
               <NumberInput
                 value={weight}
@@ -356,12 +369,12 @@ const Profile = () => {
                     border: "2px",
                   }}
                 />
-                <NumberInputStepper border={"none"}>
+                {/* <NumberInputStepper border={"none"}>
                   <NumberIncrementStepper />
                   <NumberDecrementStepper />
-                </NumberInputStepper>
+                </NumberInputStepper> */}
               </NumberInput>
-              {!isErrorWeight ? (
+              {!isErrorWeight(weight) ? (
         <FormHelperText>
           Enter your weight.
         </FormHelperText>
@@ -372,13 +385,13 @@ const Profile = () => {
            
           </Flex>
           <Flex w="50%">
-            <FormControl isInvalid={isErrorHeight}>
-              <FormLabel fontWeight={"bold"}>Height (m)</FormLabel>
+            <FormControl isInvalid={isErrorHeight(height)}>
+              <FormLabel fontWeight={"bold"}>Height (cm)</FormLabel>
               <NumberInput
                 value={height}
-                max={4.0}
-                min={1.0}
-                step={0.01}
+                max={300}
+                min={50}
+                step={1}
                 w="100%"
                 border="1px"
                 borderColor="gray.500"
@@ -405,23 +418,23 @@ const Profile = () => {
                     border: "2px",
                   }}
                 />
-                <NumberInputStepper border="none">
+                {/* <NumberInputStepper >
                   <NumberIncrementStepper />
                   <NumberDecrementStepper />
-                </NumberInputStepper>
+                </NumberInputStepper> */}
               </NumberInput>
-              {!isErrorHeight ? (
+              {!isErrorHeight(height) ? (
         <FormHelperText>
           Enter your height.
         </FormHelperText>
       ) : (
-        <FormErrorMessage>Height is required and the  value must be between 1 and 4 meters.</FormErrorMessage>
+        <FormErrorMessage>Height is required and the  value must be between 50 and 300 cm.</FormErrorMessage>
       )}
             </FormControl>
             </Flex>
           
         </Flex>
-        <FormControl maxW="450px" isRequired paddingBottom={10}>
+        <FormControl maxW="450px" isInvalid={isErrorGender(gender)} paddingBottom={10}>
           <FormLabel fontWeight="bold">Gender</FormLabel>
           <Select
             value={gender}
@@ -444,8 +457,11 @@ const Profile = () => {
             <option>Female</option>
             <option>Male</option>
           </Select>
+          {!isErrorGender(gender)  ? (<FormHelperText>
+          Select gender.
+        </FormHelperText>) : (<FormErrorMessage>Enter Gender.</FormErrorMessage>)}
         </FormControl>
-        <FormControl   maxW="450px" isInvalid={isErrorPhone} paddingBottom={10}>
+        <FormControl   maxW="450px" isInvalid={isErrorPhone(phoneNumber)} paddingBottom={10}>
           <FormLabel fontWeight="bold">Phone number</FormLabel>
           <Input
             value={phoneNumber}
@@ -465,7 +481,7 @@ const Profile = () => {
               border: "2px",
             }}
           />
-          {!isErrorPhone ? (
+          {!isErrorPhone(phoneNumber) ? (
         <FormHelperText>
           Enter your phone number.
         </FormHelperText>
