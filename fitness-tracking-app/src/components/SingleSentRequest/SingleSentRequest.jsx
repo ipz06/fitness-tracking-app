@@ -16,24 +16,45 @@ try {
 
 
 return (
-<Box shadow="md">
-<HStack>
-	<VStack>
-<Text fontStyle="normal" fontWeight="bold">Sent to:</Text>
-<Text fontStyle="normal">{receiver}</Text>
-</VStack>
-<VStack>
-<Text fontStyle="normal" fontWeight="bold">On:</Text>
-<Text fontStyle="normal">{date}</Text>
-</VStack>
-<Box ml='auto' pr={{ base: "2", sm: "1", md: "1" }}>
-<Button maxW={{ base: "80%", sm: "40%", md: "75%" }} size="sm" borderRadius="sm" borderColor="black" backgroundColor="teal.200" onClick={removeRequest} fontSize={{ base: "xs", sm: "sm", md: "sm" }}>Remove</Button>
-</Box>
-</HStack>
-
-
-</Box>
-)
+    <Flex
+      p={4}
+      borderWidth="1px"
+      borderRadius="sm"
+      boxShadow="md"
+      flexDirection={{ base: "column", sm: "row" }}
+      justifyContent="space-between"
+      alignItems="center"
+    >
+		<HStack>
+      <VStack alignItems="center">
+        <Text fontStyle="normal" fontWeight="bold" fontSize={{ base: "xs", sm: "sm", md: "md" }}>
+          Sent to:
+        </Text>
+        <Text fontStyle="normal" fontSize={{ base: "xs", sm: "sm", md: "md" }}>
+          {receiver}
+        </Text>
+      </VStack>
+      <VStack alignItems="center">
+        <Text fontStyle="normal" fontWeight="bold" fontSize={{ base: "xs", sm: "sm", md: "md" }}>
+          On:
+        </Text>
+        <Text fontStyle="normal" fontSize={{ base: "xs", sm: "sm", md: "md" }}>
+          {date}
+        </Text>
+      </VStack>
+	  </HStack>
+      <Button
+        size="sm"
+        borderRadius="sm"
+        borderColor="black"
+        backgroundColor="teal.200"
+        onClick={removeRequest}
+        fontSize={{ base: "xs", sm: "sm", md: "sm" }}
+      >
+        Remove
+      </Button>
+    </Flex>
+  );
 
 }
 

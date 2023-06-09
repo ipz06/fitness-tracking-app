@@ -3,28 +3,26 @@ import { db } from "../../config/firebase-config";
 import SingleSentRequest from "../SingleSentRequest/SingleSentRequest";
 import { useContext, useState, useEffect } from "react";
 import { AuthContext } from "../../common/context";
-import { Box, HStack, SimpleGrid, Text, Center } from "@chakra-ui/react";
+import { Box, HStack, SimpleGrid, Text, Center, Flex } from "@chakra-ui/react";
 import PropTypes, { string } from 'prop-types';
 
 const SentRequests = ({ requests }) => {
   const { user } = useContext(AuthContext);
   return (
     <Box pt="2%" boxShadow="md">
-    <Center>
-      <SimpleGrid columns={[1, 2, 3, 4]} spacing={4}>
-        {requests.map((request, index) => (
-          <SingleSentRequest
-            key={index}
-            receiver={request.receiver}
-            date={request.date}
-            friendRequestKey={request.friendRequestKey}
-          />
-        ))}
-      </SimpleGrid>
-      {requests.length === 0 && (
-        <Text fontStyle="normal">No sent friend requests</Text>
-      )}
-    </Center>
+      <Center>
+        <SimpleGrid columns={{ base: 1, sm: 1, md: 2 }} gap={4}>
+          {requests.map((request, index) => (
+            <SingleSentRequest
+              key={index}
+              receiver={request.receiver}
+              date={request.date}
+              friendRequestKey={request.friendRequestKey}
+            />
+          ))}
+        </SimpleGrid>
+        {requests.length === 0 && <Text fontStyle="normal">No sent friend requests</Text>}
+      </Center>
     </Box>
   );
 };
