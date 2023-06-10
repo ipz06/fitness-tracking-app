@@ -99,46 +99,46 @@ const UsersTable = ({ keys, allUsers, items = 4, role }) => {
 
   const handleBlock = async (key) => {
     await updateUserRole(allUsers[key].handle, USER_TYPE.BLOCKED);
-    setAllUsers({
-      ...allUsers,
-      [key]: {
-        ...allUsers[key],
-        role: USER_TYPE.BLOCKED,
-      },
-    });
+    // setAllUsers({
+    //   ...allUsers,
+    //   [key]: {
+    //     ...allUsers[key],
+    //     role: USER_TYPE.BLOCKED,
+    //   },
+    // });
   };
 
   const handleUnblock = async (key) => {
     await updateUserRole(allUsers[key].handle, USER_TYPE.USER);
-    setAllUsers({
-      ...allUsers,
-      [key]: {
-        ...allUsers[key],
-        role: USER_TYPE.USER,
-      },
-    });
+    // setAllUsers({
+    //   ...allUsers,
+    //   [key]: {
+    //     ...allUsers[key],
+    //     role: USER_TYPE.USER,
+    //   },
+    // });
   };
 
   const setAdmin = async (key) => {
     await updateUserRole(allUsers[key].handle, USER_TYPE.ADMIN);
-    setAllUsers({
-      ...allUsers,
-      [key]: {
-        ...allUsers[key],
-        role: USER_TYPE.ADMIN,
-      },
-    });
+    // setAllUsers({
+    //   ...allUsers,
+    //   [key]: {
+    //     ...allUsers[key],
+    //     role: USER_TYPE.ADMIN,
+    //   },
+    // });
   };
 
   const removeAdmin = async (key) => {
     await updateUserRole(allUsers[key].handle, USER_TYPE.USER);
-    setAllUsers({
-      ...allUsers,
-      [key]: {
-        ...allUsers[key],
-        role: USER_TYPE.USER,
-      },
-    });
+    // setAllUsers({
+    //   ...allUsers,
+    //   [key]: {
+    //     ...allUsers[key],
+    //     role: USER_TYPE.USER,
+    //   },
+    // });
   };
 
   const handleDeletePhoto = (handle)=>{

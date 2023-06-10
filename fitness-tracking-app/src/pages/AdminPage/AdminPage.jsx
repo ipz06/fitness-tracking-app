@@ -27,14 +27,13 @@ const AdminPage = () =>{
                if(snap.val()) {
                   setUsers(snap.val())
                }
+               setLoading(false)
             }
             onValue(dbRef,(snapshot)=>{
                handleUsers(snapshot)
             })
          } catch(e) {
             console.log(e)
-         } finally {
-            setLoading(false)
          }
    },[])
 
