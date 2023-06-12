@@ -9,20 +9,23 @@ const Footer = () => {
   
     return <footer className="footer">
             <Flex justifyContent="space-between">
-                <img src={logoWhite} width='60px' />
+                <img src={logoWhite} width='50px' />
                 <Text
                 fontStyle="normal"
                 fontSize="xs"
                 >
                     {`All rights reserved © ${year}`}
                 </Text>
-                <Text 
-                  fontStyle="normal"
-                  fontSize="xs"
-                  >
-
-                    About us
-                </Text>
+                <NavLink to="/about">
+                    <Text
+                        fontStyle="normal" 
+                        fontSize="xs"
+                        _hover={{
+                            color: '#e0041c'
+                        }}>
+                        About us
+                    </Text>
+                </NavLink>
                 <Flex>
                     <NavLink to="https://navre.me/">
                         <AiFillInstagram />
