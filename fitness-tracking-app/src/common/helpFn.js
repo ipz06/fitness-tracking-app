@@ -5,7 +5,7 @@ export const modifyDate = (dateIso) => {
     const year = date.substring(0,4);
     const month = date.substring(5,7);
     const day = date.substring(8);
-    return `${day}.${month}, ${year}`
+    return `${day}/${month}/${year}`
   }
 
   export const toHoursAndMinutes = (totalMinutes) => {
