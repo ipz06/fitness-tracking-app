@@ -11,6 +11,7 @@ import muscleLunch from "../assets/muscleL.png";
 import salad from "../assets/salad.jpg";
 import snack from "../assets/snack.png";
 import dinner from "../assets/dinner.png";
+import upload from "../assets/upload.png"
 
 
 
@@ -40,6 +41,8 @@ const [imageMeal, setImageMeal] = useState("");
             setImageMeal(snack);
         } else if (typeMeal === MEALS_TYPE.DINNER) {
             setImageMeal(dinner);
+        } else if (typeMeal === "") {
+            setImageMeal(upload)
         }
     }
         getImageByType();
