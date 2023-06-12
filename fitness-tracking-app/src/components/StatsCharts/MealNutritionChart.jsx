@@ -33,7 +33,7 @@ const MealNutritionChart = () => {
             const basalMetaMaleFormula =
               (66 +
               13.7 * userSnapshot.weight +
-              5 * userSnapshot.height * 100 -
+              5 * userSnapshot.height -
               6.8 *
                 (new Date().getFullYear() -
                   Number(userSnapshot.birthDate.slice(0, 4)))).toFixed(1);
@@ -42,7 +42,7 @@ const MealNutritionChart = () => {
             const basalMetaFemaleFormula =
               (655 +
               9.6 * userSnapshot.weight +
-              1.8 * userSnapshot.height * 100 -
+              1.8 * userSnapshot.height -
               4.7 *
                 (new Date().getFullYear() -
                   Number(userSnapshot.birthDate.slice(0, 4)))).toFixed(1);
@@ -82,8 +82,8 @@ const MealNutritionChart = () => {
   }, [user]);
 
   if (calories.length !== 0) {
-    return (
-      <Flex justifyContent="center" paddingX="16px">
+    return ( 
+      <Flex justifyContent="center" paddingX="16px" marginTop={5} marginBottom={5}>
         <Card
           h={{ base: "200px", md: "300px", lg: "400px" }}
           w={{ base: "400px", md: "2xl", lg: "3xl" }}

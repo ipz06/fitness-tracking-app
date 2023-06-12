@@ -29,20 +29,20 @@ const Stats = () => {
         try {
           const userSnapshot = await getUserByHandle(user.displayName);
 
-          if (userSnapshot.gender === "male") {
+          if (userSnapshot.gender === "Male") {
             const basalMetaMaleFormula =
               (66 +
-              13.7 * userSnapshot.weight +
-              5 * userSnapshot.height * 100 -
+              13.7 * (+userSnapshot.weight) +
+              5 * (+userSnapshot.height) -
               6.8 *
                 (new Date().getFullYear() -
                   Number(userSnapshot.birthDate.slice(0, 4)))).toFixed(1);
             setBmrMale(basalMetaMaleFormula);
-          } else {
+          } else if (userSnapshot.gender === "Female") {
             const basalMetaFemaleFormula =
               (655 +
               9.6 * userSnapshot.weight +
-              1.8 * userSnapshot.height * 100 -
+              1.8 * userSnapshot.height -
               4.7 *
                 (new Date().getFullYear() -
                   Number(userSnapshot.birthDate.slice(0, 4)))).toFixed(1);
@@ -212,7 +212,7 @@ const Stats = () => {
                 <WaterConsumptionChart />
                 <DividerHeader heading={'daily calorie balance'} /> 
                 <MealNutritionChart />
-                <DividerHeader heading={'meals of the day'} /> 
+                <DividerHeader heading={'meals of today /scroll to view/'} /> 
                 <MenuForToday />
             </Box>
             

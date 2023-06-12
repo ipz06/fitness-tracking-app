@@ -43,32 +43,18 @@ const MenuForToday = () => {
     return (
       <Flex>
          <Card
-          h={{ base: "250px", md: "300px", lg: "300px" }}
+          h={{ base: "300px", md: "300px", lg: "300px" }}
           w={{ base: "400px", md: "2xl", lg: "3xl" }}
           marginX={"auto"}
+          marginTop={5}
           >   
-            {/* <Flex>
-              <Carousel>
+              <Slider {...settings} >
                 {calNutrition.map((meal, i) => (       
                   <CarouselItem  
                   key={i} 
                   title={meal.title}
                   calories={meal.calories}
-                  typeMeal={meal.typeMeal}
-                  ref={index === i ?
-                    selectedRef :
-                    null
-                  }/>
-                ))}
-                </Carousel>
-              </Flex> */}
-              <Slider {...settings}>
-                {calNutrition.map((meal, i) => (       
-                  <CarouselItem  
-                  key={i} 
-                  title={meal.title}
-                  calories={meal.calories}
-                  typeMeal={meal.typeMeal}
+                  typeMeal={meal.typeMeal ? meal.typeMeal : "None" }
                 />
                 ))}
               </Slider>

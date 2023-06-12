@@ -1,4 +1,4 @@
-import { Flex, Heading, Image, Text } from "@chakra-ui/react"
+import { Flex, Image, Text } from "@chakra-ui/react"
 import useMealImages from "../../hooks/useMealImages"
 import upload from "../../assets/upload.png"
 import { ICON_SIZE_BIGGER } from "../../common/constants";
@@ -9,8 +9,8 @@ const CarouselItem = (meal) => {
 
     return (
         <Flex direction="column" alignItems="center">
-            <Flex >
-                <Image borderRadius="full" src={imageMeal ? imageMeal : upload }    boxSize={ICON_SIZE_BIGGER} className="image" />
+            <Flex marginTop={5} marginBottom={5}>
+                <Image borderRadius="full" src={imageMeal ? imageMeal : upload} boxSize={ICON_SIZE_BIGGER} className="image" />
             </Flex>
             <Flex direction="column">
                 <Flex>
@@ -23,7 +23,7 @@ const CarouselItem = (meal) => {
                 </Flex>
                 <Flex>
                     <Text fontStyle="normal" fontWeight="bold">Type:</Text>
-                    <Text fontStyle="normal">{meal.typeMeal}</Text>
+                    <Text fontStyle="normal">{meal.typeMeal ? meal.typeMeal : "None"}</Text>
                 </Flex>        
             </Flex>           
         </Flex>

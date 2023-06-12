@@ -45,7 +45,7 @@ const DurationChart = () => {
 
   if (duration.length !== 0) {
     return (
-      <Flex justifyContent="center" paddingX="16px">
+      <Flex justifyContent="center" paddingX="16px" marginBottom={5} marginTop={5}>
         <Card
           h={{ base: "200px", md: "300px", lg: "400px" }}
           w={{ base: "400px", md: "2xl", lg: "3xl" }}
