@@ -3,29 +3,23 @@ import { AuthContext } from '../../common/context';
 import {
   Input,
   Button,
-  UnorderedList,
-  ListItem,
   Box,
   Avatar,
   HStack,
   Text,
   Flex,
-  Center,
   Stack,
-  Divider,
 } from '@chakra-ui/react';
 import FriendRequests from '../FriendRequests/FriendRequests';
 import { getAllCreatedUsers } from '../../services/user.service';
-import { query } from 'firebase/database';
 import { saveFriendRequestToDatabase } from '../../services/friends.service';
 import FriendsView from '../Friends/Friends';
 import { getUserAllFriends } from '../../services/friends.service';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import SentRequests from '../SentRequests/SentRequests';
-import { getDatabase, ref, onValue, off } from "firebase/database"; 
+import { ref, onValue, off } from "firebase/database"; 
 import { db } from '../../config/firebase-config'; 
-import DividerHeader from '../Goals/Divider';
 import CustomDivider from '../CustumeDivider/CustumeDivider';
 
 const UserSearch = () => {
