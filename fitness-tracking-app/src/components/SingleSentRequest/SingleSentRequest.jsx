@@ -1,5 +1,4 @@
-import { Box, Text, Flex, HStack, VStack, Button } from "@chakra-ui/react";
-import { SignInMethod } from "firebase/auth";
+import { Text, Flex, HStack, VStack, Button } from "@chakra-ui/react";
 import PropTypes from 'prop-types';
 import { deleteFriendRequestFromDatabase } from "../../services/friends.service";
 
