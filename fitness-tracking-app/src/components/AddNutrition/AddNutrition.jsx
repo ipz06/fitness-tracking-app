@@ -15,7 +15,8 @@ import {
   Icon,
   FormControl,
   FormLabel,
-  Select
+  Select,
+  Flex
 } from "@chakra-ui/react";
 import { analyzeNutrition } from "../../services/api.service";
 import { saveNutritionToDatabase } from "../../services/nutrition.service";
@@ -174,28 +175,31 @@ const AddNutrition = () => {
           )}
           {nutritionData && (
             <Box p={4} mt={4} shadow="md" borderWidth="1px" borderRadius="md">
-              <Heading as="h2" size="lg" mb={4}>
+              <Flex justifyContent="center">
+              <Heading size="lg" mb={4} fontSize={{ base: "xl", sm: "2xl", md: "3xl" }}>
                 Nutrition Analysis Results:
               </Heading>
-              <Box mb={4}>
-                <Heading as="h4" size="md" mb={2}>
+              </Flex>
+              
+              <Flex justifyContent="center">
+                <Heading  size="md" mb={2} fontSize={{ base: "sm", sm: "lg", md: "xl" }}>
                   Total Calories:
                 </Heading>
-                <Text fontSize="xl">{nutritionData.calories}</Text>
-                <Heading as="h4" size="md" mb={2}>
+                <Badge fontSize={{ base: "xs", sm: "md", md: "lg" }} colorScheme="teal" color="blackAlpha.900" mr={3}>{nutritionData.calories} </Badge>
+                <Heading size="md" mb={2} fontSize={{ base: "sm", sm: "lg", md: "xl" }} >
                   Total Weight:
                 </Heading>
-                <Text fontSize="xl">{nutritionData.totalWeight}</Text>
-              </Box>
+                <Badge fontSize={{ base: "xs", sm: "md", md: "lg" }} colorScheme="teal" color="blackAlpha.900">{nutritionData.totalWeight}</Badge>
+                </Flex>
               <Divider />
               <Box my={4}>
-                <Heading as="h4" size="md" mb={2}>
+                <Heading fontSize={{ base: "md", sm: "lg", md: "xl" }} size="md" mb={2}>
                   Diet Labels:
                 </Heading>
                 <Box>
                   {nutritionData.dietLabels &&
                     nutritionData.dietLabels.map((label, index) => (
-                      <Badge key={index} colorScheme="green" mr={2}>
+                      <Badge fontSize={{ base: "xs", sm: "xs", md: "sm" }} key={index} colorScheme="green" mr={2}>
                         {label}
                       </Badge>
                     ))}
@@ -205,13 +209,13 @@ const AddNutrition = () => {
               <Divider />
 
               <Box my={4}>
-                <Heading as="h4" size="md" mb={2}>
+                <Heading fontSize={{ base: "md", sm: "lg", md: "xl" }} size="md" mb={2}>
                   Health Labels:
                 </Heading>
                 <Box>
                   {nutritionData.healthLabels &&
                     nutritionData.healthLabels.map((label, index) => (
-                      <Badge key={index} colorScheme="blue" mr={2}>
+                      <Badge fontSize={{ base: "xs", sm: "xs", md: "sm" }} key={index} colorScheme="blue" mr={2}>
                         {label}
                       </Badge>
                     ))}
@@ -221,7 +225,7 @@ const AddNutrition = () => {
               <Divider />
 
               <Box my={4}>
-                <Heading as="h4" size="md" mb={2}>
+                <Heading fontSize={{ base: "md", sm: "lg", md: "xl" }} size="md" mb={2}>
                   Nutrients:
                 </Heading>
                 <SimpleGrid columns={2} spacing={2}>
@@ -229,7 +233,7 @@ const AddNutrition = () => {
                     Object.entries(nutritionData.totalNutrients).map(
                       ([key, nutrient]) => (
                         <Box key={key}>
-                          <Text>
+                          <Text fontStyle="normal" fontSize={{ base: "xs", sm: "sm", md: "md" }}>
                             <strong>{nutrient.label}</strong>:{" "}
                             {nutrient.quantity.toFixed(2)} {nutrient.unit}
                           </Text>

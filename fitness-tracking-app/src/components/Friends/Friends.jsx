@@ -35,7 +35,7 @@ const FriendsView = () => {
   }, [user.displayName]);
 
   return (
-    <Box p={4} pt="2%" minW="65%" shadow="xl">
+    <Box p={4} pt="2%" minW="75%" shadow="xl">
       <Text fontSize="xl" fontWeight="bold" mb={4} fontStyle="normal">
         Friends
       </Text>

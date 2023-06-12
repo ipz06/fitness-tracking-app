@@ -44,15 +44,15 @@ const handleDeleteFriends = async () => {
       <Avatar size="md" src={user.photoURL} alt="" mr={4} />
     </Link>
     <VStack align="start">
-    <Link to={`/user/${handle}`}><Text fontWeight="bold" fontStyle="normal">{user.handle}</Text> </Link>
+    <Link to={`/user/${handle}`}><Text fontWeight="bold" fontStyle="normal" fontSize={{ base: "sm", sm: "sm", md: "md" }}>{user.handle}</Text> </Link>
       <HStack>
-        <Text fontStyle="normal">{user.firstName}</Text>
-        <Text fontStyle="normal">{user.lastName}</Text>
+        <Text fontStyle="normal" fontSize={{ base: "sm", sm: "sm", md: "md" }}>{user.firstName}</Text>
+        <Text fontStyle="normal" fontSize={{ base: "sm", sm: "sm", md: "md" }}>{user.lastName}</Text>
       </HStack>
-      <Text fontStyle="normal">{user.email}</Text>
+      <Text fontStyle="normal" fontSize={{ base: "sm", sm: "sm", md: "md" }}>{user.email}</Text>
     </VStack>
     <Box position="absolute" top={2} right={2}>
-      <Button color="black" backgroundColor="red.500" borderRadius="sm" size="sm"  _hover={{ bg: "red.300" }}  onClick={handleDeleteFriends}>Unfriend</Button>
+      <Button  fontSize={{ base: "xs", sm: "sm", md: "md" }}  color="black" backgroundColor="red.500" borderRadius="sm" size="sm"  _hover={{ bg: "red.300" }}  onClick={handleDeleteFriends}>Unfriend</Button>
     </Box>
   </Flex>
             

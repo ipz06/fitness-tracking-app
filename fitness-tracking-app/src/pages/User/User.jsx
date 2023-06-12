@@ -27,24 +27,24 @@ return (
     <Box p={4}>
       <VStack spacing={4} alignItems='center'>
         <Avatar size='2xl' src={user.photoURL} username />
-        <Text fontSize='2xl' fontWeight='bold' fontStyle="normal">{`${user.firstName} ${user.lastName}`}</Text>
-		<HStack><Text fontSize='2xl' fontStyle="normal">Username:</Text><Text fontStyle="normal" fontSize='2xl' fontWeight='bold'>{user.handle}</Text></HStack>
-        <Text fontSize='md' color='gray.500' fontStyle="normal">{user.email}</Text>
-        <Text fontSize='lg' fontStyle="normal">{user.country}</Text>
+        <Text fontSize={{ base: "xl", sm: "xl", md: "2xl" }} fontWeight='bold' fontStyle="normal">{`${user.firstName} ${user.lastName}`}</Text>
+		<HStack><Text fontSize={{ base: "xl", sm: "xl", md: "2xl" }} fontStyle="normal">Username:</Text><Text fontStyle="normal" fontSize={{ base: "xl", sm: "xl", md: "2xl" }} fontWeight='bold'>{user.handle}</Text></HStack>
+        <Text fontSize={{ base: "md", sm: "md", md: "xl" }} color='gray.500' fontStyle="normal">{user.email}</Text>
+        <Text fontSize={{ base: "md", sm: "md", md: "xl" }} fontStyle="normal">{user.country}</Text>
       </VStack>
       <Flex justify="center" align="center" mt={5}>
         <SimpleGrid columns={3} gap={0}>
           <Stat>
             <StatLabel>Height</StatLabel>
-            <StatNumber>{user.height}m</StatNumber>
+            <StatNumber fontSize={{ base: "lg", sm: "xl", md: "2xl" }}>{user.height}m</StatNumber>
           </Stat>
           <Stat>
             <StatLabel>Weight</StatLabel>
-            <StatNumber>{user.weight}kg</StatNumber>
+            <StatNumber fontSize={{ base: "lg", sm: "xl", md: "2xl" }}>{user.weight}kg</StatNumber>
           </Stat>
 		<Stat>
             <StatLabel>Birth Date</StatLabel>
-            <StatNumber>{user.birthDate}</StatNumber>
+            <StatNumber fontSize={{ base: "lg", sm: "xl", md: "2xl" }}>{user.birthDate}</StatNumber>
           </Stat>
         </SimpleGrid>
        
