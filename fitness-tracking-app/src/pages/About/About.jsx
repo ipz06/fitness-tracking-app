@@ -1,8 +1,10 @@
 import { Flex, Card, Avatar, Heading, Text } from "@chakra-ui/react";
 import image from "../../assets/vi.jpg";
+import momchil from '../../assets/momchil_cv.jpg'
 import imageIvan from "../../assets/Ivan.jpg";
 import { AiFillGitlab, AiFillLinkedin } from "react-icons/all";
 import { NavLink } from "react-router-dom";
+
 
 const About = () => {
   return (
@@ -127,7 +129,7 @@ const About = () => {
               w="150px"
               h="150px"
               borderRadius="full"
-              // src={image}
+              src={momchil}
               marginBottom={10}
               marginTop={10}
             />
@@ -144,15 +146,15 @@ const About = () => {
                 </Text>
               </Flex>
               <Flex direction="column">
-                <Text fontStyle="normal">+359 885 38 78 88</Text>
-                <Text fontStyle="normal">momchil@gmail.com</Text>
+                <Text fontStyle="normal">+359 895 64 58 72</Text>
+                <Text fontStyle="normal">mirov.momchil@gmail.com</Text>
               </Flex>
             </Flex>
             <Flex>
-              <NavLink to="">
+              <NavLink to="https://www.linkedin.com/in/momchil-mirov-6642b450?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base_contact_details%3BYNlgtcekRhqQ1AEfU7e7NA%3D%3D">
                 <AiFillLinkedin />
               </NavLink>
-              <NavLink to="">
+              <NavLink to="https://gitlab.com/M0mchill">
                 <AiFillGitlab />
               </NavLink>
             </Flex>

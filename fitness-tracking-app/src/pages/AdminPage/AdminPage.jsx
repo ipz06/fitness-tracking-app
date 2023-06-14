@@ -1,7 +1,7 @@
 import { useState, useEffect, useContext } from "react";
 import { AuthContext } from "../../common/context";
 import DividerHeader from "../../components/Goals/Divider";
-import { getAllCreatedUsers } from "../../services/user.service";
+import { CircularProgress } from "@chakra-ui/react";
 import UsersTable from "./UsersTable";
 import {USER_TYPE} from '../../common/constants'
 import NewUsersStats from "./NewUsersStats";
@@ -18,9 +18,6 @@ const AdminPage = () =>{
 
    useEffect(()=>{
       setLoading(true)
-      // getAllCreatedUsers()
-      //    .then((data)=>setUsers(data))
-      //    .finally(()=>setLoading(false))
          try{
             const dbRef = ref(db, `users`)
             const handleUsers = snap =>{
@@ -41,7 +38,7 @@ const AdminPage = () =>{
       return <div>Please sign in as admin....</div>;
     }
    if (loading) {
-   return <div>Loading...</div>;
+   return <div><CircularProgress value={80} /></div>;
    }
 
 
