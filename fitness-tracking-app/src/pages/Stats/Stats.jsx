@@ -1,4 +1,4 @@
-import { Flex, Heading, Box, Text, Card} from "@chakra-ui/react"
+import { Flex, Heading, Box, Text } from "@chakra-ui/react"
 import DurationChart from "../../components/StatsCharts/DurationChart"
 import CaloriesChart from "../../components/StatsCharts/CaloriesChart"
 import TotalWorkOutChart from "../../components/StatsCharts/totalWorkOutChart"
@@ -10,8 +10,8 @@ import { getActivityByDate } from "../../services/log.service"
 import { getNutrition } from "../../services/nutrition.service"
 import WaterConsumptionChart from "../../components/StatsCharts/WaterConsumption"
 import { modifyDate, toHoursAndMinutes } from "../../common/helpFn"
-import { getUserByHandle } from "../../services/user.service"
 import MenuForToday from "../../components/StatsCharts/MenuForToday"
+import useBmrFormula from "../../hooks/useBmrFormula"
 
 const Stats = () => {
   const [loading, setLoading] = useState(false);
@@ -20,42 +20,9 @@ const Stats = () => {
   const [calories, setCalories] = useState(0);
   const [workOuts, setWorkouts] = useState(0);
   const [calNutrition, setCalNutrition] = useState([]);
-  const [bmrMale, setBmrMale] = useState(0);
-  const [bmrFemale, setBmrFemale] = useState(0);
 
-  useEffect(() => {
-    if (user) {
-      const fetchUser = async () => {
-        try {
-          const userSnapshot = await getUserByHandle(user.displayName);
+  const bmrFormula = useBmrFormula();
 
-          if (userSnapshot.gender === "Male") {
-            const basalMetaMaleFormula =
-              (66 +
-              13.7 * (+userSnapshot.weight) +
-              5 * (+userSnapshot.height) -
-              6.8 *
-                (new Date().getFullYear() -
-                  Number(userSnapshot.birthDate.slice(0, 4)))).toFixed(1);
-            setBmrMale(basalMetaMaleFormula);
-          } else if (userSnapshot.gender === "Female") {
-            const basalMetaFemaleFormula =
-              (655 +
-              9.6 * userSnapshot.weight +
-              1.8 * userSnapshot.height -
-              4.7 *
-                (new Date().getFullYear() -
-                  Number(userSnapshot.birthDate.slice(0, 4)))).toFixed(1);
-            setBmrFemale(basalMetaFemaleFormula);
-          }
-        } catch (error) {
-          console.log(error);
-        }
-      };
-
-      fetchUser();
-    }
-  }, [user]);
     const today = new Date();
     today.setUTCHours(0, 0, 0, 0);
     const timeStampSundayOfThisWeek = today.setDate(today.getDate() - today.getDay());
@@ -189,7 +156,7 @@ const Stats = () => {
             >
                     <Heading 
                     fontSize={{ base: "xl", sm: "2xl", md: "4xl" }} >
-                    {bmrFemale ? bmrFemale : bmrMale}
+                    {bmrFormula}
                     <br/> 
                     </Heading>
                     <Text fontStyle="normal"

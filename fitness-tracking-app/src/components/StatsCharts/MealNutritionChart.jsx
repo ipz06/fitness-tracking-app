@@ -9,53 +9,19 @@ import {
   CartesianGrid,
 } from "recharts";
 import { redColor } from "../../common/constants";
-import { Flex, Heading, Box, Text, Card } from "@chakra-ui/react";
+import { Flex, Card } from "@chakra-ui/react";
 import { useState, useEffect, useContext } from "react";
 import { AuthContext } from "../../common/context";
 import { days } from "../../common/daysData";
 import { getNutrition } from "../../services/nutrition.service";
-import { getUserByHandle } from "../../services/user.service";
+import useBmrFormula from "../../hooks/useBmrFormula";
 
 const MealNutritionChart = () => {
   const [loading, setLoading] = useState(false);
   const [calories, setCalories] = useState([]);
-  const [bmrMale, setBmrMale] = useState(0);
-  const [bmrFemale, setBmrFemale] = useState(0);
-  const { user, appState, setAppState } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
 
-  useEffect(() => {
-    if (user) {
-      const fetchUser = async () => {
-        try {
-          const userSnapshot = await getUserByHandle(user.displayName);
-
-          if (userSnapshot.gender === "male") {
-            const basalMetaMaleFormula =
-              (66 +
-              13.7 * userSnapshot.weight +
-              5 * userSnapshot.height -
-              6.8 *
-                (new Date().getFullYear() -
-                  Number(userSnapshot.birthDate.slice(0, 4)))).toFixed(1);
-            setBmrMale(basalMetaMaleFormula);
-          } else {
-            const basalMetaFemaleFormula =
-              (655 +
-              9.6 * userSnapshot.weight +
-              1.8 * userSnapshot.height -
-              4.7 *
-                (new Date().getFullYear() -
-                  Number(userSnapshot.birthDate.slice(0, 4)))).toFixed(1);
-            setBmrFemale(basalMetaFemaleFormula);
-          }
-        } catch (error) {
-          console.log(error);
-        }
-      };
-
-      fetchUser();
-    }
-  }, [user]);
+  const bmrFormula = useBmrFormula();
 
   const getCaloriesFromNutrition = async (user) => {
     try {
@@ -108,7 +74,7 @@ const MealNutritionChart = () => {
               <Bar dataKey="calories" fill={redColor} />
 
               <ReferenceLine
-                y={bmrMale !== 0 ? bmrMale : bmrFemale}
+                y={bmrFormula}
                 label={{
                   value: "Basal Metabolic Rate",
                   position: "insideBottomLeft",
