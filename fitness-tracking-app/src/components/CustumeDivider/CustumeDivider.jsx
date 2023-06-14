@@ -1,4 +1,5 @@
 import { Box, Text, Center } from '@chakra-ui/react';
+import PropTypes from "prop-types";
 
 const CustomDivider = ({ heading }) => (
   <Center width="100%" pt="1%">
@@ -31,3 +32,7 @@ const CustomDivider = ({ heading }) => (
 );
 
 export default CustomDivider;
+
+CustomDivider.propTypes = {
+  heading: PropTypes.string.isRequired,
+};
