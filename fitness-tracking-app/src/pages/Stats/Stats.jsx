@@ -46,7 +46,7 @@ const Stats = () => {
           setCalories(caloriesBurnt);
           setWorkouts(workOutsCount);
         } catch (error) {
-          return "Error fetching duration:", error;
+          console.log('error fetching duration:', error);
         } finally {
           setLoading(false);
         }

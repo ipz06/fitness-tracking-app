@@ -1,10 +1,9 @@
 import { Flex, Card, Avatar, Heading, Text } from "@chakra-ui/react";
 import image from "../../assets/vi.jpg";
-import momchil from '../../assets/momchil_cv.jpg'
+import momchil from "../../assets/momchil_cv.jpg";
 import imageIvan from "../../assets/Ivan.jpg";
 import { AiFillGitlab, AiFillLinkedin } from "react-icons/all";
 import { NavLink } from "react-router-dom";
-
 
 const About = () => {
   return (

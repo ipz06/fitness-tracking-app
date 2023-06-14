@@ -14,7 +14,7 @@ import {
   Input,
   FormControl,
   Image,
-  Avatar
+  Avatar,
 } from "@chakra-ui/react";
 import AdminIcon from "./../../assets/icons8-microsoft-admin-64.png";
 import OwnerIcon from "./../../assets/icons8-caretaker-30.png";
@@ -29,11 +29,11 @@ import { updateUserRole } from "../../services/admin.service";
 import { USER_TYPE } from "../../common/constants";
 import { redColor } from "../../common/constants";
 import { deleteUserPhoto } from "../../services/admin.service";
-import { toast } from 'react-toastify';
+import { toast } from "react-toastify";
 
 const UsersTable = ({ keys, allUsers, items = 4, role }) => {
-  const [itemsPerPage,setItemsPerPage] = useState(items)
-  //const [allUsers, setAllUsers] = useState(users);
+  const [itemsPerPage, setItemsPerPage] = useState(items);
+
   const [currentPage, setCurrentPage] = useState(0);
   const [displayName, setDisplayName] = useState("");
   const [email, setEmail] = useState("");
@@ -77,11 +77,6 @@ const UsersTable = ({ keys, allUsers, items = 4, role }) => {
     });
   }
 
-  const handleSubmitUid = (e) => {
-    e.preventDefault();
-    setSearchUid(uid);
-  };
-
   const pageCount = Math.ceil(keys.length / itemsPerPage);
 
   const currentKeys = keys.slice(
@@ -99,53 +94,25 @@ const UsersTable = ({ keys, allUsers, items = 4, role }) => {
 
   const handleBlock = async (key) => {
     await updateUserRole(allUsers[key].handle, USER_TYPE.BLOCKED);
-    // setAllUsers({
-    //   ...allUsers,
-    //   [key]: {
-    //     ...allUsers[key],
-    //     role: USER_TYPE.BLOCKED,
-    //   },
-    // });
   };
 
   const handleUnblock = async (key) => {
     await updateUserRole(allUsers[key].handle, USER_TYPE.USER);
-    // setAllUsers({
-    //   ...allUsers,
-    //   [key]: {
-    //     ...allUsers[key],
-    //     role: USER_TYPE.USER,
-    //   },
-    // });
   };
 
   const setAdmin = async (key) => {
     await updateUserRole(allUsers[key].handle, USER_TYPE.ADMIN);
-    // setAllUsers({
-    //   ...allUsers,
-    //   [key]: {
-    //     ...allUsers[key],
-    //     role: USER_TYPE.ADMIN,
-    //   },
-    // });
   };
 
   const removeAdmin = async (key) => {
     await updateUserRole(allUsers[key].handle, USER_TYPE.USER);
-    // setAllUsers({
-    //   ...allUsers,
-    //   [key]: {
-    //     ...allUsers[key],
-    //     role: USER_TYPE.USER,
-    //   },
-    // });
   };
 
-  const handleDeletePhoto = (handle)=>{
+  const handleDeletePhoto = (handle) => {
     deleteUserPhoto(handle)
-      .then(()=>toast(('User Photo deleted!'),{autoClose:1000}))
-      .catch((e)=>console.log(e))
-  }
+      .then(() => toast("User Photo deleted!", { autoClose: 1000 }))
+      .catch((e) => console.log(e));
+  };
 
   if (loading) {
     return <div> Loading... </div>;
@@ -196,7 +163,11 @@ const UsersTable = ({ keys, allUsers, items = 4, role }) => {
   };
 
   const renderSetAdminButton = (role, userRole, key) => {
-    if (role === USER_TYPE.SUPER_ADMIN && userRole !== USER_TYPE.ADMIN && userRole !== USER_TYPE.SUPER_ADMIN) {
+    if (
+      role === USER_TYPE.SUPER_ADMIN &&
+      userRole !== USER_TYPE.ADMIN &&
+      userRole !== USER_TYPE.SUPER_ADMIN
+    ) {
       return (
         <Button
           colorScheme="teal"
@@ -207,7 +178,11 @@ const UsersTable = ({ keys, allUsers, items = 4, role }) => {
           setAdmin
         </Button>
       );
-    } else if (role === USER_TYPE.SUPER_ADMIN && userRole === USER_TYPE.ADMIN && userRole !== USER_TYPE.SUPER_ADMIN) {
+    } else if (
+      role === USER_TYPE.SUPER_ADMIN &&
+      userRole === USER_TYPE.ADMIN &&
+      userRole !== USER_TYPE.SUPER_ADMIN
+    ) {
       return (
         <Button
           colorScheme="pink"
@@ -227,18 +202,16 @@ const UsersTable = ({ keys, allUsers, items = 4, role }) => {
         <Table variant="striped" colorScheme="gray" width="100%" height="100%">
           <Thead>
             <Tr>
+              <Th textAlign={"center"}></Th>
               <Th textAlign={"center"}>
-                
-              </Th>
-              <Th textAlign={"center"}>
-              <Input
+                <Input
                   placeholder="Display Name"
                   size="sm"
                   onChange={(e) => setDisplayName(e.target.value)}
                 />
               </Th>
               <Th textAlign={"center"}>
-              <form onSubmit={handleSubmitMail}>
+                <form onSubmit={handleSubmitMail}>
                   <FormControl>
                     <Input
                       placeholder="EMAIL"
@@ -256,11 +229,17 @@ const UsersTable = ({ keys, allUsers, items = 4, role }) => {
           <Tbody>
             {currentKeys.map((key) => (
               <Tr fontSize={"small"} key={allUsers[key].uid}>
-                <Td textAlign={"center"}> <Avatar name = {allUsers[key].handle}
-                                                  src = {allUsers[key].photoURL} showBorder={true}
-                                                  borderColor={redColor}
-                                                  marginRight={'5'}
-                                                  onClick={()=>handleDeletePhoto(allUsers[key].handle)}/> </Td>
+                <Td textAlign={"center"}>
+                  {" "}
+                  <Avatar
+                    name={allUsers[key].handle}
+                    src={allUsers[key].photoURL}
+                    showBorder={true}
+                    borderColor={redColor}
+                    marginRight={"5"}
+                    onClick={() => handleDeletePhoto(allUsers[key].handle)}
+                  />{" "}
+                </Td>
                 <Td textAlign={"center"}>{allUsers[key].handle}</Td>
                 <Td textAlign={"center"}>{allUsers[key].email}</Td>
                 <Td textAlign={"center"}>
@@ -287,13 +266,14 @@ const UsersTable = ({ keys, allUsers, items = 4, role }) => {
             mr={2}
           />
           <Input
-                value = {itemsPerPage}
-                type={'number'}
-                onChange={(e)=>setItemsPerPage(e.target.value)}
-                size={'xs'}
-                w={'33px'}
-                textAlign={'center'}
-                margin={'3'}/>
+            value={itemsPerPage}
+            type={"number"}
+            onChange={(e) => setItemsPerPage(e.target.value)}
+            size={"xs"}
+            w={"33px"}
+            textAlign={"center"}
+            margin={"3"}
+          />
           <IconButton
             onClick={handleNext}
             isDisabled={currentPage === pageCount - 1}
@@ -306,4 +286,3 @@ const UsersTable = ({ keys, allUsers, items = 4, role }) => {
 };
 
 export default UsersTable;
-

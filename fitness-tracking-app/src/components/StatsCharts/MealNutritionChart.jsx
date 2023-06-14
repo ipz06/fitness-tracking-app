@@ -37,7 +37,7 @@ const MealNutritionChart = () => {
 
       setCalories(createData);
     } catch (error) {
-      return "Error fetching calories:", error;
+      console.log("Error fetch nutrition:", error);
     } finally {
       setLoading(false);
     }

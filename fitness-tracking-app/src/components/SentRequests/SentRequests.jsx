@@ -1,11 +1,8 @@
 import SingleSentRequest from "../SingleSentRequest/SingleSentRequest";
-import { useContext } from "react";
-import { AuthContext } from "../../common/context";
 import { Box, SimpleGrid, Text, Center } from "@chakra-ui/react";
 import PropTypes from "prop-types";
 
 const SentRequests = ({ requests }) => {
-  const { user } = useContext(AuthContext);
   return (
     <Box pt="2%" boxShadow="md">
       <Center>

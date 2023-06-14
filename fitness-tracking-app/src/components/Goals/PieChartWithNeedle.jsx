@@ -1,5 +1,6 @@
 import { PieChart, Pie, Cell } from 'recharts';
 import { redColor } from '../../common/constants';
+import PropTypes from "prop-types";
 
 const PieChartWithNeedle = ({value}) => {
    const RADIAN = Math.PI / 180;
@@ -33,8 +34,8 @@ const PieChartWithNeedle = ({value}) => {
       const yp = y0 + length * sin;
     
       return [
-        <circle cx={x0} cy={y0} r={r} fill={color} stroke="none" />,
-        <path d={`M${xba} ${yba}L${xbb} ${ybb} L${xp} ${yp} L${xba} ${yba}`} stroke="#none" fill={color} />,
+        <circle cx={x0} cy={y0} r={r} fill={color} stroke="none" key={1} />,
+        <path d={`M${xba} ${yba}L${xbb} ${ybb} L${xp} ${yp} L${xba} ${yba}`} stroke="#none" fill={color} key={2}/>,
       ];
     };
 
@@ -62,3 +63,8 @@ const PieChartWithNeedle = ({value}) => {
 }
 
 export default PieChartWithNeedle
+
+PieChartWithNeedle.propTypes = {
+  value: PropTypes.number.isRequired,
+  
+};

@@ -19,8 +19,8 @@ const AuthenticateRoute = ({ children }) => {
   return <div> Please sign in or log in</div>;
 };
 
+export default AuthenticateRoute;
+
 AuthenticateRoute.propTypes = {
   children: PropTypes.any,
 };
-
-export default AuthenticateRoute;

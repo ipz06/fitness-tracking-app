@@ -7,7 +7,7 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import { redColor } from "../../common/constants";
-import { Flex, Text, Card } from "@chakra-ui/react";
+import { Flex, Card } from "@chakra-ui/react";
 import { useState, useEffect, useContext } from "react";
 import { getActivityByDate } from "../../services/log.service";
 import { AuthContext } from "../../common/context";
@@ -32,7 +32,7 @@ const TotalWorkOutChart = () => {
 
       setDuration(createData);
     } catch (error) {
-      return "Error fetching duration:", error;
+      console.log("Error fetch duration:", error);
     } finally {
       setLoading(false);
     }
@@ -44,7 +44,12 @@ const TotalWorkOutChart = () => {
 
   if (duration.length !== 0) {
     return (
-      <Flex justifyContent="center" paddingX="16px" marginTop={5} marginBottom={5}>
+      <Flex
+        justifyContent="center"
+        paddingX="16px"
+        marginTop={5}
+        marginBottom={5}
+      >
         <Card
           h={{ base: "200px", md: "300px", lg: "400px" }}
           w={{ base: "400px", md: "2xl", lg: "3xl" }}

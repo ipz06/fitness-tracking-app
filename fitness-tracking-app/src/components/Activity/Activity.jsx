@@ -68,7 +68,7 @@ function Activity({
 
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
-  const handleEditActivity = (activityKey, type) => {
+  const handleEditActivity = () => {
     setIsEditModalOpen(true);
   };
 

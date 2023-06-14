@@ -7,7 +7,7 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import { redColor } from "../../common/constants";
-import { Button, Card, Flex, Text } from "@chakra-ui/react";
+import { Card, Flex } from "@chakra-ui/react";
 import { useState, useEffect, useContext } from "react";
 import { AuthContext } from "../../common/context";
 import { days } from "../../common/daysData";
@@ -24,16 +24,15 @@ const DurationChart = () => {
       const fetchDuration = await getActivityByDate(handle);
       const createData = days.map((day) => ({ day: day, minutes: 0 }));
 
-      Object.values(fetchDuration)
-        .forEach((activity) => {
-          const fromTimeStamp = new Date(+activity.timestamp);
-          const dayOfWeek = fromTimeStamp.getDay();
-          createData[dayOfWeek].minutes += Number(activity.duration);
+      Object.values(fetchDuration).forEach((activity) => {
+        const fromTimeStamp = new Date(+activity.timestamp);
+        const dayOfWeek = fromTimeStamp.getDay();
+        createData[dayOfWeek].minutes += Number(activity.duration);
       });
 
       setDuration(createData);
     } catch (error) {
-      return "Error fetching duration:", error;
+      console.log("Error fetch duration:", error);
     } finally {
       setLoading(false);
     }
@@ -45,7 +44,12 @@ const DurationChart = () => {
 
   if (duration.length !== 0) {
     return (
-      <Flex justifyContent="center" paddingX="16px" marginBottom={5} marginTop={5}>
+      <Flex
+        justifyContent="center"
+        paddingX="16px"
+        marginBottom={5}
+        marginTop={5}
+      >
         <Card
           h={{ base: "200px", md: "300px", lg: "400px" }}
           w={{ base: "400px", md: "2xl", lg: "3xl" }}

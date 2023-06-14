@@ -19,11 +19,8 @@ import LogIn from "./pages/LogIn/LogIn";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Nutrition from "./pages/Nutrition/Nutrition";
-import CustomToastWaterReminder from "./components/CustumeToast/CustumeToastWaterReminder";
-import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Stats from "./pages/Stats/Stats";
-import UserSearch from "./components/UserSearch/UserSearch";
 import FriendsPage from "./pages/FriendsPage/FriendsPage";
 import User from "./pages/User/User";
 import AdminPage from "./pages/AdminPage/AdminPage";
@@ -73,17 +70,6 @@ function App() {
         alert(error.message);
       });
   }, [user]);
-
-  // VERY IMPORTANT RMINDER
-  // useEffect(() => {
-  //   const reminderIntervalId = setInterval(() => {
-  //     toast(<CustomToastWaterReminder />);
-  //   }, 0.5 * 60 * 1000); //30sec
-
-  //   return () => {
-  //     clearInterval(reminderIntervalId);
-  //   };
-  // }, []);
 
   return (
     <ChakraProvider>

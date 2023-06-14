@@ -7,7 +7,7 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import { redColor } from "../../common/constants";
-import { Flex, Heading, Box, Text, Card } from "@chakra-ui/react";
+import { Flex, Heading, Box, Card } from "@chakra-ui/react";
 import { useState, useEffect, useContext } from "react";
 import { getActivityByDate } from "../../services/log.service";
 import { AuthContext } from "../../common/context";
@@ -32,7 +32,7 @@ const CaloriesChart = () => {
 
       setCalories(createData);
     } catch (error) {
-      return "Error fetching calories:", error;
+      console.log("Error fetch calories:", error);
     } finally {
       setLoading(false);
     }

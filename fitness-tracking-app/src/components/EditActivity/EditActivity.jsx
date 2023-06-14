@@ -4,7 +4,6 @@ import {
   Box,
   Stack,
   Heading,
-  Text,
   FormControl,
   FormLabel,
   Input,
@@ -146,7 +145,7 @@ const EditActivity = ({ activityKey, duration, onClose, type }) => {
                 boxShadow: "0 0 0 3px rgba(0,0,0,0.1)",
               }}
               type="number"
-              value={updatedCaloriesBurned}
+              value={updatedCaloriesBurned.toFixed(2)}
               onChange={(event) => setUpdatedCaloriesBurned(event.target.value)}
             />
           </FormControl>

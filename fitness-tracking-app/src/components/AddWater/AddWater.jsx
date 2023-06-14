@@ -36,7 +36,6 @@ const AddWater = () => {
     const waterLogsSnapshot = await get(waterLogsRef);
     const waterLogs = waterLogsSnapshot.val();
     if (waterLogs) {
-      console.log(waterLogs);
       const lastLogKey = Object.keys(waterLogs).reduce((a, b) =>
         waterLogs[a].timestamp > waterLogs[b].timestamp ? a : b
       );
@@ -69,7 +68,7 @@ const AddWater = () => {
     } catch (error) {
       console.log(error);
     }
-    // }
+  
   };
 
   return (

@@ -1,15 +1,12 @@
 import {
   ref,
-  child,
   update,
   get,
   query,
   orderByChild,
-  equalTo,
   startAt,
 } from "firebase/database";
 import { db } from "../config/firebase-config";
-import { push } from "firebase/database";
 import "firebase/database";
 
 export const saveLogToDatabase = async (user, logData) => {
@@ -53,107 +50,100 @@ export const getUserActivityLogs = async (handle) => {
 
 export const getActivityByDate = async (handle) => {
   try {
-  const today = new Date();
-  today.setUTCHours(0, 0, 0, 0);
-  const timeStampSundayOfThisWeek = today.setDate(today.getDate() - today.getDay());
-  const durationActivity = query(ref(db, `log-activity/${handle}`), orderByChild('timestamp'), startAt(+timeStampSundayOfThisWeek));
-  const snapshot = await get(durationActivity);
+    const today = new Date();
+    today.setUTCHours(0, 0, 0, 0);
+    const timeStampSundayOfThisWeek = today.setDate(
+      today.getDate() - today.getDay()
+    );
+    const durationActivity = query(
+      ref(db, `log-activity/${handle}`),
+      orderByChild("timestamp"),
+      startAt(+timeStampSundayOfThisWeek)
+    );
+    const snapshot = await get(durationActivity);
 
-  if (snapshot.exists()) {
-
-    return snapshot.val();
-  } else {
-    console.log('null')
-    return null;
+    if (snapshot.exists()) {
+      return snapshot.val();
+    } else {
+      return null;
+    }
+  } catch (error) {
+    console.log(error);
   }
-} catch (error) {
-  console.log(error);
-}
-}
+};
 
 export const getActivityForToday = async (handle) => {
   try {
-  const today = new Date();
-  today.setUTCHours(0, 0, 0, 0);
-  // const timeStampSundayOfThisWeek = today.setDate(today.getDate() - today.getDay());
-  const durationActivity = query(ref(db, `log-activity/${handle}`), orderByChild('timestamp'), startAt(+today));
-  const snapshot = await get(durationActivity);
+    const today = new Date();
+    today.setUTCHours(0, 0, 0, 0);
 
-  if (snapshot.exists()) {
+    const durationActivity = query(
+      ref(db, `log-activity/${handle}`),
+      orderByChild("timestamp"),
+      startAt(+today)
+    );
+    const snapshot = await get(durationActivity);
 
-    return snapshot.val();
-  } else {
-    console.log('null')
-    return null;
+    if (snapshot.exists()) {
+      return snapshot.val();
+    } else {
+      return null;
+    }
+  } catch (error) {
+    console.log(error);
   }
-} catch (error) {
-  console.log(error);
-}
-}
-
-// function getMondays() {
-//   const d = new Date(),
-//       month = d.getMonth(),
-//       mondays = [];
-
-//   d.setDate(1);
-
-//   // Get the first Monday in the month
-//   while (d.getDay() !== 1) {
-//       d.setDate(d.getDate() + 1);
-//   }
-
-//   // Get all the other Mondays in the month
-//   while (d.getMonth() === month) {
-//       mondays.push(new Date(d.getTime()));
-//       d.setDate(d.getDate() + 7);
-//   }
-
-//   return mondays;
-// }
+};
 
 export const getActivityByMonth = async (handle) => {
   try {
-  const today = new Date();
-  today.setUTCHours(0, 0, 0, 0);
-  const timeStampSundayOfThisWeek = today.setDate(today.getDate() - today.getDay());
-  const durationActivity = query(ref(db, `log-activity/${handle}`), orderByChild('timestamp'), startAt(+timeStampSundayOfThisWeek));
-  const snapshot = await get(durationActivity);
+    const today = new Date();
+    today.setUTCHours(0, 0, 0, 0);
+    const timeStampSundayOfThisWeek = today.setDate(
+      today.getDate() - today.getDay()
+    );
+    const durationActivity = query(
+      ref(db, `log-activity/${handle}`),
+      orderByChild("timestamp"),
+      startAt(+timeStampSundayOfThisWeek)
+    );
+    const snapshot = await get(durationActivity);
 
-  if (snapshot.exists()) {
-    return snapshot.val();
-  } else {
-    console.log('null')
-    return null;
+    if (snapshot.exists()) {
+      return snapshot.val();
+    } else {
+      return null;
+    }
+  } catch (error) {
+    console.log(error);
   }
-} catch (error) {
-  console.log(error);
-}
-}
+};
 
 export const getWaterConsumption = async (handle) => {
   try {
-  const today = new Date();
-  today.setUTCHours(0, 0, 0, 0);
-  const timeStampSundayOfThisWeek = today.setDate(today.getDate() - today.getDay());
-  const durationActivity = query(ref(db, `log-water/${handle}`), orderByChild('timestamp'), startAt(+timeStampSundayOfThisWeek));
-  const snapshot = await get(durationActivity);
+    const today = new Date();
+    today.setUTCHours(0, 0, 0, 0);
+    const timeStampSundayOfThisWeek = today.setDate(
+      today.getDate() - today.getDay()
+    );
+    const durationActivity = query(
+      ref(db, `log-water/${handle}`),
+      orderByChild("timestamp"),
+      startAt(+timeStampSundayOfThisWeek)
+    );
+    const snapshot = await get(durationActivity);
 
-  if (snapshot.exists()) {
-    return snapshot.val();
-  } else {
-    console.log('null')
-    return null;
+    if (snapshot.exists()) {
+      return snapshot.val();
+    } else {
+      console.log("null");
+      return null;
+    }
+  } catch (error) {
+    console.log(error);
   }
-} catch (error) {
-  console.log(error);
-}
-}
+};
 
-export const saveWaterToDatabase = async (
-  user,
-  dailyWater,
-) => {
+export const saveWaterToDatabase = async (user, dailyWater) => {
   const WaterData = {
     dailyWater: dailyWater,
     addOn: new Date().toLocaleString(),
@@ -166,15 +156,7 @@ export const saveWaterToDatabase = async (
   return update(ref(db), updates);
 };
 
-
-
-export const saveMealLog = async (
-  user,
-  calories,
-  weight,
-  title,
-  typeMeal
-) => {
+export const saveMealLog = async (user, calories, weight, title, typeMeal) => {
   const nutritionData = {
     calories: calories,
     addOn: new Date().toLocaleString(),
@@ -189,5 +171,3 @@ export const saveMealLog = async (
   updates[`/log-nutrition/${user}/${now}`] = nutritionData;
   return update(ref(db), updates);
 };
-
-

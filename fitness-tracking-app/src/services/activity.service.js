@@ -1,13 +1,13 @@
-import {ref, child, update, get, query,  remove } from "firebase/database";
-  import { db } from "../config/firebase-config";
-  import { push } from "firebase/database";
-  import "firebase/database";
-  
+import { ref, child, update, get, query, remove } from "firebase/database";
+import { db } from "../config/firebase-config";
+import { push } from "firebase/database";
+import "firebase/database";
+
 export const saveActivityToDatabase = async (
   user,
   uid,
   type,
-	duration,
+  duration,
   cal
 ) => {
   const activityData = {
@@ -21,10 +21,12 @@ export const saveActivityToDatabase = async (
 
   const newActivityKey = push(child(ref(db), "activity")).key;
   const updates = {};
-  updates["/activities/" + user + "/" +  newActivityKey] = {...activityData, activityKey: newActivityKey};
+  updates["/activities/" + user + "/" + newActivityKey] = {
+    ...activityData,
+    activityKey: newActivityKey,
+  };
   return update(ref(db), updates);
 };
-
 
 export const getUserActivities = async (handle) => {
   try {
@@ -50,10 +52,15 @@ export const deleteActivityFromDatabase = async (user, activityId) => {
   }
 };
 
-
-
-export const updateActivityInDatabase = async (user, activityKey, updatedData) => {
+export const updateActivityInDatabase = async (
+  user,
+  activityKey,
+  updatedData
+) => {
   const postRef = ref(db, `activities/${user}/${activityKey}`);
   console.log(user, activityKey, updatedData);
-  await update(postRef, {...updatedData, createdOn: new Date().toLocaleDateString(),});
-}
+  await update(postRef, {
+    ...updatedData,
+    createdOn: new Date().toLocaleDateString(),
+  });
+};

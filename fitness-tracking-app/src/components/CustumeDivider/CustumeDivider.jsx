@@ -1,18 +1,13 @@
-import { Box, Text, Center } from '@chakra-ui/react';
+import { Box, Text, Center } from "@chakra-ui/react";
 import PropTypes from "prop-types";
 
 const CustomDivider = ({ heading }) => (
   <Center width="100%" pt="1%">
-    <Box
-      bg="gray.300"
-      height="1px"
-      width="100%"
-      position="relative"
-    >
+    <Box bg="gray.300" height="1px" width="100%" position="relative">
       <Text
         as="span"
         bg="white"
-		color="gray.500"
+        color="gray.500"
         position="absolute"
         left="50%"
         top="50%"

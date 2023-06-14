@@ -6,7 +6,6 @@ import {
   remove,
   query,
   orderByChild,
-  equalTo,
   set,
   startAt,
 } from "firebase/database";
@@ -31,30 +30,17 @@ export const saveNutritionToDatabase = async (
     calories: calories,
     weight: totalWeight,
     shared: sharedStatus,
-    typeMeal: typeMeal
+    typeMeal: typeMeal,
   };
 
   const newNutritionKey = push(child(ref(db), "activity")).key;
   const updates = {};
-  updates[`/nutritions/${user}/${newNutritionKey}`] = {...nutritionData, nutritionKey: newNutritionKey};
+  updates[`/nutritions/${user}/${newNutritionKey}`] = {
+    ...nutritionData,
+    nutritionKey: newNutritionKey,
+  };
   return update(ref(db), updates);
 };
-
-// export const getUserNutritions = async (handle) => {
-//   try {
-//     const snapshot = await get(query(ref(db, `nutritions/${handle}`)));
-//     if (snapshot.exists()) {
-//       const nutritions = Object.values(snapshot.val());
-//       return nutritions;
-//     }
-//     return [];
-//   } catch (error) {
-//     console.log("Error retrieving user nutritions:", error);
-//     throw error;
-//   }
-// };
-
-
 
 export const onUserNutritionsChange = (user, setNutritions) => {
   if (user) {
@@ -82,7 +68,6 @@ export const onUserNutritionsChange = (user, setNutritions) => {
   }
 };
 
-
 export const deleteNutrituionFromDatabase = async (user, activityId) => {
   try {
     const activityRef = ref(db, `nutritions/${user}/${activityId}`);
@@ -95,41 +80,45 @@ export const deleteNutrituionFromDatabase = async (user, activityId) => {
 
 export const getNutrition = async (handle) => {
   try {
-  const today = new Date();  
-  today.setUTCHours(0, 0, 0, 0);
-  const timeStampSundayOfThisWeek = today.setDate(today.getDate() - today.getDay())
-  const caloriesCount = query(ref(db, `log-nutrition/${handle}`), orderByChild('timestamp'), startAt(+timeStampSundayOfThisWeek));
-  const snapshot = await get(caloriesCount);
+    const today = new Date();
+    today.setUTCHours(0, 0, 0, 0);
+    const timeStampSundayOfThisWeek = today.setDate(
+      today.getDate() - today.getDay()
+    );
+    const caloriesCount = query(
+      ref(db, `log-nutrition/${handle}`),
+      orderByChild("timestamp"),
+      startAt(+timeStampSundayOfThisWeek)
+    );
+    const snapshot = await get(caloriesCount);
 
-  if (snapshot.exists()) {
-    return snapshot.val();
-  } else {
-    console.log('null')
-    return null;
+    if (snapshot.exists()) {
+      return snapshot.val();
+    } else {
+      return null;
+    }
+  } catch (error) {
+    console.log(error);
   }
-} catch (error) {
-  console.log(error);
-}
-}
-
+};
 
 export const shareUserMeal = (handle, nutritionKey, shared) => {
-  const mealPath = ref(db,`nutritions/${handle}/${nutritionKey}/shared`)
+  const mealPath = ref(db, `nutritions/${handle}/${nutritionKey}/shared`);
   set(mealPath, shared)
-    .then(()=>console.log('Shared state updated'))
-    .catch((e)=>console.log(e))
-}
+    .then(() => console.log("Shared state updated"))
+    .catch((e) => console.log(e));
+};
 
-export const filterSharedMeals= (data)=>{
-  let result = {}
-  const keys = Object.keys(data)
-  keys.map((key)=>{
-    if(data[key]['shared']){
-      result[key]=data[key]
+export const filterSharedMeals = (data) => {
+  let result = {};
+  const keys = Object.keys(data);
+  keys.map((key) => {
+    if (data[key]["shared"]) {
+      result[key] = data[key];
     }
-  })
-  return result
-}
+  });
+  return result;
+};
 
 export const getAllCreatedMeals = async () => {
   try {
