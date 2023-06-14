@@ -7,9 +7,6 @@ import {
   Input,
   NumberInput,
   NumberInputField,
-  NumberDecrementStepper,
-  NumberIncrementStepper,
-  NumberInputStepper,
   Select,
   Avatar,
   Text,
@@ -28,8 +25,6 @@ import { updateUserProfile } from "../../services/user.service";
 import { countryList } from "../../common/countriesData";
 import { toast } from "react-toastify";
 import Badges from "../../components/Goals/Badges/Badges";
-import { wrap } from "framer-motion";
-import { Label } from "recharts";
 import { BiEdit } from "react-icons/bi";
 import { modifyDate } from "../../common/helpFn";
 import {
@@ -57,7 +52,7 @@ const Profile = () => {
   const [country, setCountry] = useState("");
   const [createdOn, setCreatedOn] = useState("");
   const [userHandle, setUserHandle] = useState("");
-  const { user, setUser, handle, appState, setAppState } =
+  const { user, handle, appState, setAppState } =
     useContext(AuthContext);
   const [isHovering, setIsHovering] = useState(false);
   const navigate = useNavigate();
@@ -109,13 +104,7 @@ const Profile = () => {
 
   const handleLogOut = () => {
     logoutUser()
-      .then(() => {
-        setUser({
-          user: null,
-          userData: null,
-        });
-      })
-      .finally(() => navigate("/"));
+      .then(() => navigate("/"));
   };
 
   const handleImageChange = (e) => {
@@ -404,7 +393,6 @@ const Profile = () => {
                 max={500.0}
                 min={10.0}
                 step={1}
-                // h={55}
                 w="100%"
                 border="1px"
                 borderColor="gray.500"
@@ -431,16 +419,12 @@ const Profile = () => {
                     border: "2px",
                   }}
                 />
-                {/* <NumberInputStepper >
-                  <NumberIncrementStepper />
-                  <NumberDecrementStepper />
-                </NumberInputStepper> */}
               </NumberInput>
               {!isErrorWeight(weight) ? (
                 <FormHelperText>Enter your weight.</FormHelperText>
               ) : (
                 <FormErrorMessage>
-                  Weight is required and the minimal value is 10 kg.
+                  Weight is required and the value must be between 10 and 500 kg.
                 </FormErrorMessage>
               )}
             </FormControl>
@@ -479,17 +463,12 @@ const Profile = () => {
                     border: "2px",
                   }}
                 />
-                {/* <NumberInputStepper >
-                  <NumberIncrementStepper />
-                  <NumberDecrementStepper />
-                </NumberInputStepper> */}
               </NumberInput>
               {!isErrorHeight(height) ? (
                 <FormHelperText>Enter your height.</FormHelperText>
               ) : (
                 <FormErrorMessage>
-                  Height is required and the value must be between 50 and 300
-                  cm.
+                  Height is required and the value must be between 50 and 300 cm.
                 </FormErrorMessage>
               )}
             </FormControl>
