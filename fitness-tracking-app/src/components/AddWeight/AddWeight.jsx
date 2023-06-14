@@ -19,8 +19,8 @@ import { IoScaleSharp } from "react-icons/io5";
 
 const AddWeight = () => {
   const { user, weight } = useContext(AuthContext);
-  const [startWeight, setStartWeight] = useState(""); // chete ot useState(user.weight)
-  const [currentWeight, setCurrentWeight] = useState(""); // chete ot add weight
+  const [startWeight, setStartWeight] = useState("");
+  const [currentWeight, setCurrentWeight] = useState("");
   const [weightChange, setWeightChange] = useState("");
   const [weightError, setWeightError] = useState("");
 

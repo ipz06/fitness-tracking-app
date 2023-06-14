@@ -11,7 +11,7 @@ import {
   HStack,
   Tooltip,
   Image,
-  Card
+  Card,
 } from "@chakra-ui/react";
 import { useContext } from "react";
 import { FaTrash, FaShareAlt } from "react-icons/fa";
@@ -28,7 +28,7 @@ import PropTypes from "prop-types";
 import { USER_TYPE } from "../../common/constants";
 import { BsSaveFill } from "react-icons/bs";
 import { saveNutritionToDatabase } from "../../services/nutrition.service";
-import upload from "../../assets/upload.png"
+import upload from "../../assets/upload.png";
 import { ICON_SIZE } from "../../common/constants";
 import useMealImages from "../../hooks/useMealImages";
 
@@ -41,12 +41,11 @@ const MealView = ({
   calories,
   sharedStatus = false,
   ingredients,
-  typeMeal
+  typeMeal,
 }) => {
   const { user, role } = useContext(AuthContext);
   const [shared, setShared] = useState(sharedStatus);
-  const imageMeal = useMealImages(typeMeal)
-
+  const imageMeal = useMealImages(typeMeal);
 
   const handleLogMeal = async () => {
     try {
@@ -75,7 +74,6 @@ const MealView = ({
     });
   };
 
-
   const handleSaveMeal = async () => {
     try {
       await saveNutritionToDatabase(
@@ -93,20 +91,10 @@ const MealView = ({
     }
   };
 
-
   return (
     <Box align="center" p="1%">
       <Flex maxW="50%" minW="60%" justify="center" align="center">
-        {/* <VStack
-          align="center"
-          // border="1px"
-          // borderRadius="sm"
-          p={4}
-          // borderColor="black"
-          maxW="160%"
-          minW="160%"
-        > */}
-          <Card 
+        <Card
           align="center"
           maxW="160%"
           minW="160%"
@@ -114,25 +102,43 @@ const MealView = ({
           w={{ base: "150px", lg: "200px" }}
           marginX={"auto"}
           marginY="10px"
-          padding="4px">
-          <Text fontSize={{base:"sm", lg:"md"}} color="black" fontStyle="normal">
+          padding="4px"
+        >
+          <Text
+            fontSize={{ base: "sm", lg: "md" }}
+            color="black"
+            fontStyle="normal"
+          >
             Added on: {addOn}
           </Text>
           <Box>
-            <Text fontSize={{base:"md", lg:"lg"}} fontWeight="bold" fontStyle="normal">
+            <Text
+              fontSize={{ base: "md", lg: "lg" }}
+              fontWeight="bold"
+              fontStyle="normal"
+            >
               {title}
             </Text>
             <Box>
-              <Image borderRadius='full' src={imageMeal ? imageMeal : upload } boxSize={ICON_SIZE} className="image" />
+              <Image
+                borderRadius="full"
+                src={imageMeal ? imageMeal : upload}
+                boxSize={ICON_SIZE}
+                className="image"
+              />
             </Box>
-            
-            <Badge  p={1} mr={2}>
+
+            <Badge p={1} mr={2}>
               Weight: {weight} g
             </Badge>
-            <Badge p={1}>
-              Calories: {calories}
-            </Badge>
-            <Text align="start" fontSize={{base:"sm", lg:"md"}} fontWeight="bold" mt={3} fontStyle="normal">
+            <Badge p={1}>Calories: {calories}</Badge>
+            <Text
+              align="start"
+              fontSize={{ base: "sm", lg: "md" }}
+              fontWeight="bold"
+              mt={3}
+              fontStyle="normal"
+            >
               Ingredients:
             </Text>
             <HStack>
@@ -143,21 +149,23 @@ const MealView = ({
                   ))}
               </UnorderedList>
               <VStack paddingLeft="10%">
-                <Tooltip label="Eat meal" fontSize={{base:"sm", lg:"md"}}>
+                <Tooltip label="Eat meal" fontSize={{ base: "sm", lg: "md" }}>
                   <Button
                     onClick={handleLogMeal}
                     backgroundColor="blackAlpha.300"
                     borderRadius="sm"
                     color="blackAlpha.900"
                     variant="outline"
-                    // borderColor="black"
                   >
                     <GiMeal size={20} />
                   </Button>
                 </Tooltip>
                 {(role === USER_TYPE.ADMIN ||
                   role === USER_TYPE.SUPER_ADMIN) && (
-                  <Tooltip label="Delete meal" fontSize={{base:"sm", lg:"md"}}>
+                  <Tooltip
+                    label="Delete meal"
+                    fontSize={{ base: "sm", lg: "md" }}
+                  >
                     <Button
                       onClick={handleDeleteMeal}
                       backgroundColor="red.500"
@@ -165,7 +173,6 @@ const MealView = ({
                       color="blackAlpha.900"
                       variant="outline"
                       _hover={{ bg: "red.300" }}
-                      // borderColor="black"
                     >
                       <FaTrash size={20} />
                     </Button>
@@ -174,7 +181,10 @@ const MealView = ({
                 {author === user.displayName &&
                   role !== USER_TYPE.ADMIN &&
                   role !== USER_TYPE.SUPER_ADMIN && (
-                    <Tooltip label="Delete meal" fontSize={{base:"sm", lg:"md"}}>
+                    <Tooltip
+                      label="Delete meal"
+                      fontSize={{ base: "sm", lg: "md" }}
+                    >
                       <Button
                         onClick={handleDeleteMeal}
                         backgroundColor="red.500"
@@ -182,7 +192,6 @@ const MealView = ({
                         borderRadius="sm"
                         color="blackAlpha.900"
                         variant="outline"
-                        // borderColor="black"
                       >
                         <FaTrash size={20} />
                       </Button>
@@ -190,7 +199,10 @@ const MealView = ({
                   )}
                 {author === user.displayName &&
                   (shared ? (
-                    <Tooltip label="Unshare meal" fontSize={{base:"sm", lg:"md"}}>
+                    <Tooltip
+                      label="Unshare meal"
+                      fontSize={{ base: "sm", lg: "md" }}
+                    >
                       <IconButton
                         icon={<FaShareAlt />}
                         size={"sm"}
@@ -218,7 +230,6 @@ const MealView = ({
                       borderRadius="sm"
                       color="blackAlpha.900"
                       variant="outline"
-                      // borderColor="black"
                       size="md"
                     >
                       <BsSaveFill />
@@ -228,9 +239,7 @@ const MealView = ({
               </VStack>
             </HStack>
           </Box>
-          </Card>
-
-        {/* </VStack> */}
+        </Card>
       </Flex>
     </Box>
   );

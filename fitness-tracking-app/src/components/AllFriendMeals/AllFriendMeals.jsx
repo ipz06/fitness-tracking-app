@@ -1,13 +1,11 @@
 import { ref, onValue } from "firebase/database";
 import { useState, useEffect } from "react";
 import { db } from "../../config/firebase-config";
-import { AuthContext } from "../../common/context";
 import "firebase/database";
 import { filterSharedMeals } from "../../services/nutrition.service";
 import MealView from "../Meal/Meal";
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 import { Text, SimpleGrid, Box } from "@chakra-ui/react";
-
 
 const AllFriendMeals = ({ handle }) => {
   const [meals, setMeals] = useState(null);
@@ -35,9 +33,8 @@ const AllFriendMeals = ({ handle }) => {
   if (loading) {
     return <div>Loading..</div>;
   } else {
-  
     return meals ? (
-     <Box p={2}>
+      <Box p={2}>
         <Text
           align="center"
           fontSize="2xl"
@@ -47,24 +44,21 @@ const AllFriendMeals = ({ handle }) => {
           Shared meals of {handle}
         </Text>
         <SimpleGrid columns={[1, 2, 3]}>
-		{Object.keys(meals).map((meal) => {
-
-  return (
-	
-    <MealView
-	    key={meals[meal].nutritionKey}
-      addOn={meals[meal].addOn}
-      calories={meals[meal].calories}
-      ingredients={meals[meal].ingredients}
-      nutritionKey={meals[meal].nutritionKey}
-      title={meals[meal].title}
-      weight={meals[meal].weight}
-      typeMeal={meals[meal].typeMeal}
-    />
-   
-  );
-})}
- </SimpleGrid>
+          {Object.keys(meals).map((meal) => {
+            return (
+              <MealView
+                key={meals[meal].nutritionKey}
+                addOn={meals[meal].addOn}
+                calories={meals[meal].calories}
+                ingredients={meals[meal].ingredients}
+                nutritionKey={meals[meal].nutritionKey}
+                title={meals[meal].title}
+                weight={meals[meal].weight}
+                typeMeal={meals[meal].typeMeal}
+              />
+            );
+          })}
+        </SimpleGrid>
       </Box>
     ) : (
       <div>No shared meals</div>
@@ -76,4 +70,4 @@ export default AllFriendMeals;
 
 AllFriendMeals.propTypes = {
   handle: PropTypes.string.isRequired,
-}
+};

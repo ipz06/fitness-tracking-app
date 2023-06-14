@@ -30,29 +30,6 @@ const AddWater = () => {
   const [waterConsumption, setWaterConsumption] = useState("");
   const { user } = useContext(AuthContext);
 
-  // const handleAddWater = async (event) => {
-  //   event.preventDefault();
-  //   try {
-  //     await saveWaterToDatabase(user.displayName, waterConsumption);
-  //     if (waterConsumption <= 2) {
-  //       toast(<CustomToastBadAmountWater />, {
-  //         autoClose: 1000,
-  //       });
-  //     } else if (waterConsumption > 2 && waterConsumption <= 4) {
-  //       toast(<CustomToastGoodAmountWater />, {
-  //         autoClose: 1000,
-  //       });
-  //     } else {
-  //       toast(<CustomToastToMuchWater />, {
-  //         autoClose: 1000,
-  //       });
-  //     }
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
-
-
   const handleAddWater = async (event) => {
     event.preventDefault();
     const waterLogsRef = ref(db, `log-water/${user.displayName}`);
@@ -60,15 +37,18 @@ const AddWater = () => {
     const waterLogs = waterLogsSnapshot.val();
     if (waterLogs) {
       console.log(waterLogs);
-      const lastLogKey = Object.keys(waterLogs).reduce((a, b) => (waterLogs[a].timestamp > waterLogs[b].timestamp ? a : b));
+      const lastLogKey = Object.keys(waterLogs).reduce((a, b) =>
+        waterLogs[a].timestamp > waterLogs[b].timestamp ? a : b
+      );
       const lastWaterLog = new Date(waterLogs[lastLogKey].timestamp);
-        const now = new Date();
-      const timeDiffHours = (now.getTime() - lastWaterLog.getTime()) / (1000 * 60 * 60);
+      const now = new Date();
+      const timeDiffHours =
+        (now.getTime() - lastWaterLog.getTime()) / (1000 * 60 * 60);
       if (timeDiffHours < 24) {
         toast("You've already logged your water intake in the last 24 hours!", {
           autoClose: 1000,
         });
-        return; 
+        return;
       }
     }
     try {
@@ -89,14 +69,8 @@ const AddWater = () => {
     } catch (error) {
       console.log(error);
     }
-  // }
+    // }
   };
-
-
-
-
-
-  
 
   return (
     <Flex

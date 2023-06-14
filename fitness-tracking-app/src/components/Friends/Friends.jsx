@@ -1,16 +1,14 @@
-import { useEffect, useState, useContext } from 'react';
-import { Box, Text, Grid, GridItem, Avatar, VStack, Spinner, SimpleGrid } from '@chakra-ui/react';
-import { getUserAllFriends } from '../../services/friends.service';
-import { AuthContext } from '../../common/context';
-import Friend from '../Friend/Friend';
-import { db } from '../../config/firebase-config';
-import { ref,  onValue, off } from "firebase/database";
+import { useEffect, useState, useContext } from "react";
+import { Box, Text, Spinner, SimpleGrid } from "@chakra-ui/react";
+import { AuthContext } from "../../common/context";
+import Friend from "../Friend/Friend";
+import { db } from "../../config/firebase-config";
+import { ref, onValue, off } from "firebase/database";
 
 const FriendsView = () => {
   const [loading, setLoading] = useState(false);
   const [friends, setFriends] = useState([]);
-	const { user } = useContext(AuthContext);
-
+  const { user } = useContext(AuthContext);
 
   useEffect(() => {
     const friendsRef = ref(db, `friends/${user.displayName}`);
@@ -42,14 +40,11 @@ const FriendsView = () => {
       {loading ? (
         <Spinner size="lg" color="teal" />
       ) : (
-        <SimpleGrid columns={[1, 2, 3]}  gap={4}>
-          
+        <SimpleGrid columns={[1, 2, 3]} gap={4}>
           {friends.map((friend, index) => (
             <Box key={index}>
-          <Friend
-          owner={user.displayName}
-           handle={friend.user}/>
-          </Box>
+              <Friend owner={user.displayName} handle={friend.user} />
+            </Box>
           ))}
         </SimpleGrid>
       )}
