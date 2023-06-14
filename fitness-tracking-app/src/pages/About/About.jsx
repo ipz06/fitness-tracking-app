@@ -1,5 +1,6 @@
 import { Flex, Card, Avatar, Heading, Text } from "@chakra-ui/react";
 import image from "../../assets/vi.jpg";
+import imageIvan from "../../assets/Ivan.jpg";
 import { AiFillGitlab, AiFillLinkedin } from "react-icons/all";
 import { NavLink } from "react-router-dom";
 
@@ -42,7 +43,7 @@ const About = () => {
               w="150px"
               h="150px"
               borderRadius="full"
-              // src={image}
+              src={imageIvan}
               marginBottom={10}
               marginTop={10}
             />
@@ -59,15 +60,15 @@ const About = () => {
                 </Text>
               </Flex>
               <Flex direction="column">
-                <Text fontStyle="normal">+359 885 29 29 29</Text>
-                <Text fontStyle="normal">ivan@gmail.com</Text>
+                <Text fontStyle="normal">+359 896 68 34 58</Text>
+                <Text fontStyle="normal">idamyankin@gmail.com</Text>
               </Flex>
             </Flex>
             <Flex>
-              <NavLink to="">
+              <NavLink to="https://www.linkedin.com/in/ivan-damyankin/">
                 <AiFillLinkedin />
               </NavLink>
-              <NavLink to="">
+              <NavLink to="https://gitlab.com/ipz06/fitness-tracking-app">
                 <AiFillGitlab />
               </NavLink>
             </Flex>
