@@ -20,10 +20,7 @@ import "./DashBoard.css";
 import AddActivity from "../../components/AddActivity/AddActivity";
 import { AuthContext } from "../../common/context";
 import { useContext } from "react";
-import {
-  saveLogToDatabase,
-  getUserActivityLogs,
-} from "../../services/log.service";
+import { saveLogToDatabase } from "../../services/log.service";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { ref, onValue } from "firebase/database";

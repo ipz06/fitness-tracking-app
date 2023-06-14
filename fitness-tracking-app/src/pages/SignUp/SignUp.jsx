@@ -11,17 +11,21 @@ import {
   useColorModeValue,
   FormErrorMessage,
 } from "@chakra-ui/react";
-import { USERNAME_MIN_LENGTH, USERNAME_MAX_LENGTH, MIN_PASSWORD_LENGTH, MAX_PASSWORD_LENGTH } from "../../common/constants";
-import { useState, useContext } from "react";
-import { AuthContext } from "../../common/context";
+import {
+  USERNAME_MIN_LENGTH,
+  USERNAME_MAX_LENGTH,
+  MIN_PASSWORD_LENGTH,
+  MAX_PASSWORD_LENGTH,
+} from "../../common/constants";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { getUserByHandle } from "../../services/user.service";
 import { createUserHandle } from "../../services/user.service";
 import { registerUser } from "../../services/auth.services";
 import { updateProfile } from "firebase/auth";
 import { NavLink } from "react-router-dom";
-import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { phoneRegex } from "../../common/constants";
 
 function SignUp() {
@@ -35,19 +39,24 @@ function SignUp() {
   const [passwordError, setPasswordError] = useState("");
   const [emailError, setEmailError] = useState("");
   const [phoneError, setPhoneError] = useState("");
-  const { setUser } = useContext(AuthContext);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const handleSubmit = async () => {
     let hasError = false;
-    if (handle.length < USERNAME_MIN_LENGTH || handle.length > USERNAME_MAX_LENGTH) {
+    if (
+      handle.length < USERNAME_MIN_LENGTH ||
+      handle.length > USERNAME_MAX_LENGTH
+    ) {
       setHandleError("Username must be between 2 and 20 characters");
       hasError = true;
     } else {
       setHandleError("");
     }
 
-    if (password.length < MIN_PASSWORD_LENGTH || password.length > MAX_PASSWORD_LENGTH) {
+    if (
+      password.length < MIN_PASSWORD_LENGTH ||
+      password.length > MAX_PASSWORD_LENGTH
+    ) {
       setPasswordError("Password must be between 6 and 32 characters");
       hasError = true;
     } else {
@@ -62,7 +71,6 @@ function SignUp() {
       setEmailError("");
     }
 
-    // const phoneRegex = /^\d{10}$/;
     if (!phoneRegex.test(phone)) {
       setPhoneError("Invalid phone number format");
       hasError = true;
@@ -73,7 +81,7 @@ function SignUp() {
     if (hasError) {
       return;
     }
-  
+
     const formValues = {
       email: email,
       password: password,
@@ -86,18 +94,20 @@ function SignUp() {
       gender: "",
       age: "",
     };
-  
+
     try {
       const handleSnapshot = await getUserByHandle(formValues.handle);
       if (handleSnapshot) {
-        toast.warning(`Handle @${formValues.handle} has already been taken!`)
+        toast.warning(`Handle @${formValues.handle} has already been taken!`);
         return;
-        // throw new Error(`Handle @${formValues.handle} has already been taken!`);
       }
-  
-      const credential = await registerUser(formValues.email, formValues.password);
+
+      const credential = await registerUser(
+        formValues.email,
+        formValues.password
+      );
       const user = credential.user;
-  
+
       await createUserHandle(
         formValues.handle,
         user.uid,
@@ -110,39 +120,41 @@ function SignUp() {
         formValues.gender,
         formValues.age
       );
-  
+
       await updateProfile(user, {
         displayName: formValues.handle,
       });
-      setUser({
-        user: credential.user,
-        role: 1,
-      });
-      
     } catch (e) {
-      console.log(e)
+      console.log(e);
       toast.warning(e.message);
     } finally {
       navigate("/profile");
     }
-    
   };
 
   return (
-    <Flex minHeight="100vh" width="full" align="center" justifyContent="center" paddingBottom={40}>
-      <Box w={"lg"} p={4} textAlign={'center'}>
+    <Flex
+      minHeight="100vh"
+      width="full"
+      align="center"
+      justifyContent="center"
+      paddingBottom={40}
+    >
+      <Box w={"lg"} p={4} textAlign={"center"}>
         <Stack spacing={4}>
-          <Heading fontSize="5xl" textAlign={'center'}>
+          <Heading fontSize="5xl" textAlign={"center"}>
             Welcome To 7Fit
           </Heading>
-          <Text
-            fontSize="sm"
-            color={useColorModeValue("gray.600", "gray.400")}
-          >
-            Already have an account? <b><u><NavLink to="/login">Log in</NavLink></u></b>
+          <Text fontSize="sm" color={useColorModeValue("gray.600", "gray.400")}>
+            Already have an account?{" "}
+            <b>
+              <u>
+                <NavLink to="/login">Log in</NavLink>
+              </u>
+            </b>
           </Text>
 
-          <FormControl id="firstName" maxW="450px" marginX={'auto'}>
+          <FormControl id="firstName" maxW="450px" marginX={"auto"}>
             <FormLabel>First Name</FormLabel>
             <Input
               size="lg"
@@ -159,7 +171,7 @@ function SignUp() {
             />
           </FormControl>
 
-          <FormControl id="lastName" maxW="450px" marginX={'auto'}>
+          <FormControl id="lastName" maxW="450px" marginX={"auto"}>
             <FormLabel>Last Name</FormLabel>
             <Input
               size="lg"
@@ -176,7 +188,12 @@ function SignUp() {
             />
           </FormControl>
 
-          <FormControl id="handle" maxW="450px" isInvalid={handleError} marginX={'auto'}>
+          <FormControl
+            id="handle"
+            maxW="450px"
+            isInvalid={handleError}
+            marginX={"auto"}
+          >
             <FormLabel>Username</FormLabel>
             <Input
               size="lg"
@@ -194,7 +211,12 @@ function SignUp() {
             <FormErrorMessage>{handleError}</FormErrorMessage>
           </FormControl>
 
-          <FormControl id="email1" maxW="450px" isInvalid={emailError} marginX={'auto'}>
+          <FormControl
+            id="email1"
+            maxW="450px"
+            isInvalid={emailError}
+            marginX={"auto"}
+          >
             <FormLabel>Email</FormLabel>
             <Input
               size="lg"
@@ -212,7 +234,12 @@ function SignUp() {
             <FormErrorMessage>{emailError}</FormErrorMessage>
           </FormControl>
 
-          <FormControl id="password1" maxW="450px" isInvalid={passwordError} marginX={'auto'}>
+          <FormControl
+            id="password1"
+            maxW="450px"
+            isInvalid={passwordError}
+            marginX={"auto"}
+          >
             <FormLabel>Password</FormLabel>
             <Input
               size="lg"
@@ -230,7 +257,12 @@ function SignUp() {
             <FormErrorMessage>{passwordError}</FormErrorMessage>
           </FormControl>
 
-          <FormControl id="phoneNumber" maxW="450px" isInvalid={phoneError} marginX={'auto'}>
+          <FormControl
+            id="phoneNumber"
+            maxW="450px"
+            isInvalid={phoneError}
+            marginX={"auto"}
+          >
             <FormLabel>Phone Number</FormLabel>
             <Input
               size="lg"
@@ -248,7 +280,7 @@ function SignUp() {
             <FormErrorMessage>{phoneError}</FormErrorMessage>
           </FormControl>
 
-          <Box textAlign={'center'}>
+          <Box textAlign={"center"}>
             <Button
               bg={"#000"}
               color={"white"}

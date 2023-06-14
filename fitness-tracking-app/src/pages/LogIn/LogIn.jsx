@@ -11,8 +11,11 @@ import {
   useColorModeValue,
   FormErrorMessage,
 } from "@chakra-ui/react";
-import { MIN_PASSWORD_LENGTH, MAX_PASSWORD_LENGTH } from "../../common/constants";
-import { useState, useContext, useEffect } from "react";
+import {
+  MIN_PASSWORD_LENGTH,
+  MAX_PASSWORD_LENGTH,
+} from "../../common/constants";
+import { useState, useContext } from "react";
 import { loginUser } from "../../services/auth.services";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../common/context";
@@ -27,9 +30,6 @@ function LogIn() {
   const navigate = useNavigate();
   const { user, appState, setAppState } = useContext(AuthContext);
 
-
-
-  
   const handleSubmit = (e) => {
     e.preventDefault();
     let hasError = false;
@@ -42,7 +42,10 @@ function LogIn() {
       setEmailError("");
     }
 
-    if (password.length < MIN_PASSWORD_LENGTH || password.length > MAX_PASSWORD_LENGTH) {
+    if (
+      password.length < MIN_PASSWORD_LENGTH ||
+      password.length > MAX_PASSWORD_LENGTH
+    ) {
       setPasswordError("Password must be between 6 and 32 characters");
       hasError = true;
     } else {
@@ -54,36 +57,47 @@ function LogIn() {
     }
 
     loginUser(email, password)
-    .then((credential) => {
-      setAppState({...appState,
-        user: credential.user
+      .then((credential) => {
+        setAppState({ ...appState, user: credential.user });
+        navigate("/dashboard");
+      })
+      .catch((e) => {
+        setLoginError("Wrong password or email");
+        console.log(e);
       });
-      navigate("/dashboard");
-    })
-    .catch((e) => {
-      setLoginError('Wrong password or email');
-      console.log(e);
-    })
-
-
   };
 
   return (
-    <Flex minHeight="100vh" width="full" align="center" justifyContent="center" paddingBottom={350}>
+    <Flex
+      minHeight="100vh"
+      width="full"
+      align="center"
+      justifyContent="center"
+      paddingBottom={350}
+    >
       <Box w={"md"}>
         <Stack spacing={4} padding={4}>
-          <Heading fontSize={"5xl"} marginX={'auto'}>
+          <Heading fontSize={"5xl"} marginX={"auto"}>
             Log In{" "}
           </Heading>
           <Text
-            marginX={'auto'}
+            marginX={"auto"}
             fontSize={"sm"}
             color={useColorModeValue("gray.600", "gray.400")}
           >
-            Don't have an account? <b><u><NavLink to="/signup">Sign Up</NavLink></u></b>
+            Don't have an account?{" "}
+            <b>
+              <u>
+                <NavLink to="/signup">Sign Up</NavLink>
+              </u>
+            </b>
           </Text>
 
-          <FormControl id="email" maxW="100%" isInvalid={!!emailError || !!loginError} >
+          <FormControl
+            id="email"
+            maxW="100%"
+            isInvalid={!!emailError || !!loginError}
+          >
             <FormLabel>Email</FormLabel>
             <Input
               size="lg"
@@ -101,7 +115,11 @@ function LogIn() {
             <FormErrorMessage>{emailError || loginError}</FormErrorMessage>
           </FormControl>
 
-          <FormControl id="password" maxW="100%" isInvalid={!!passwordError || !!loginError}>
+          <FormControl
+            id="password"
+            maxW="100%"
+            isInvalid={!!passwordError || !!loginError}
+          >
             <FormLabel>Password</FormLabel>
             <Input
               size="lg"
@@ -119,7 +137,7 @@ function LogIn() {
             <FormErrorMessage>{passwordError || loginError}</FormErrorMessage>
           </FormControl>
 
-          <Box marginX={'auto'}>
+          <Box marginX={"auto"}>
             <Button
               bg={"#000"}
               color={"white"}

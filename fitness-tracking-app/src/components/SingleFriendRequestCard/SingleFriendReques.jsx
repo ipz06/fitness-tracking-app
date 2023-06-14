@@ -1,7 +1,11 @@
-import { Box, VStack, HStack, Text, Image, Button } from '@chakra-ui/react';
-import PropTypes from 'prop-types';
+import { Box, VStack, HStack, Text, Image, Button } from "@chakra-ui/react";
+import PropTypes from "prop-types";
 
-const SingleFriendRequest = ({request, handleAcceptRequest, handleDeclineRequest}) => {
+const SingleFriendRequest = ({
+  request,
+  handleAcceptRequest,
+  handleDeclineRequest,
+}) => {
   return (
     <Box
       key={request.friendRequestKey}
@@ -12,10 +16,26 @@ const SingleFriendRequest = ({request, handleAcceptRequest, handleDeclineRequest
     >
       <VStack spacing={4} align="stretch">
         <HStack spacing={4}>
-          <Image src={request.photo} alt="Profile" boxSize="22%" borderRadius="full" />
+          <Image
+            src={request.photo}
+            alt="Profile"
+            boxSize="22%"
+            borderRadius="full"
+          />
           <VStack align="start">
-            <Text fontStyle="normal" fontSize={{ base: "xs", sm: "sm", md: "md" }} fontWeight="bold">{request.sender}</Text>
-            <Text fontStyle="normal" fontSize={{ base: "xs", sm: "sm", md: "md" }}>{request.email}</Text>
+            <Text
+              fontStyle="normal"
+              fontSize={{ base: "xs", sm: "sm", md: "md" }}
+              fontWeight="bold"
+            >
+              {request.sender}
+            </Text>
+            <Text
+              fontStyle="normal"
+              fontSize={{ base: "xs", sm: "sm", md: "md" }}
+            >
+              {request.email}
+            </Text>
           </VStack>
         </HStack>
         <HStack justifyContent="space-between">
@@ -26,7 +46,14 @@ const SingleFriendRequest = ({request, handleAcceptRequest, handleDeclineRequest
             backgroundColor="teal.200"
             size="sm"
             w="45%"
-            onClick={() => handleAcceptRequest(request.photo, request.sender, request.email, request.friendRequestKey)}
+            onClick={() =>
+              handleAcceptRequest(
+                request.photo,
+                request.sender,
+                request.email,
+                request.friendRequestKey
+              )
+            }
           >
             Accept
           </Button>
@@ -46,13 +73,12 @@ const SingleFriendRequest = ({request, handleAcceptRequest, handleDeclineRequest
       </VStack>
     </Box>
   );
-}
+};
 
 export default SingleFriendRequest;
 
-
 SingleFriendRequest.propTypes = {
-	request: PropTypes.object.isRequired,
-	handleAcceptRequest: PropTypes.func.isRequired,
-	handleDeclineRequest: PropTypes.func.isRequired,
-  }
+  request: PropTypes.object.isRequired,
+  handleAcceptRequest: PropTypes.func.isRequired,
+  handleDeclineRequest: PropTypes.func.isRequired,
+};
