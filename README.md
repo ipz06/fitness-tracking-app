@@ -76,11 +76,11 @@ To run the project locally, follow these steps:
 
 
 #### Administrative Part
-The administrative part of the forum is accessible to users with administrative privileges:
+The administrative part is accessible to users with administrative privileges:
 
 - User Search: Admins can search for a user by their name.
 - Admins can block or unblock individual users.
-- Meal Deletion: Admins can delete any meal on the forum.
+- Meal Deletion and Picture Deletion: Admins can delete any meal on the application.
 - Only the owner give and change admin rights.
 
  ![](../fitness-tracking-app/fitness-tracking-app/src/assets/scr_readme/scr_13_admin.png)
